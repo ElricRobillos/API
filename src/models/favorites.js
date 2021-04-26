@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
 
   }, {
     sequelize,
+    timestamps: true,
     createdAt: 'addedAt',
     modelName: 'favorites',
   });
