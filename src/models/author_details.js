@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   author_details.init({
-    authorID : {
+    authorID: {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
