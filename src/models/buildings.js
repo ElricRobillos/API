@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
           notNull: { msg : "Building Name is required"},
           notEmpty: { msg : 'Building Name should not be empty'},
         },
-        unique: {msg: "The Building Name is already existed."},
+        unique: {msg: "Building Name already existed."},
       },
 
       
