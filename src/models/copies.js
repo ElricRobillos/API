@@ -19,6 +19,12 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },
+    status :{
+      type: DataTypes.STRING,
+      validate : {
+        isIn:[["Active", "Inactive", "Weeding"]] 
+      },
+    },
     copyNumber: {
       type: DataTypes.INTEGER,
       allowNull: false,
