@@ -14,9 +14,20 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   transactions.init({
-    name: DataTypes.STRING
-  }, {
+    transactionId : {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: DataTypes.UUIDV4,
+    },
+
+    borrowDate: {
+      type : DataTypes.DATE
+    },
+  }, 
+  {
     sequelize,
+    timestamps: true,
+    createdAt: 'addedAt',
     modelName: 'transactions',
   });
   return transactions;

@@ -13,32 +13,27 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
-  material_types.init(
-    {
-      typeId : {
-        type: DataTypes.UUID,
-        primaryKey: true,
-        defaultValue: DataTypes.UUIDV4,
+  material_types.init({
+    typeId : {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: DataTypes.UUIDV4,
+    },
+    typeName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: { msg : 'Types of material should not be null'},
+        notEmpty: { msg : 'Types of material should not be empty'},
       },
-
-      typeName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notNull: { msg : 'Type of materials should not be null'},
-          notEmpty: { msg : 'Type of materials should not be empty'},
-        },
-        unique: {msg: "The material type is already existed."},
-        
-      },
-
-    }, 
-    {
-      sequelize,
-      timestamps: true,
-      createdAt: 'addedAt',
-      modelName: 'material_types',
-    }
-  );
+      unique: {msg: "Types of material already existed"},
+    },
+  }, 
+  {
+    sequelize,
+    timestamps: true,
+    createdAt: 'addedAt',
+    modelName: 'material_types',
+  });
   return material_types;
 };
