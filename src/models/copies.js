@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         notNull: { msg : 'copy number should not be null'},
         notEmpty: { msg : 'copy number should not be empty'},
       },
-      unique: {msg: "notNull - Copy Number is required.."},
+      unique: {msg: "Unique - copyNumber already exists"},
     }
   }, 
   {
