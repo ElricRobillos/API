@@ -20,10 +20,12 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
     }, 
     dueDate : {
-      type : DataTypes.DATE
+      type : DataTypes.DATE,
+      allowNull : false
     },
     returnDate: {
-      type : DataTypes.DATE
+      type : DataTypes.DATE,
+      allowNull : false
     },
     returnProcessBy : {
       type: DataTypes.STRING
