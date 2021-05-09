@@ -30,6 +30,14 @@ module.exports = (sequelize, DataTypes) => {
         },
         unique: {msg: "Building Name already existed."},
       },
+      location: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: { msg: "Location is required"},
+          notEmpty: { msg: "Location should not be empty"},
+        },
+      },
 
       
   }, {
