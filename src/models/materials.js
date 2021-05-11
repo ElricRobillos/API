@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         isIn:{
           args: [["ISSN", "ISBN"]],
-          msg: "Gender should be Male or Female.",
+          msg: "Standard Type should be ISSN or ISBN",
         },
       },
     },
@@ -90,9 +90,15 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg : 'Date of publication not be empty'},
       },
     },
-    image: {
-      type : DataTypes.STRING,
-      allowNull: false,
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: "Active",
+      validate : {
+        isIn:{
+        args: [["Active","Inactive"]],
+        msg: "Status should be Active or Inactive only.", 
+        },
+      },
     },
 
   }, 

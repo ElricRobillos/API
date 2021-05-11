@@ -32,6 +32,17 @@ module.exports = (sequelize, DataTypes) => {
         
       },
 
+      status: {
+        type: DataTypes.STRING,
+        defaultValue: "Active",
+        validate : {
+          isIn:{
+          args: [["Active","Inactive"]],
+          msg: "Status should be Active or Inactive only.", 
+          },
+        },
+      },
+
     },  {
     sequelize,
     timestamps: true,
