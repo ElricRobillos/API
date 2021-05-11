@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class genres extends Model {
     /**
@@ -12,31 +10,41 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
-  };
+  }
   genres.init(
     {
-      genreID : {
-      type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: DataTypes.UUIDV4,
+      genreID: {
+        type: DataTypes.UUID,
+        primaryKey: true,
+        defaultValue: DataTypes.UUIDV4,
       },
-  
-      genre: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: { msg : 'Genre should not be null'},
-        notEmpty: { msg : 'Genre should not be empty'},
-      },
-      }, 
-  },
-  {
-    sequelize,
-    timestamps: true,
-    createdAt: 'addedAt',
-    modelName: 'genres',
-  });
-  
-    return genres;
-};
 
+      genre: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: { msg: "Genre should not be null" },
+          notEmpty: { msg: "Genre should not be empty" },
+        },
+        status: {
+          type: DataTypes.STRING,
+          defaultValue: "Active",
+          validate: {
+            isIn: {
+              args: [["Active", "Inactive"]],
+              msg: "Status should be Active or Inactive only.",
+            },
+          },
+        },
+      },
+    },
+    {
+      sequelize,
+      timestamps: true,
+      createdAt: "addedAt",
+      modelName: "genres",
+    }
+  );
+
+  return genres;
+};
