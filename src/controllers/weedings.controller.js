@@ -63,8 +63,8 @@ exports.findOne = (req, res) => {
 };
 
 // Update a weeding by the id in the request
-// exports.update = async (req, res) => {
-//     const id = req.params.id;
+exports.update = async (req, res) => {
+    // const id = req.params.id;
 
 //     weedings.update(req.body, {
 //         where: { id: id },
@@ -98,7 +98,7 @@ exports.findOne = (req, res) => {
 //             err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
 //         });
 //         });
-// };
+};
 
 // Delete a weeding with the specified id in the request
 exports.delete = (req, res) => {

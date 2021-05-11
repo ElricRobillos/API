@@ -1,11 +1,11 @@
 var router = require("express").Router();
 
-const languages = require("../controllers/languages.controller");
+const languagesController = require("../controllers/languages.controller");
 
-router.post("/", languages.create);
-router.put("/:id", languages.update);
-router.get("/", languages.findAll);
-router.get("/:id", languages.findOne);
-router.delete("/:id", languages.delete);
+router.post("/", languagesController.create);
+router.put("/:id", languagesController.update);
+router.get("/", languagesController.findAll);
+router.get("/:id", languagesController.findOne);
+router.delete("/:id", languagesController.delete);
 
 module.exports = router;

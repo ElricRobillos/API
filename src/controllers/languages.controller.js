@@ -65,7 +65,7 @@ exports.findOne = (req, res) => {
 };
 
 // Update a languages by the id in the request
-//exports.update = async (req, res) => {
+exports.update = async (req, res) => {
 //  const id = req.params.id;
 //
 //  languages
@@ -100,7 +100,7 @@ exports.findOne = (req, res) => {
 //          err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
 //      });
 //    });
-//};
+};
 
 // Delete a languages with the specified id in the request
 exports.delete = (req, res) => {};

@@ -6,7 +6,7 @@ const db = require("./src/models");
 //routes
 const material_typesRoute = require("./src/routes/material_types.routes")
 const weedingsRoute = require("./src/routes/weedings.routes")
-const shelves = require("./src/routes/shelves.routes")
+const shelvesRoute = require("./src/routes/shelves.routes")
 const languagesRoute = require("./src/routes/languages.routes");
 const publishersRoute = require("./src/routes/publishers.routes");
 const materialsRoute = require("./src/routes/materials.routes");

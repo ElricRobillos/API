@@ -1,5 +1,4 @@
 const db = require("../models");
-const shelves = require("../models/shelves");
 const shelves = db.shelves;
 
 
