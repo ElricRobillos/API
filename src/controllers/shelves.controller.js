@@ -1,6 +1,6 @@
 const db = require("../models");
 const shelves = require("../models/shelves");
-const material_types = db.shelves;
+const shelves = db.shelves;
 
 
 // Create and Save a new shelves
