@@ -6,6 +6,8 @@ const db = require("./src/models");
 //routes
 const material_typesRoute = require("./src/routes/material_types.routes");
 const languagesRoute = require("./src/routes/languages.routes");
+const publishersRoute = require("./src/routes/publishers.routes");
+const materialsRoute = require("./src/routes/materials.routes");
 
 //initialize app
 var app = express();
@@ -60,6 +62,8 @@ app.get("/", (req, res) => {
 //ROUTE
 app.use(`${process.env.API_VERSION}/material_types`, material_typesRoute);
 app.use(`${process.env.API_VERSION}/languages`, languagesRoute);
+app.use(`${process.env.API_VERSION}/publishers`, publishersRoute);
+app.use(`${process.env.API_VERSION}/materials`, materialsRoute);
 
 //PORT
 const PORT = process.env.PORT || 5000;
