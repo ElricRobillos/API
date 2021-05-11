@@ -23,7 +23,21 @@ exports.create = async (req, res) => {
 
 // Retrieve all shelves from the database.
 exports.findAll = (req, res) => {
-
+    shelves.findAll()
+    .then((data) => {
+    res.send({
+        error: false,
+        data: data,
+        message: ["Retrieved successfully."],
+    });
+    })
+    .catch((err) => {
+    res.status(500).send({
+        error: true,
+        data: [],
+        message: err.errors.map((e) => e.message),
+    });
+    });
 };
 
 // Find a single shelves with an id
@@ -58,18 +72,3 @@ exports.delete = (req, res) => {
     
 };
 
-shelves.findAll()
-    .then((data) => {
-    res.send({
-        error: false,
-        data: data,
-        message: ["Retrieved successfully."],
-    });
-    })
-    .catch((err) => {
-    res.status(500).send({
-        error: true,
-        data: [],
-        message: err.errors.map((e) => e.message),
-    });
-    });
