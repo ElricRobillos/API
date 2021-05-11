@@ -33,6 +33,16 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg : 'copy number should not be empty'},
       },
       unique: {msg: "Unique - copyNumber already exists"},
+      status: {
+        type: DataTypes.STRING,
+        defaultValue: "Active",
+        validate : {
+          isIn:{
+          args: [["Active","Inactive"]],
+          msg: "Status should be Active or Inactive only.", 
+          },
+        },
+      },
     }
   }, 
   {

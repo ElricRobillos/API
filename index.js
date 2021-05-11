@@ -5,6 +5,7 @@ const db = require("./src/models");
 
 //routes
 const material_typesRoute = require("./src/routes/material_types.routes")
+const weedingsRoute = require("./src/routes/weedings.routes")
 
 //initialize app
 var app = express();
@@ -59,6 +60,7 @@ app.get("/", (req, res) => {
 
 //ROUTE
 app.use(`${process.env.API_VERSION}/material_types`, material_typesRoute); 
+app.use(`${process.env.API_VERSION}/weedings`,weedingsRoute); 
 
 //PORT
 const PORT = process.env.PORT || 5000;

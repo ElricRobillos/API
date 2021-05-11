@@ -22,9 +22,17 @@ module.exports = (sequelize, DataTypes) => {
     description:{
       type: DataTypes.STRING
     },
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: "Active",
+      validate : {
+        isIn:{
+        args: [["Active","Inactive"]],
+        msg: "Status should be Active or Inactive only.", 
+        },
+      },
+    },
   }, 
-
-
   {
     sequelize,
     modelName: 'weedings',
