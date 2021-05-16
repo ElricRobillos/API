@@ -4,14 +4,16 @@ const dotenv = require("dotenv");
 const db = require("./src/models");
 
 //routes
-const material_typesRoute = require("./src/routes/material_types.routes")
-const weedingsRoute = require("./src/routes/weedings.routes")
-const shelvesRoute = require("./src/routes/shelves.routes")
+const material_typesRoute = require("./src/routes/material_types.routes");
+const weedingsRoute = require("./src/routes/weedings.routes");
+const shelvesRoute = require("./src/routes/shelves.routes");
 const languagesRoute = require("./src/routes/languages.routes");
 const publishersRoute = require("./src/routes/publishers.routes");
 const materialsRoute = require("./src/routes/materials.routes");
 const copiesRoute = require("./src/routes/copies.routes");
 const materials_borrow_recordsRoute = require("./src/routes/materials_borrow_records.routes");
+const favoritesRoute = require("./src/routes/favorites.routes");
+
 
 //initialize app
 var app = express();
@@ -72,6 +74,7 @@ app.use(`${process.env.API_VERSION}/publishers`, publishersRoute);
 app.use(`${process.env.API_VERSION}/materials`, materialsRoute);
 app.use(`${process.env.API_VERSION}/copies`, copiesRoute); 
 app.use(`${process.env.API_VERSION}/materials_borrow_records`, materials_borrow_recordsRoute);
+app.use(`${process.env.API_VERSION}/favorites`, favoritesRoute);
 //PORT
 const PORT = process.env.PORT || 5000;
 
