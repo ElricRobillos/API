@@ -15,11 +15,12 @@ module.exports = (sequelize, DataTypes) => {
   };
   users.init(
     {
-    userID: {
+    userId: {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },
+
     idNumber: {
       type: DataTypes.STRING,
         allowNull: false,
@@ -29,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         unique: {msg: "ID Number already exists."},
     },
+
     email: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -37,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       unique: { msg: "Email already exists." },
     },
+
     password: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -45,6 +48,7 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg : 'Password should not be empty'},
       },
     },
+
     firstName: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -53,6 +57,7 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg : 'First name should not be empty'},
       },
     },
+
     lastName: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -61,18 +66,21 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg : 'Last name should not be empty'},
       },
     },
+
     middleName: {
       type: DataTypes.STRING,
     },
+
     fullName: {
       type: DataTypes.STRING,
-      set(value) {
+      set(value){
         this.setDataValue(
           "fullName",
           this.firstName + " " + this.middleName + " " + this.lastName
-        );
-      },
+          );
+      }
     },
+
     contactNumber: {
       type: DataTypes.STRING,
         allowNull: false,
@@ -82,12 +90,15 @@ module.exports = (sequelize, DataTypes) => {
         },
         unique: {msg: "Contact Number already exists."},
     },
+
     course: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
+
     section: {
       type: DataTypes.STRING,
     },
+
     userType: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -98,16 +109,17 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
     },
+
     status: {
       type: DataTypes.STRING,
       defaultValue: "Active",
       validate : {
-        isIn:[["Active","Inactive"]],
+        isIn:{
+          args: [["Active","Inactive"]],
         msg: "Status should be Active or Inactive only." 
+        },
       },
     },
-
-
 
   }, {
     sequelize,

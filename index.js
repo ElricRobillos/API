@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const db = require("./src/models");
 
 //routes
+const usersRoute = require("./src/routes/users.routes");
 const material_typesRoute = require("./src/routes/material_types.routes");
 const weedingsRoute = require("./src/routes/weedings.routes");
 const shelvesRoute = require("./src/routes/shelves.routes");
@@ -66,6 +67,7 @@ app.get("/", (req, res) => {
 });
 
 //ROUTE
+app.use(`${process.env.API_VERSION}/users`, usersRoute); 
 app.use(`${process.env.API_VERSION}/material_types`, material_typesRoute); 
 app.use(`${process.env.API_VERSION}/weedings`,weedingsRoute); 
 app.use(`${process.env.API_VERSION}/shelves`, shelvesRoute); 
