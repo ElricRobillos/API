@@ -1,9 +1,9 @@
 const db = require("../models");
-const publishers = db.publishers;
+const author_details = db.author_details;
 
 // Create and Save a new publishers
 exports.create = async (req, res) => {
-    publishers.create(req.body).then((data) => {
+    author_details.create(req.body).then((data) => {
         res.send({
             error: false,
             data: data,
@@ -21,7 +21,7 @@ exports.create = async (req, res) => {
 
 // Retrieve all publishers from the database.
 exports.findAll = (req, res) => {
-    publishers.findAll()
+    author_details.findAll()
     .then((data) => {
     res.send({
         error: false,
@@ -42,7 +42,7 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
      const id = req.params.id; 
 
-    publishers.findByPk(id).then((data) => {
+    author_details.findByPk(id).then((data) => {
         res.send({
             error: false,
             data: data,

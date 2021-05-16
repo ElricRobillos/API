@@ -39,7 +39,17 @@ module.exports = (sequelize, DataTypes) => {
         authorMiddleName: {
           type: DataTypes.STRING,
           allowNull: true,
-        },  
+        }, 
+        status: {
+          type: DataTypes.STRING,
+          defaultValue: "Active",
+          validate : {
+            isIn:{
+            args: [["Active","Inactive"]],
+            msg: "Status should be Active or Inactive only.", 
+            },
+          },
+        }, 
   }
   
   
