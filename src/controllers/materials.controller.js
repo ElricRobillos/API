@@ -21,7 +21,7 @@ exports.create = async (req, res) => {
 
 // Retrieve all materials from the database.
 exports.findAll = (req, res) => {
-    materials.findAll()
+    materials.findAll({ where: { status: "Active"}})
     .then((data) => {
     res.send({
         error: false,
@@ -98,6 +98,38 @@ exports.update = async (req, res) => {
 
 // Delete a materials with the specified id in the request
 exports.delete = (req, res) => {
-    
+    const id = req.params.materialId;
+    const body = { status: "Inactive" };
+        materials.update(body, {
+            where: { materialId: id },
+        })
+        .then((result) => {
+        console.log(result);
+        if (result) {
+            // success
+            materials.findByPk(id).then((data) => {
+                res.send({
+                    error: false,
+                    data: data,
+                    message: [process.env.SUCCESS_UPDATE],
+                });
+            });
+        } else {
+            // error in updating
+            res.status(500).send({
+            error: true,
+            data: [],
+            message: ["Error in deleting a record"],
+            });
+        }
+        })
+        .catch((err) => {
+        res.status(500).send({
+            error: true,
+            data: [],
+            message:
+            err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
+        });
+        });
 };
 

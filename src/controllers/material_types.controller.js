@@ -99,9 +99,7 @@ exports.update = async (req, res) => {
 // Delete a material types with the specified id in the request
 exports.delete = (req, res) => {
     const id = req.params.typeId;
-
     const body = { status: "Inactive" };
-    
         material_types.update(body, {
             where: { typeId: id },
         })
