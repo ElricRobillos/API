@@ -20,6 +20,18 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
     },
 
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: "Active",
+      validate : {
+        isIn:{
+        args: [["Active","Inactive"]],
+        msg: "Status should be Active or Inactive only.", 
+        },
+      },
+    },
+
+
   }, {
     sequelize,
     timestamps: true,
