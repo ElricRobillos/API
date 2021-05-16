@@ -28,6 +28,16 @@ module.exports = (sequelize, DataTypes) => {
       },
       unique: {msg: "Types of material already existed"},
     },
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: "Active",
+      validate : {
+        isIn:{
+        args: [["Active","Inactive"]],
+        msg: "Status should be Active or Inactive only.", 
+        },
+      },
+    },
   }, 
   {
     sequelize,

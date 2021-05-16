@@ -26,7 +26,7 @@ exports.findAll = (req, res) => {
     res.send({
         error: false,
         data: data,
-        message: ["Retrieved successfully."],
+        message: [process.env.SUCCESS_RETRIEVED],
     });
     })
     .catch((err) => {
@@ -40,8 +40,7 @@ exports.findAll = (req, res) => {
 
 // Find a single materials with an id
 exports.findOne = (req, res) => {
-    //res.send("finding: " + req.params.id);
-    const id = req.params.id; 
+    const id = req.params.materialId; 
 
     materials.findByPk(id).then((data) => {
         res.send({
@@ -62,39 +61,39 @@ exports.findOne = (req, res) => {
 
 // Update a materials by the id in the request
 exports.update = async (req, res) => {
-    // const materialId = req.params.id;
+    const id = req.params.materialId;
 
-    // materials.update(req.body, {
-    //     where: { id: materialId },
-    // })
-    //     .then((result) => {
-    //     console.log(result);
-    //     if (result) {
-    //         // success
-    //         materials.findByPk(id).then((data) => {
-    //             res.send({
-    //                 error: false,
-    //                 data: data,
-    //                 message: [process.env.SUCCESS_UPDATE],
-    //             });
-    //         });
-    //     } else {
-    //         // error in updating
-    //         res.status(500).send({
-    //         error: true,
-    //         data: [],
-    //         message: ["Error in updating a record"],
-    //         });
-    //     }
-    //     })
-    //     .catch((err) => {
-    //     res.status(500).send({
-    //         error: true,
-    //         data: [],
-    //         message:
-    //         err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
-    //     });
-    //     });
+    materials.update(req.body, {
+        where: { materialId: id },
+    })
+        .then((result) => {
+        console.log(result);
+        if (result) {
+            // success
+            materials.findByPk(id).then((data) => {
+                res.send({
+                    error: false,
+                    data: data,
+                    message: [process.env.SUCCESS_UPDATE],
+                });
+            });
+        } else {
+            // error in updating
+            res.status(500).send({
+            error: true,
+            data: [],
+            message: ["Error in updating a record"],
+            });
+        }
+        })
+        .catch((err) => {
+        res.status(500).send({
+            error: true,
+            data: [],
+            message:
+            err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
+        });
+        });
 };
 
 // Delete a materials with the specified id in the request
