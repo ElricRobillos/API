@@ -14,7 +14,7 @@ const materialsRoute = require("./src/routes/materials.routes");
 const copiesRoute = require("./src/routes/copies.routes");
 const materials_borrow_recordsRoute = require("./src/routes/materials_borrow_records.routes");
 const favoritesRoute = require("./src/routes/favorites.routes");
-
+const genresRoute = require("./src/routes/genres.routes");
 
 //initialize app
 var app = express();
@@ -67,16 +67,21 @@ app.get("/", (req, res) => {
 });
 
 //ROUTE
-app.use(`${process.env.API_VERSION}/users`, usersRoute); 
-app.use(`${process.env.API_VERSION}/material_types`, material_typesRoute); 
-app.use(`${process.env.API_VERSION}/weedings`,weedingsRoute); 
-app.use(`${process.env.API_VERSION}/shelves`, shelvesRoute); 
+app.use(`${process.env.API_VERSION}/users`, usersRoute);
+app.use(`${process.env.API_VERSION}/material_types`, material_typesRoute);
+app.use(`${process.env.API_VERSION}/weedings`, weedingsRoute);
+app.use(`${process.env.API_VERSION}/shelves`, shelvesRoute);
 app.use(`${process.env.API_VERSION}/languages`, languagesRoute);
 app.use(`${process.env.API_VERSION}/publishers`, publishersRoute);
 app.use(`${process.env.API_VERSION}/materials`, materialsRoute);
-app.use(`${process.env.API_VERSION}/copies`, copiesRoute); 
-app.use(`${process.env.API_VERSION}/materials_borrow_records`, materials_borrow_recordsRoute);
+app.use(`${process.env.API_VERSION}/copies`, copiesRoute);
+app.use(
+  `${process.env.API_VERSION}/materials_borrow_records`,
+  materials_borrow_recordsRoute
+);
 app.use(`${process.env.API_VERSION}/favorites`, favoritesRoute);
+app.use(`${process.env.API_VERSION}/genres`, genresRoute);
+
 //PORT
 const PORT = process.env.PORT || 5000;
 
