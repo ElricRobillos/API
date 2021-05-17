@@ -96,40 +96,40 @@ exports.update = async (req, res) => {
         });
 };
 
-// Delete a materials_borrow_records with the specified id in the request
-exports.delete = (req, res) => {
-    const id = req.params.borrowID;
-    const body = { status: "Inactive" };
-    materials_borrow_records.update(body, {
-            where: { borrowID: id },
-        })
-        .then((result) => {
-        console.log(result);
-        if (result) {
-            // success
-            materials_borrow_records.findByPk(id).then((data) => {
-                res.send({
-                    error: false,
-                    data: data,
-                    message: [process.env.SUCCESS_UPDATE],
-                });
-            });
-        } else {
-            // error in updating
-            res.status(500).send({
-            error: true,
-            data: [],
-            message: ["Error in deleting a record"],
-            });
-        }
-        })
-        .catch((err) => {
-        res.status(500).send({
-            error: true,
-            data: [],
-            message:
-            err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
-        });
-        });
-};
+// // Delete a materials_borrow_records with the specified id in the request
+// exports.delete = (req, res) => {
+//     const id = req.params.borrowID;
+//     const body = { status: "Inactive" };
+//     materials_borrow_records.update(body, {
+//             where: { borrowID: id },
+//         })
+//         .then((result) => {
+//         console.log(result);
+//         if (result) {
+//             // success
+//             materials_borrow_records.findByPk(id).then((data) => {
+//                 res.send({
+//                     error: false,
+//                     data: data,
+//                     message: [process.env.SUCCESS_UPDATE],
+//                 });
+//             });
+//         } else {
+//             // error in updating
+//             res.status(500).send({
+//             error: true,
+//             data: [],
+//             message: ["Error in deleting a record"],
+//             });
+//         }
+//         })
+//         .catch((err) => {
+//         res.status(500).send({
+//             error: true,
+//             data: [],
+//             message:
+//             err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
+//         });
+//         });
+// };
 
