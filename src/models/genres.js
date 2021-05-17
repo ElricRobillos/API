@@ -26,14 +26,14 @@ module.exports = (sequelize, DataTypes) => {
           notNull: { msg: "Genre should not be null" },
           notEmpty: { msg: "Genre should not be empty" },
         },
-        status: {
-          type: DataTypes.STRING,
-          defaultValue: "Active",
-          validate: {
-            isIn: {
-              args: [["Active", "Inactive"]],
-              msg: "Status should be Active or Inactive only.",
-            },
+      },
+      status: {
+        type: DataTypes.STRING,
+        defaultValue: "Active",
+        validate: {
+          isIn: {
+            args: [["Active", "Inactive"]],
+            msg: "Status should be Active or Inactive only.",
           },
         },
       },
