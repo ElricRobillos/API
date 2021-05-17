@@ -16,6 +16,7 @@ const materials_borrow_recordsRoute = require("./src/routes/materials_borrow_rec
 const favoritesRoute = require("./src/routes/favorites.routes");
 const genresRoute = require("./src/routes/genres.routes");
 const publication_countriesRoute = require("./src/routes/publication_countries.routes");
+const author_detailsRoute = require("./src/routes/author_details.routes");
 
 //initialize app
 var app = express();
@@ -86,6 +87,7 @@ app.use(
   `${process.env.API_VERSION}/publication_countries`,
   publication_countriesRoute
 );
+app.use(`${process.env.API_VERSION}/author_details`, author_detailsRoute);
 
 //PORT
 const PORT = process.env.PORT || 5000;

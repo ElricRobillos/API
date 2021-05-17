@@ -1,13 +1,13 @@
 const db = require("../models");
 const author_details = db.author_details;
 
-// Create and Save a new publishers
+// Create and Save a new author detail
 exports.create = async (req, res) => {
     author_details.create(req.body).then((data) => {
         res.send({
             error: false,
             data: data,
-            message: ["A publisher is created successfully."],
+            message: ["A author details is created successfully."],
         });
     })
     .catch((err) =>{
@@ -19,14 +19,14 @@ exports.create = async (req, res) => {
     })
 };
 
-// Retrieve all publishers from the database.
+// Retrieve all author details from the database.
 exports.findAll = (req, res) => {
-    author_details.findAll()
+    author_details.findAll({ where: { status: "Active"}})
     .then((data) => {
     res.send({
         error: false,
         data: data,
-        message: ["Retrieved successfully."],
+        message: [process.env.SUCCESS_RETRIEVED],
     });
     })
     .catch((err) => {
@@ -38,9 +38,9 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single publishers with an id
+// Find a single author details with an id
 exports.findOne = (req, res) => {
-     const id = req.params.id; 
+     const id = req.params.authorID; 
 
     author_details.findByPk(id).then((data) => {
         res.send({
@@ -59,18 +59,18 @@ exports.findOne = (req, res) => {
     }); 
 }; 
 
-// Update a publishers by the id in the request
+// Update an author details by the id in the request
 exports.update = async (req, res) => {
-    /* const id = req.params.id;
+    const id = req.params.authorID;
 
-    publishers.update(req.body, {
-        where: { id: publisherID },
+    author_details.update(req.body, {
+        where: { authorID: id },
     })
         .then((result) => {
         console.log(result);
         if (result) {
             // success
-            publishers.findByPk(id).then((data) => {
+            author_details.findByPk(id).then((data) => {
                 res.send({
                     error: false,
                     data: data,
@@ -80,23 +80,57 @@ exports.update = async (req, res) => {
         } else {
             // error in updating
             res.status(500).send({
-                error: true,
-                data: [],
-                message: ["Error in updating a record"],
-                });
-            }
-            })
-            .catch((err) => {
-            res.status(500).send({
-                error: true,
-                data: [],
-                message:
-                err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
+            error: true,
+            data: [],
+            message: ["Error in updating a record"],
             });
-            }); */
+        }
+        })
+        .catch((err) => {
+        res.status(500).send({
+            error: true,
+            data: [],
+            message:
+            err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
+        });
+        });
 };
 
-// Delete a publishers with the specified id in the request
+// Delete an author details with the specified id in the request
 exports.delete = (req, res) => {
+    const id = req.params.authorID;
+
+    const body = { status: "Inactive" };
     
+        author_details.update(body, {
+            where: { authorID: id },
+        })
+        .then((result) => {
+        console.log(result);
+        if (result) {
+            // success
+            author_details.findByPk(id).then((data) => {
+                res.send({
+                    error: false,
+                    data: data,
+                    message: [process.env.SUCCESS_UPDATE],
+                });
+            });
+        } else {
+            // error in updating
+            res.status(500).send({
+            error: true,
+            data: [],
+            message: ["Error in deleting a record"],
+            });
+        }
+        })
+        .catch((err) => {
+        res.status(500).send({
+            error: true,
+            data: [],
+            message:
+            err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
+        });
+        });
 };
