@@ -1,14 +1,13 @@
 const db = require("../models");
 const favorites = db.favorites;
 
-
-// Create and Save a new favorite
+// Create and Save a new favorites
 exports.create = async (req, res) => {
     favorites.create(req.body).then((data) => {
         res.send({
             error: false,
             data: data,
-            message: ["A favorite is created successfully."],
+            message: ["A material is created successfully."],
         });
     })
     .catch((err) =>{
@@ -18,17 +17,16 @@ exports.create = async (req, res) => {
             message: err.errors.map((e) => e.message),
         });
     })
-    
 };
 
 // Retrieve all favorites from the database.
 exports.findAll = (req, res) => {
-    favorites.findAll()
+    favorites.findAll({ where: { status: "Active"}})
     .then((data) => {
     res.send({
         error: false,
         data: data,
-        message: ["Retrieved successfully."],
+        message: [process.env.SUCCESS_RETRIEVED],
     });
     })
     .catch((err) => {
@@ -40,9 +38,9 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single favorite with an id
+// Find a single favorites with an id
 exports.findOne = (req, res) => {
-    const id = req.params.id; 
+    const id = req.params.favoriteId; 
 
     favorites.findByPk(id).then((data) => {
         res.send({
@@ -59,16 +57,79 @@ exports.findOne = (req, res) => {
         err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
         });
     });
-    
 };
 
-// Update a favorite by the id in the request
+// Update a favorites by the id in the request
 exports.update = async (req, res) => {
+    const id = req.params.favoriteId;
 
+    favorites.update(req.body, {
+        where: { favoriteId: id },
+    })
+        .then((result) => {
+        console.log(result);
+        if (result) {
+            // success
+            favorites.findByPk(id).then((data) => {
+                res.send({
+                    error: false,
+                    data: data,
+                    message: [process.env.SUCCESS_UPDATE],
+                });
+            });
+        } else {
+            // error in updating
+            res.status(500).send({
+            error: true,
+            data: [],
+            message: ["Error in updating a record"],
+            });
+        }
+        })
+        .catch((err) => {
+        res.status(500).send({
+            error: true,
+            data: [],
+            message:
+            err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
+        });
+        });
 };
 
-// Delete a favorite with the specified id in the request
+// Delete a favorites with the specified id in the request
 exports.delete = (req, res) => {
-    
+    const id = req.params.favoriteId;
+    const body = { status: "Inactive" };
+        favorites.update(body, {
+            where: { favoriteId: id },
+        })
+        .then((result) => {
+        console.log(result);
+        if (result) {
+            // success
+            favorites.findByPk(id).then((data) => {
+                res.send({
+                    error: false,
+                    data: data,
+                    message: [process.env.SUCCESS_UPDATE],
+                });
+            });
+        } else {
+            // error in updating
+            res.status(500).send({
+            error: true,
+            data: [],
+            message: ["Error in deleting a record"],
+            });
+        }
+        })
+        .catch((err) => {
+        res.status(500).send({
+            error: true,
+            data: [],
+            message:
+            err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
+        });
+        });
 };
 
