@@ -1,14 +1,13 @@
 const db = require("../models");
 const copies = db.copies;
 
-
-// Create and Save a weeding
+// Create and Save a new copies
 exports.create = async (req, res) => {
     copies.create(req.body).then((data) => {
         res.send({
             error: false,
             data: data,
-            message: ["A Copy is created successfully."],
+            message: ["A copy is created successfully."],
         });
     })
     .catch((err) =>{
@@ -18,17 +17,16 @@ exports.create = async (req, res) => {
             message: err.errors.map((e) => e.message),
         });
     })
-    
 };
 
-// Retrieve all weeding from the database.
+// Retrieve all copies from the database.
 exports.findAll = (req, res) => {
-    copies.findAll()
+    copies.findAll({ where: { status: "Active"}})
     .then((data) => {
     res.send({
         error: false,
         data: data,
-        message: ["Retrieved successfully."],
+        message: [process.env.SUCCESS_RETRIEVED],
     });
     })
     .catch((err) => {
@@ -40,9 +38,9 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single weeding with an id
+// Find a single copies with an id
 exports.findOne = (req, res) => {
-    const id = req.params.id; 
+    const id = req.params.copyID; 
 
     copies.findByPk(id).then((data) => {
         res.send({
@@ -59,48 +57,79 @@ exports.findOne = (req, res) => {
         err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
         });
     });
-    
 };
 
-// Update a weeding by the id in the request
+// Update a copies by the id in the request
 exports.update = async (req, res) => {
-    // const id = req.params.id;
+    const id = req.params.materialId;
 
-//     weedings.update(req.body, {
-//         where: { id: id },
-//     })
-//         .then((result) => {
-//         console.log(result);
-//         if (result) {
-//             // success
-//             weedings.findByPk(id).then((data) => {
-//                 res.send({
-//                     error: false,
-//                     data: data,
-//                     message: [process.env.SUCCESS_UPDATE],
-//                 });
-//             });
-//         } else {
-  
-// // error in updating
-//             res.status(500).send({
-//             error: true,
-//             data: [],
-//             message: ["Error in updating a record"],
-//             });
-//         }
-//         })
-//         .catch((err) => {
-//         res.status(500).send({
-//             error: true,
-//             data: [],
-//             message:
-//             err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
-//         });
-//         });
+    copies.update(req.body, {
+        where: { materialId: id },
+    })
+        .then((result) => {
+        console.log(result);
+        if (result) {
+            // success
+            copies.findByPk(id).then((data) => {
+                res.send({
+                    error: false,
+                    data: data,
+                    message: [process.env.SUCCESS_UPDATE],
+                });
+            });
+        } else {
+            // error in updating
+            res.status(500).send({
+            error: true,
+            data: [],
+            message: ["Error in updating a record"],
+            });
+        }
+        })
+        .catch((err) => {
+        res.status(500).send({
+            error: true,
+            data: [],
+            message:
+            err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
+        });
+        });
 };
 
-// Delete a weeding with the specified id in the request
+// Delete a copies with the specified id in the request
 exports.delete = (req, res) => {
-    
+    const id = req.params.copyID;
+    const body = { status: "Inactive" };
+        copies.update(body, {
+            where: { materialId: id },
+        })
+        .then((result) => {
+        console.log(result);
+        if (result) {
+            // success
+            copies.findByPk(id).then((data) => {
+                res.send({
+                    error: false,
+                    data: data,
+                    message: [process.env.SUCCESS_UPDATE],
+                });
+            });
+        } else {
+            // error in updating
+            res.status(500).send({
+            error: true,
+            data: [],
+            message: ["Error in deleting a record"],
+            });
+        }
+        })
+        .catch((err) => {
+        res.status(500).send({
+            error: true,
+            data: [],
+            message:
+            err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
+        });
+        });
 };
+
