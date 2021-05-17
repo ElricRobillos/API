@@ -55,7 +55,7 @@ exports.findAll = (req, res) => {
 
 // Find a single User with an id
 exports.findOne = (req, res) => { 
-    const id = req.params.userId;
+    const id = req.params.userID;
 
     users.findByPk(id).then((data) => {
         res.send({
@@ -77,7 +77,7 @@ exports.findOne = (req, res) => {
 
 // Update a User by the id in the request
 exports.update = async (req, res) => {
-    const id = req.params.userId
+    const id = req.params.userID
     req.body.fullName = "";
 
     if (req.body.password) {
@@ -88,7 +88,7 @@ exports.update = async (req, res) => {
     }
 
     users.update(req.body, {
-        where: { userId: id },
+        where: { userID: id },
     })
         .then((result) => {
         if (result) {
@@ -123,11 +123,11 @@ exports.update = async (req, res) => {
 // Delete a User with the specified id in the request
 exports.delete = (req, res) => { 
         // delete
-    const id = req.params.userId;
+    const id = req.params.userID;
     const body = { status: "Inactive" };
 
     users.update(body, {
-        where: { userId: id },
+        where: { userID: id },
     })
         .then((result) => {
         if (result) {

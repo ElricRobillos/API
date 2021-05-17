@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   material_types.init({
-    typeId : {
+    typeID : {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,

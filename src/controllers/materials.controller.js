@@ -40,7 +40,7 @@ exports.findAll = (req, res) => {
 
 // Find a single materials with an id
 exports.findOne = (req, res) => {
-    const id = req.params.materialId; 
+    const id = req.params.materialID; 
 
     materials.findByPk(id).then((data) => {
         res.send({
@@ -61,10 +61,10 @@ exports.findOne = (req, res) => {
 
 // Update a materials by the id in the request
 exports.update = async (req, res) => {
-    const id = req.params.materialId;
+    const id = req.params.materialID;
 
     materials.update(req.body, {
-        where: { materialId: id },
+        where: { materialID: id },
     })
         .then((result) => {
         console.log(result);
@@ -98,10 +98,10 @@ exports.update = async (req, res) => {
 
 // Delete a materials with the specified id in the request
 exports.delete = (req, res) => {
-    const id = req.params.materialId;
+    const id = req.params.materialID;
     const body = { status: "Inactive" };
         materials.update(body, {
-            where: { materialId: id },
+            where: { materialID: id },
         })
         .then((result) => {
         console.log(result);

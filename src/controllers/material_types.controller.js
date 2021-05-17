@@ -40,7 +40,7 @@ exports.findAll = (req, res) => {
 
 // Find a single material types with an id
 exports.findOne = (req, res) => {
-    const id = req.params.typeId; 
+    const id = req.params.typeID; 
 
     material_types.findByPk(id).then((data) => {
         res.send({
@@ -61,10 +61,10 @@ exports.findOne = (req, res) => {
 
 // Update a material types by the id in the request
 exports.update = async (req, res) => {
-    const id = req.params.typeId;
+    const id = req.params.typeID;
 
     material_types.update(req.body, {
-        where: { typeId: id },
+        where: { typeID: id },
     })
         .then((result) => {
         console.log(result);
@@ -98,10 +98,10 @@ exports.update = async (req, res) => {
 
 // Delete a material types with the specified id in the request
 exports.delete = (req, res) => {
-    const id = req.params.typeId;
+    const id = req.params.typeID;
     const body = { status: "Inactive" };
         material_types.update(body, {
-            where: { typeId: id },
+            where: { typeID: id },
         })
         .then((result) => {
         console.log(result);
