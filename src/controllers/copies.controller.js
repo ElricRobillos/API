@@ -61,10 +61,10 @@ exports.findOne = (req, res) => {
 
 // Update a copies by the id in the request
 exports.update = async (req, res) => {
-    const id = req.params.materialId;
+    const id = req.params.copyID;
 
     copies.update(req.body, {
-        where: { materialId: id },
+        where: { copyID: id },
     })
         .then((result) => {
         console.log(result);
@@ -101,7 +101,7 @@ exports.delete = (req, res) => {
     const id = req.params.copyID;
     const body = { status: "Inactive" };
         copies.update(body, {
-            where: { materialId: id },
+            where: { copyID: id },
         })
         .then((result) => {
         console.log(result);

@@ -21,7 +21,7 @@ exports.create = async (req, res) => {
 
 // Retrieve all materials_borrow_records from the database.
 exports.findAll = (req, res) => {
-    materials_borrow_records.findAll({ where: { status: "Active"}})
+    materials_borrow_records.findAll()
     .then((data) => {
     res.send({
         error: false,
