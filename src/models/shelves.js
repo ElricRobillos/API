@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   shelves.init(
     {
-      shelfId : {
+      shelfID : {
         type: DataTypes.UUID,
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4,

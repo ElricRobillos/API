@@ -3,9 +3,9 @@ var router = require("express").Router();
 const favoritesController = require("../controllers/favorites.controller");
 
 router.post("/", favoritesController.create);
-router.put("/:favoriteId", favoritesController.update);
+router.put("/:favoriteID", favoritesController.update);
 router.get("/", favoritesController.findAll);
-router.get("/:favoriteId", favoritesController.findOne);
-router.delete("/:favoriteId", favoritesController.delete);
+router.get("/:favoriteID", favoritesController.findOne);
+router.delete("/:favoriteID", favoritesController.delete);
 
 module.exports = router;

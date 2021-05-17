@@ -40,7 +40,7 @@ exports.findAll = (req, res) => {
 
 // Find a single shelves with an id
 exports.findOne = (req, res) => {
-    const id = req.params.shelfId; 
+    const id = req.params.shelfID; 
 
     shelves.findByPk(id).then((data) => {
         res.send({
@@ -61,10 +61,10 @@ exports.findOne = (req, res) => {
 
 // Update a shelves by the id in the request
 exports.update = async (req, res) => {
-    const id = req.params.shelfId;
+    const id = req.params.shelfID;
 
     shelves.update(req.body, {
-        where: { shelfId: id },
+        where: { shelfID: id },
     })
         .then((result) => {
         console.log(result);
@@ -98,10 +98,10 @@ exports.update = async (req, res) => {
 
 // Delete a shelves with the specified id in the request
 exports.delete = (req, res) => {
-    const id = req.params.shelfId;
+    const id = req.params.shelfID;
     const body = { status: "Inactive" };
         shelves.update(body, {
-            where: { shelfId: id },
+            where: { shelfID: id },
         })
         .then((result) => {
         console.log(result);

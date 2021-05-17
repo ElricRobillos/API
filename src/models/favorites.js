@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   favorites.init({
-    favoriteId : {
+    favoriteID : {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,

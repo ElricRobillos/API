@@ -7,7 +7,7 @@ exports.create = async (req, res) => {
         res.send({
             error: false,
             data: data,
-            message: ["A material is created successfully."],
+            message: ["A favorite is created successfully."],
         });
     })
     .catch((err) =>{
@@ -40,7 +40,7 @@ exports.findAll = (req, res) => {
 
 // Find a single favorites with an id
 exports.findOne = (req, res) => {
-    const id = req.params.favoriteId; 
+    const id = req.params.favoriteID; 
 
     favorites.findByPk(id).then((data) => {
         res.send({
@@ -61,10 +61,10 @@ exports.findOne = (req, res) => {
 
 // Update a favorites by the id in the request
 exports.update = async (req, res) => {
-    const id = req.params.favoriteId;
+    const id = req.params.favoriteID;
 
     favorites.update(req.body, {
-        where: { favoriteId: id },
+        where: { favoriteID: id },
     })
         .then((result) => {
         console.log(result);
@@ -98,10 +98,10 @@ exports.update = async (req, res) => {
 
 // Delete a favorites with the specified id in the request
 exports.delete = (req, res) => {
-    const id = req.params.favoriteId;
+    const id = req.params.favoriteID;
     const body = { status: "Inactive" };
         favorites.update(body, {
-            where: { favoriteId: id },
+            where: { favoriteID: id },
         })
         .then((result) => {
         console.log(result);
