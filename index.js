@@ -17,6 +17,9 @@ const favoritesRoute = require("./src/routes/favorites.routes");
 const genresRoute = require("./src/routes/genres.routes");
 const publication_countriesRoute = require("./src/routes/publication_countries.routes");
 const author_detailsRoute = require("./src/routes/author_details.routes");
+const buildingsRoute = require("./src/routes/buildings.routes");
+const roomsRoute = require("./src/routes/rooms.routes");
+const transactionsRoute = require("./src/routes/transactions.routes");
 
 //initialize app
 var app = express();
@@ -88,6 +91,9 @@ app.use(
   publication_countriesRoute
 );
 app.use(`${process.env.API_VERSION}/author_details`, author_detailsRoute);
+app.use(`${process.env.API_VERSION}/buildings`, buildingsRoute);
+app.use(`${process.env.API_VERSION}/rooms`, roomsRoute);
+app.use(`${process.env.API_VERSION}/transactions`, transactionsRoute);
 
 //PORT
 const PORT = process.env.PORT || 5000;

@@ -28,7 +28,17 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg : 'Room Name should not be empty'},
       },
       unique: {msg: "The Room Name is already existed."},
-    }
+    },
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: "Active",
+      validate : {
+        isIn:{
+          args: [["Active","Inactive"]],
+          msg: "Status should be Active or Inactive only." 
+        },
+      },
+    },
   }, {
     sequelize,
     timestamps: true,

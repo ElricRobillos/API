@@ -23,6 +23,18 @@ module.exports = (sequelize, DataTypes) => {
     borrowDate: {
       type : DataTypes.DATE
     },
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: "Active",
+      validate : {
+        isIn:{
+          args: [["Active","Inactive"]],
+          msg: "Status should be Active or Inactive only." 
+        },
+      },
+    },
+
+
   }, 
   {
     sequelize,
