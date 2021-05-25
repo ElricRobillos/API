@@ -2,6 +2,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const db = require("./src/models");
+const jwt = require("jsonwebtoken"); 
 
 //routes
 const usersRoute = require("./src/routes/users.routes");
@@ -20,6 +21,7 @@ const author_detailsRoute = require("./src/routes/author_details.routes");
 const buildingsRoute = require("./src/routes/buildings.routes");
 const roomsRoute = require("./src/routes/rooms.routes");
 const transactionsRoute = require("./src/routes/transactions.routes");
+const loginRoute = require("./src/routes/login.routes.js")
 
 //initialize app
 var app = express();
@@ -33,6 +35,8 @@ app.use(
     extended: true,
   })
 );
+
+//console.log(require("crypto").randomBytes(64).toString("hex"));
 
 //get config variables
 dotenv.config();
@@ -71,29 +75,41 @@ app.get("/", (req, res) => {
   });
 });
 
-//ROUTE
-app.use(`${process.env.API_VERSION}/users`, usersRoute);
-app.use(`${process.env.API_VERSION}/material_types`, material_typesRoute);
-app.use(`${process.env.API_VERSION}/weedings`, weedingsRoute);
-app.use(`${process.env.API_VERSION}/shelves`, shelvesRoute);
-app.use(`${process.env.API_VERSION}/languages`, languagesRoute);
-app.use(`${process.env.API_VERSION}/publishers`, publishersRoute);
-app.use(`${process.env.API_VERSION}/materials`, materialsRoute);
-app.use(`${process.env.API_VERSION}/copies`, copiesRoute);
-app.use(
-  `${process.env.API_VERSION}/materials_borrow_records`,
-  materials_borrow_recordsRoute
-);
-app.use(`${process.env.API_VERSION}/favorites`, favoritesRoute);
-app.use(`${process.env.API_VERSION}/genres`, genresRoute);
-app.use(
-  `${process.env.API_VERSION}/publication_countries`,
-  publication_countriesRoute
-);
-app.use(`${process.env.API_VERSION}/author_details`, author_detailsRoute);
-app.use(`${process.env.API_VERSION}/buildings`, buildingsRoute);
-app.use(`${process.env.API_VERSION}/rooms`, roomsRoute);
-app.use(`${process.env.API_VERSION}/transactions`, transactionsRoute);
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (token == null) return res.sendStatus(401);
+
+  // verify if valid ung token 
+  jwt.verify(token, process.env.TOKEN_SECRET, (err, users) => {
+      console.log(users, err);
+      if (err) return res.sendStatus(403);
+      req.users = users;
+      next();
+  });
+};
+
+//doesn't need token
+app.use(`${process.env.API_VERSION}/login`, loginRoute);
+
+//ROUTE (needs token)
+app.use(`${process.env.API_VERSION}/users`, authenticateToken, usersRoute);
+app.use(`${process.env.API_VERSION}/material_types`, authenticateToken, material_typesRoute);
+app.use(`${process.env.API_VERSION}/weedings`, authenticateToken, weedingsRoute);
+app.use(`${process.env.API_VERSION}/shelves`, authenticateToken, shelvesRoute);
+app.use(`${process.env.API_VERSION}/languages`, authenticateToken, languagesRoute);
+app.use(`${process.env.API_VERSION}/publishers`, authenticateToken, publishersRoute);
+app.use(`${process.env.API_VERSION}/materials`, authenticateToken, materialsRoute);
+app.use(`${process.env.API_VERSION}/copies`, authenticateToken, copiesRoute);
+app.use(`${process.env.API_VERSION}/materials_borrow_records`, authenticateToken, materials_borrow_recordsRoute);
+app.use(`${process.env.API_VERSION}/favorites`, authenticateToken, favoritesRoute);
+app.use(`${process.env.API_VERSION}/genres`, authenticateToken, genresRoute);
+app.use(`${process.env.API_VERSION}/publication_countries`, authenticateToken, publication_countriesRoute);
+app.use(`${process.env.API_VERSION}/author_details`, authenticateToken, author_detailsRoute);
+app.use(`${process.env.API_VERSION}/buildings`, authenticateToken, buildingsRoute);
+app.use(`${process.env.API_VERSION}/rooms`, authenticateToken, roomsRoute);
+app.use(`${process.env.API_VERSION}/transactions`, authenticateToken, transactionsRoute);
 
 //PORT
 const PORT = process.env.PORT || 5000;

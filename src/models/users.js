@@ -11,6 +11,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(users, {
+        as: "added",
+        foreignKey: "added_by",
+      });
+
+      this.belongsTo(users, {
+        as: "updated",
+        foreignKey: "updated_by",
+      });
     }
   };
   users.init(
@@ -118,6 +127,20 @@ module.exports = (sequelize, DataTypes) => {
           args: [["Active","Inactive"]],
         msg: "Status should be Active or Inactive only." 
         },
+      },
+    },
+    added_by: { 
+        type: DataTypes.UUID,
+        references: {
+          model: users,
+          key: "userID",
+        },
+      },
+    updated_by: {
+      type: DataTypes.UUID,
+      references: {
+        model: users,
+        key: "userID",
       },
     },
 

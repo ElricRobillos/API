@@ -1,7 +1,43 @@
 const db = require("../models");
 const users = db.users;
 const bcrypt = require("bcrypt");
+const datatable = require(`sequelize-datatables`);
 
+exports.findDataTable = (req, res) => { 
+    req.body = {
+    draw: "1",
+    columns: [
+        {
+        data: "fullName",
+        name: "",
+        searchable: "true",
+        orderable: "true",
+        search: {
+            value: "",
+            regex: "false",
+        },
+        },
+    ],
+    order: [
+        {
+        column: "0",
+        dir: "asc",
+        },
+    ],
+    start: "0",
+    length: "10",
+    search: {
+        value: "",
+        regex: "false",
+    },
+    _: "1478912938246",
+    };
+
+    datatable(users, req.body).then((result) => { 
+    // result is response for datatables
+    res.json(result);
+    });
+};
 
 // Create and Save a new User
 exports.create = async (req, res) => {
