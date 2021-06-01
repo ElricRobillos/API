@@ -5,6 +5,7 @@ const db = require("./src/models");
 const jwt = require("jsonwebtoken"); 
 
 //routes
+const testRoute = require("./src/routes/test.routes");
 const usersRoute = require("./src/routes/users.routes");
 const material_typesRoute = require("./src/routes/material_types.routes");
 const weedingsRoute = require("./src/routes/weedings.routes");
@@ -54,7 +55,7 @@ db.sequelize
 //sync for db models
 if (process.env.ALLOW_SYNC === "true") {
   db.sequelize
-    .sync({ alter: true })
+    .sync({ force: false })
     .then(() =>
       console.log("Done adding/updating the database on the models.")
     );
@@ -82,10 +83,9 @@ const authenticateToken = (req, res, next) => {
   if (token == null) return res.sendStatus(401);
 
   // verify if valid ung token 
-  jwt.verify(token, process.env.TOKEN_SECRET, (err, users) => {
-      console.log(users, err);
+  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
       if (err) return res.sendStatus(403);
-      req.users = users;
+      req.user = user;
       next();
   });
 };
@@ -94,6 +94,7 @@ const authenticateToken = (req, res, next) => {
 app.use(`${process.env.API_VERSION}/login`, loginRoute);
 
 //ROUTE (needs token)
+app.use(`${process.env.API_VERSION}/test`, authenticateToken, testRoute);
 app.use(`${process.env.API_VERSION}/users`, authenticateToken, usersRoute);
 app.use(`${process.env.API_VERSION}/material_types`, authenticateToken, material_typesRoute);
 app.use(`${process.env.API_VERSION}/weedings`, authenticateToken, weedingsRoute);

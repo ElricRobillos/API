@@ -11,15 +11,44 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(users, {
-        as: "added",
-        foreignKey: "added_by",
-      });
+      this.belongsTo(models.users, {
+        foreignKey: 'added_by',
+        as: 'added_by_librarian',
+        onDelete: 'RESTRICT'
+      })
 
-      this.belongsTo(users, {
-        as: "updated",
-        foreignKey: "updated_by",
-      });
+      this.hasMany(models.users, {
+        foreignKey: 'added_by',
+        as: 'added_students',
+        onDelete: 'RESTRICT'
+      })
+
+      this.hasMany(models.users, {
+        foreignKey: 'added_by',
+        as: 'added_staffs',
+        onDelete: 'RESTRICT'
+      })
+
+      // updated_by
+
+      this.belongsTo(models.users, {
+        foreignKey: 'updated_by',
+        as: 'updated_by_librarian',
+        onDelete: 'RESTRICT'
+      })
+
+      this.hasMany(models.users, {
+        foreignKey: 'updated_by',
+        as: 'updated_students',
+        onDelete: 'RESTRICT'
+      })
+
+      this.hasMany(models.users, {
+        foreignKey: 'updated_by',
+        as: 'updated_staffs',
+        onDelete: 'RESTRICT'
+      })
+
     }
   };
   users.init(
@@ -131,17 +160,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     added_by: { 
         type: DataTypes.UUID,
-        references: {
-          model: users,
-          key: "userID",
-        },
+        allowNull: true,
       },
     updated_by: {
       type: DataTypes.UUID,
-      references: {
-        model: users,
-        key: "userID",
-      },
+      allowNull: true,
     },
 
   }, {

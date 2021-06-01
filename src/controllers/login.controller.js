@@ -30,8 +30,8 @@ exports.login = (req, res) => {
                         error: false,
                         data: data,
                         token: generateToken({
-                            id: data.userID,
-                            name: data.fullName,
+                            userID: data.userID,
+                            userType: data.userType,
                             email: data.email,
                         }),
                         message: [process.env.SUCCESS_RETRIEVED],

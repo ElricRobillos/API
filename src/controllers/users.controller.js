@@ -1,5 +1,5 @@
 const db = require("../models");
-const users = db.users;
+const users = db.users; //remove 
 const bcrypt = require("bcrypt");
 const datatable = require(`sequelize-datatables`);
 
