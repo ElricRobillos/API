@@ -1,13 +1,13 @@
-const db = require("../models");
-const materials = db.materials;
+const db = require("../../models");
+const weedings = db.weedings;
 
-// Create and Save a new materials
-exports.create = async (req, res) => {
-    materials.create(req.body).then((data) => {
+// Create and Save a new weedings
+exports.create_weedings = async (req, res) => {
+    weedings.create(req.body).then((data) => {
         res.send({
             error: false,
             data: data,
-            message: ["A material is created successfully."],
+            message: ["A weedings is created successfully."],
         });
     })
     .catch((err) =>{
@@ -19,9 +19,9 @@ exports.create = async (req, res) => {
     })
 };
 
-// Retrieve all materials from the database.
-exports.findAll = (req, res) => {
-    materials.findAll({ where: { status: "Active"}})
+// Retrieve all weedings from the database.
+exports.findAll_weedings = (req, res) => {
+    weedings.findAll({ where: { status: "Active"}})
     .then((data) => {
     res.send({
         error: false,
@@ -38,11 +38,11 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single materials with an id
-exports.findOne = (req, res) => {
-    const id = req.params.materialID; 
+// Find a single weeding with an id
+exports.findOne_weedings = (req, res) => {
+    const id = req.params.weedID; 
 
-    materials.findByPk(id).then((data) => {
+    weedings.findByPk(id).then((data) => {
         res.send({
             error: false,
             data: data,
@@ -59,18 +59,18 @@ exports.findOne = (req, res) => {
     });
 };
 
-// Update a materials by the id in the request
-exports.update = async (req, res) => {
-    const id = req.params.materialID;
+// Update a weedings by the id in the request
+exports.update_weedings = async (req, res) => {
+    const id = req.params.weedID;
 
-    materials.update(req.body, {
-        where: { materialID: id },
+    weedings.update(req.body, {
+        where: { weedID: id },
     })
         .then((result) => {
         console.log(result);
         if (result) {
             // success
-            materials.findByPk(id).then((data) => {
+            weedings.findByPk(id).then((data) => {
                 res.send({
                     error: false,
                     data: data,
@@ -96,18 +96,18 @@ exports.update = async (req, res) => {
         });
 };
 
-// Delete a materials with the specified id in the request
-exports.delete = (req, res) => {
-    const id = req.params.materialID;
+// Delete a weedings with the specified id in the request
+exports.delete_weedings = (req, res) => {
+    const id = req.params.weedID;
     const body = { status: "Inactive" };
-        materials.update(body, {
-            where: { materialID: id },
+        weedings.update(body, {
+            where: { weedID: id },
         })
         .then((result) => {
         console.log(result);
         if (result) {
             // success
-            materials.findByPk(id).then((data) => {
+            weedings.findByPk(id).then((data) => {
                 res.send({
                     error: false,
                     data: data,

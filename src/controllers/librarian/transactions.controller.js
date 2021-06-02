@@ -1,13 +1,13 @@
-const db = require("../models");
-const buildings = db.buildings;
+const db = require("../../models");
+const transactions = db.transactions;
 
-// Create and Save a new buildings
-exports.create = async (req, res) => {
-    buildings.create(req.body).then((data) => {
+// Create and Save a new transactions
+exports.create_transactions = async (req, res) => {
+    transactions.create(req.body).then((data) => {
         res.send({
             error: false,
             data: data,
-            message: ["A building is created successfully."],
+            message: ["A transaction is created successfully."],
         });
     })
     .catch((err) =>{
@@ -19,9 +19,9 @@ exports.create = async (req, res) => {
     })
 };
 
-// Retrieve all buildings from the database.
-exports.findAll = (req, res) => {
-    buildings.findAll({ where: { status: "Active"}})
+// Retrieve all transactions from the database.
+exports.findAll_transactions = (req, res) => {
+    transactions.findAll({ where: { status: "Active"}})
     .then((data) => {
     res.send({
         error: false,
@@ -38,11 +38,11 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single buildings with an id
-exports.findOne = (req, res) => {
-    const id = req.params.buildingID; 
+// Find a single transactions with an id
+exports.findOne_transactions = (req, res) => {
+    const id = req.params.transactionID; 
 
-    buildings.findByPk(id).then((data) => {
+    transactions.findByPk(id).then((data) => {
         res.send({
             error: false,
             data: data,
@@ -59,18 +59,18 @@ exports.findOne = (req, res) => {
     });
 };
 
-// Update a buildings by the id in the request
-exports.update = async (req, res) => {
-    const id = req.params.buildingID;
+// Update a transaction by the id in the request
+exports.update_transactions = async (req, res) => {
+    const id = req.params.transactionID;
 
-    buildings.update(req.body, {
-        where: { buildingID: id },
+    transactions.update(req.body, {
+        where: { transactionID: id },
     })
         .then((result) => {
         console.log(result);
         if (result) {
             // success
-            buildings.findByPk(id).then((data) => {
+            transactions.findByPk(id).then((data) => {
                 res.send({
                     error: false,
                     data: data,
@@ -96,18 +96,18 @@ exports.update = async (req, res) => {
         });
 };
 
-// Delete a building with the specified id in the request
-exports.delete = (req, res) => {
-    const id = req.params.buildingID;
+// Delete a transaction with the specified id in the request
+exports.delete_transactions = (req, res) => {
+    const id = req.params.transactionID;
     const body = { status: "Inactive" };
-        buildings.update(body, {
-            where: { buildingID: id },
+        transactions.update(body, {
+            where: { transactionID: id },
         })
         .then((result) => {
         console.log(result);
         if (result) {
             // success
-            buildings.findByPk(id).then((data) => {
+            transactions.findByPk(id).then((data) => {
                 res.send({
                     error: false,
                     data: data,

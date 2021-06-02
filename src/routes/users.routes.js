@@ -1,6 +1,6 @@
 var router = require("express").Router();
 
-const usersController = require("../controllers/users.controller");
+const usersController = require("../controllers/librarian/users.controller");
 
 router.get("/datatable", usersController.findDataTable)
 router.post("/", usersController.create);

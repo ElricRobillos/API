@@ -1,27 +1,38 @@
-const db = require("../models");
-const author_details = db.author_details;
+const db = require("../../models");
+const buildings = db.buildings;
 
-// Create and Save a new author detail
-exports.create = async (req, res) => {
-    author_details.create(req.body).then((data) => {
-        res.send({
-            error: false,
-            data: data,
-            message: ["A author details is created successfully."],
+// Create and Save a new buildings
+exports.create_buildings = (req, res) => {
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        req.body.addedBy = req.user.userID
+
+        req.body.updatedBy = req.user.userID
+        
+        db.buildings.create(req.body)
+        .then((data) => {
+            res.send({
+                error: false,
+                data: data,
+                message: ["A building is created successfully."],
+            });
+                
+        })
+        .catch((err) =>{
+            res.status(500).send({
+                error: true,
+                data: [],
+                message: err.errors.map((e) => e.message),
+            });
         });
-    })
-    .catch((err) =>{
-        res.status(500).send({
-            error: true,
-            data: [],
-            message: err.errors.map((e) => e.message),
-        });
-    })
+    }
 };
 
-// Retrieve all author details from the database.
-exports.findAll = (req, res) => {
-    author_details.findAll({ where: { status: "Active"}})
+// Retrieve all buildings from the database.
+exports.findAll_buildings = (req, res) => {
+    buildings.findAll({ where: { status: "Active"}})
     .then((data) => {
     res.send({
         error: false,
@@ -38,11 +49,11 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single author details with an id
-exports.findOne = (req, res) => {
-     const id = req.params.authorID; 
+// Find a single buildings with an id
+exports.findOne_buildings = (req, res) => {
+    const id = req.params.buildingID; 
 
-    author_details.findByPk(id).then((data) => {
+    buildings.findByPk(id).then((data) => {
         res.send({
             error: false,
             data: data,
@@ -56,21 +67,21 @@ exports.findOne = (req, res) => {
         message:
         err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
         });
-    }); 
-}; 
+    });
+};
 
-// Update an author details by the id in the request
-exports.update = async (req, res) => {
-    const id = req.params.authorID;
+// Update a buildings by the id in the request
+exports.update_buildings = async (req, res) => {
+    const id = req.params.buildingID;
 
-    author_details.update(req.body, {
-        where: { authorID: id },
+    buildings.update(req.body, {
+        where: { buildingID: id },
     })
         .then((result) => {
         console.log(result);
         if (result) {
             // success
-            author_details.findByPk(id).then((data) => {
+            buildings.findByPk(id).then((data) => {
                 res.send({
                     error: false,
                     data: data,
@@ -96,20 +107,18 @@ exports.update = async (req, res) => {
         });
 };
 
-// Delete an author details with the specified id in the request
-exports.delete = (req, res) => {
-    const id = req.params.authorID;
-
+// Delete a building with the specified id in the request
+exports.delete_buildings = (req, res) => {
+    const id = req.params.buildingID;
     const body = { status: "Inactive" };
-    
-        author_details.update(body, {
-            where: { authorID: id },
+        buildings.update(body, {
+            where: { buildingID: id },
         })
         .then((result) => {
         console.log(result);
         if (result) {
             // success
-            author_details.findByPk(id).then((data) => {
+            buildings.findByPk(id).then((data) => {
                 res.send({
                     error: false,
                     data: data,
@@ -134,3 +143,4 @@ exports.delete = (req, res) => {
         });
         });
 };
+

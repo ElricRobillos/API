@@ -1,15 +1,15 @@
-const db = require("../models");
-const languages = db.languages;
+const db = require("../../models");
+const genres = db.genres;
 
-// Create and Save a new languages
-exports.create = async (req, res) => {
-  languages
+// Create and Save a new genres
+exports.create_genres = async (req, res) => {
+  genres
     .create(req.body)
     .then((data) => {
       res.send({
         error: false,
         data: data,
-        message: ["A language is created successfully."],
+        message: ["A genre is created successfully."],
       });
     })
     .catch((err) => {
@@ -21,9 +21,9 @@ exports.create = async (req, res) => {
     });
 };
 
-// Retrieve all languages from the database.
-exports.findAll = (req, res) => {
-  languages
+// Retrieve all genres from the database.
+exports.findAll_genres = (req, res) => {
+  genres
     .findAll({ where: { status: "Active" } })
     .then((data) => {
       res.send({
@@ -41,11 +41,11 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single languages with an id
-exports.findOne = (req, res) => {
-  const id = req.params.languageId;
+// Find a single genres with an id
+exports.findOne_genres = (req, res) => {
+  const id = req.params.genreId;
 
-  languages
+  genres
     .findByPk(id)
     .then((data) => {
       res.send({
@@ -64,19 +64,19 @@ exports.findOne = (req, res) => {
     });
 };
 
-// Update a languages by the id in the request
-exports.update = async (req, res) => {
-  const id = req.params.languageId;
+// Update a genres by the id in the request
+exports.update_genres = async (req, res) => {
+  const id = req.params.genreId;
 
-  languages
+  genres
     .update(req.body, {
-      where: { languageId: id },
+      where: { genreId: id },
     })
     .then((result) => {
       console.log(result);
       if (result) {
         // success
-        languages.findByPk(id).then((data) => {
+        genres.findByPk(id).then((data) => {
           res.send({
             error: false,
             data: data,
@@ -102,19 +102,19 @@ exports.update = async (req, res) => {
     });
 };
 
-// Delete a language with the specified id in the request
-exports.delete = (req, res) => {
-  const id = req.params.languageId;
+// Delete a genre with the specified id in the request
+exports.delete_genres = (req, res) => {
+  const id = req.params.genreId;
   const body = { status: "Inactive" };
-  languages
+  genres
     .update(body, {
-      where: { languageId: id },
+      where: { genreId: id },
     })
     .then((result) => {
       console.log(result);
       if (result) {
         // success
-        languages.findByPk(id).then((data) => {
+        genres.findByPk(id).then((data) => {
           res.send({
             error: false,
             data: data,

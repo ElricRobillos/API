@@ -1,8 +1,8 @@
-const db = require("../models");
+const db = require("../../models");
 const materials_borrow_records = db.materials_borrow_records;
 
 // Create and Save a new materials_borrow_records
-exports.create = async (req, res) => {
+exports.create_materials_borrow_records = async (req, res) => {
     materials_borrow_records.create(req.body).then((data) => {
         res.send({
             error: false,
@@ -20,7 +20,7 @@ exports.create = async (req, res) => {
 };
 
 // Retrieve all materials_borrow_records from the database.
-exports.findAll = (req, res) => {
+exports.findAll_materials_borrow_records = (req, res) => {
     materials_borrow_records.findAll()
     .then((data) => {
     res.send({
@@ -39,7 +39,7 @@ exports.findAll = (req, res) => {
 };
 
 // Find a single materials_borrow_records with an id
-exports.findOne = (req, res) => {
+exports.findOne_materials_borrow_records = (req, res) => {
     const id = req.params.borrowID; 
 
     materials_borrow_records.findByPk(id).then((data) => {
@@ -60,7 +60,7 @@ exports.findOne = (req, res) => {
 };
 
 // Update a materials_borrow_records by the id in the request
-exports.update = async (req, res) => {
+exports.update_materials_borrow_records = async (req, res) => {
     const id = req.params.borrowID;
 
     materials_borrow_records.update(req.body, {
@@ -95,41 +95,4 @@ exports.update = async (req, res) => {
         });
         });
 };
-
-// // Delete a materials_borrow_records with the specified id in the request
-// exports.delete = (req, res) => {
-//     const id = req.params.borrowID;
-//     const body = { status: "Inactive" };
-//     materials_borrow_records.update(body, {
-//             where: { borrowID: id },
-//         })
-//         .then((result) => {
-//         console.log(result);
-//         if (result) {
-//             // success
-//             materials_borrow_records.findByPk(id).then((data) => {
-//                 res.send({
-//                     error: false,
-//                     data: data,
-//                     message: [process.env.SUCCESS_UPDATE],
-//                 });
-//             });
-//         } else {
-//             // error in updating
-//             res.status(500).send({
-//             error: true,
-//             data: [],
-//             message: ["Error in deleting a record"],
-//             });
-//         }
-//         })
-//         .catch((err) => {
-//         res.status(500).send({
-//             error: true,
-//             data: [],
-//             message:
-//             err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
-//         });
-//         });
-// };
 

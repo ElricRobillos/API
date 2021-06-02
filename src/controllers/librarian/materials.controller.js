@@ -1,9 +1,9 @@
-const db = require("../models");
-const shelves = db.shelves;
+const db = require("../../models");
+const materials = db.materials;
 
-// Create and Save a new shelves
-exports.create = async (req, res) => {
-    shelves.create(req.body).then((data) => {
+//Create and Save a new materials
+exports.create_materials = async (req, res) => {
+    materials.create(req.body).then((data) => {
         res.send({
             error: false,
             data: data,
@@ -19,9 +19,9 @@ exports.create = async (req, res) => {
     })
 };
 
-// Retrieve all shelves from the database.
-exports.findAll = (req, res) => {
-    shelves.findAll({ where: { status: "Active"}})
+// Retrieve all materials from the database.
+exports.findAll_materials = (req, res) => {
+    materials.findAll({ where: { status: "Active"}})
     .then((data) => {
     res.send({
         error: false,
@@ -38,11 +38,11 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single shelves with an id
-exports.findOne = (req, res) => {
-    const id = req.params.shelfID; 
+// Find a single materials with an id
+exports.findOne_materials = (req, res) => {
+    const id = req.params.materialID; 
 
-    shelves.findByPk(id).then((data) => {
+    materials.findByPk(id).then((data) => {
         res.send({
             error: false,
             data: data,
@@ -59,18 +59,18 @@ exports.findOne = (req, res) => {
     });
 };
 
-// Update a shelves by the id in the request
-exports.update = async (req, res) => {
-    const id = req.params.shelfID;
+// Update a materials by the id in the request
+exports.update_materials = async (req, res) => {
+    const id = req.params.materialID;
 
-    shelves.update(req.body, {
-        where: { shelfID: id },
+    materials.update(req.body, {
+        where: { materialID: id },
     })
         .then((result) => {
         console.log(result);
         if (result) {
             // success
-            shelves.findByPk(id).then((data) => {
+            materials.findByPk(id).then((data) => {
                 res.send({
                     error: false,
                     data: data,
@@ -96,18 +96,18 @@ exports.update = async (req, res) => {
         });
 };
 
-// Delete a shelves with the specified id in the request
-exports.delete = (req, res) => {
-    const id = req.params.shelfID;
+// Delete a materials with the specified id in the request
+exports.delete_materials = (req, res) => {
+    const id = req.params.materialID;
     const body = { status: "Inactive" };
-        shelves.update(body, {
-            where: { shelfID: id },
+        materials.update(body, {
+            where: { materialID: id },
         })
         .then((result) => {
         console.log(result);
         if (result) {
             // success
-            shelves.findByPk(id).then((data) => {
+            materials.findByPk(id).then((data) => {
                 res.send({
                     error: false,
                     data: data,

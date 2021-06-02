@@ -1,15 +1,15 @@
-const db = require("../models");
-const publication_countries = db.publication_countries;
+const db = require("../../models");
+const languages = db.languages;
 
-// Create and Save a new publication_countries
-exports.create = async (req, res) => {
-  publication_countries
+// Create and Save a new languages
+exports.create_languages = async (req, res) => {
+  languages
     .create(req.body)
     .then((data) => {
       res.send({
         error: false,
         data: data,
-        message: ["A publication country is created successfully."],
+        message: ["A language is created successfully."],
       });
     })
     .catch((err) => {
@@ -21,9 +21,9 @@ exports.create = async (req, res) => {
     });
 };
 
-// Retrieve all publication_countries from the database.
-exports.findAll = (req, res) => {
-  publication_countries
+// Retrieve all languages from the database.
+exports.findAll_languages = (req, res) => {
+  languages
     .findAll({ where: { status: "Active" } })
     .then((data) => {
       res.send({
@@ -41,11 +41,11 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single publication_countries with an id
-exports.findOne = (req, res) => {
-  const id = req.params.pubCountryId;
+// Find a single languages with an id
+exports.findOne_languages = (req, res) => {
+  const id = req.params.languageId;
 
-  publication_countries
+  languages
     .findByPk(id)
     .then((data) => {
       res.send({
@@ -64,19 +64,19 @@ exports.findOne = (req, res) => {
     });
 };
 
-// Update a publication_countries by the id in the request
-exports.update = async (req, res) => {
-  const id = req.params.pubCountryId;
+// Update a languages by the id in the request
+exports.update_languages = async (req, res) => {
+  const id = req.params.languageId;
 
-  publication_countries
+  languages
     .update(req.body, {
-      where: { pubCountryId: id },
+      where: { languageId: id },
     })
     .then((result) => {
       console.log(result);
       if (result) {
         // success
-        publication_countries.findByPk(id).then((data) => {
+        languages.findByPk(id).then((data) => {
           res.send({
             error: false,
             data: data,
@@ -102,19 +102,19 @@ exports.update = async (req, res) => {
     });
 };
 
-// Delete a publication country with the specified id in the request
-exports.delete = (req, res) => {
-  const id = req.params.pubCountryId;
+// Delete a language with the specified id in the request
+exports.delete_languages = (req, res) => {
+  const id = req.params.languageId;
   const body = { status: "Inactive" };
-  publication_countries
+  languages
     .update(body, {
-      where: { pubCountryId: id },
+      where: { languageId: id },
     })
     .then((result) => {
       console.log(result);
       if (result) {
         // success
-        publication_countries.findByPk(id).then((data) => {
+        languages.findByPk(id).then((data) => {
           res.send({
             error: false,
             data: data,

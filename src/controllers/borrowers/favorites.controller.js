@@ -1,13 +1,13 @@
-const db = require("../models");
-const copies = db.copies;
+const db = require("../../models");
+const favorites = db.favorites;
 
-// Create and Save a new copies
-exports.create = async (req, res) => {
-    copies.create(req.body).then((data) => {
+// Create and Save a new favorites
+exports.create_favorites = async (req, res) => {
+    favorites.create(req.body).then((data) => {
         res.send({
             error: false,
             data: data,
-            message: ["A copy is created successfully."],
+            message: ["A favorite is created successfully."],
         });
     })
     .catch((err) =>{
@@ -19,9 +19,9 @@ exports.create = async (req, res) => {
     })
 };
 
-// Retrieve all copies from the database.
-exports.findAll = (req, res) => {
-    copies.findAll({ where: { status: "Active"}})
+// Retrieve all favorites from the database.
+exports.findAll_favorites  = (req, res) => {
+    favorites.findAll({ where: { status: "Active"}})
     .then((data) => {
     res.send({
         error: false,
@@ -38,11 +38,11 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single copies with an id
-exports.findOne = (req, res) => {
-    const id = req.params.copyID; 
+// Find a single favorites with an id
+exports.findOne_favorites  = (req, res) => {
+    const id = req.params.favoriteID; 
 
-    copies.findByPk(id).then((data) => {
+    favorites.findByPk(id).then((data) => {
         res.send({
             error: false,
             data: data,
@@ -59,18 +59,18 @@ exports.findOne = (req, res) => {
     });
 };
 
-// Update a copies by the id in the request
-exports.update = async (req, res) => {
-    const id = req.params.copyID;
+// Update a favorites by the id in the request
+exports.update_favorites  = async (req, res) => {
+    const id = req.params.favoriteID;
 
-    copies.update(req.body, {
-        where: { copyID: id },
+    favorites.update(req.body, {
+        where: { favoriteID: id },
     })
         .then((result) => {
         console.log(result);
         if (result) {
             // success
-            copies.findByPk(id).then((data) => {
+            favorites.findByPk(id).then((data) => {
                 res.send({
                     error: false,
                     data: data,
@@ -96,18 +96,18 @@ exports.update = async (req, res) => {
         });
 };
 
-// Delete a copies with the specified id in the request
-exports.delete = (req, res) => {
-    const id = req.params.copyID;
+// Delete a favorites with the specified id in the request
+exports.delete_favorites  = (req, res) => {
+    const id = req.params.favoriteID;
     const body = { status: "Inactive" };
-        copies.update(body, {
-            where: { copyID: id },
+        favorites.update(body, {
+            where: { favoriteID: id },
         })
         .then((result) => {
         console.log(result);
         if (result) {
             // success
-            copies.findByPk(id).then((data) => {
+            favorites.findByPk(id).then((data) => {
                 res.send({
                     error: false,
                     data: data,

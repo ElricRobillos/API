@@ -1,27 +1,38 @@
-const db = require("../models");
-const material_types = db.material_types;
+const db = require("../../models");
+const author_details = db.author_details;
 
-// Create and Save a new material types
-exports.create = async (req, res) => {
-    material_types.create(req.body).then((data) => {
-        res.send({
-            error: false,
-            data: data,
-            message: ["A material type is created successfully."],
+// Create and Save a new author detail
+exports.create_author_details = async (req, res) => {
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        req.body.addedBy = req.user.userID
+
+        req.body.updatedBy = req.user.userID
+        
+        db.author_details.create(req.body)
+        .then((data) => {
+            res.send({
+                error: false,
+                data: data,
+                message: ["An author details are created successfully."],
+            });
+                
+        })
+        .catch((err) =>{
+            res.status(500).send({
+                error: true,
+                data: [],
+                message: err.errors.map((e) => e.message),
+            });
         });
-    })
-    .catch((err) =>{
-        res.status(500).send({
-            error: true,
-            data: [],
-            message: err.errors.map((e) => e.message),
-        });
-    })
+    }
 };
 
-// Retrieve all material types from the database.
-exports.findAll = (req, res) => {
-    material_types.findAll({ where: { status: "Active"}})
+// Retrieve all author details from the database.
+exports.findAll_author_details = (req, res) => {
+    author_details.findAll({ where: { status: "Active"}})
     .then((data) => {
     res.send({
         error: false,
@@ -38,11 +49,11 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single material types with an id
-exports.findOne = (req, res) => {
-    const id = req.params.typeID; 
+// Find a single author details with an id
+exports.findOne_author_details = (req, res) => {
+    const id = req.params.authorID; 
 
-    material_types.findByPk(id).then((data) => {
+    author_details.findByPk(id).then((data) => {
         res.send({
             error: false,
             data: data,
@@ -56,21 +67,21 @@ exports.findOne = (req, res) => {
         message:
         err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
         });
-    });
-};
+    }); 
+}; 
 
-// Update a material types by the id in the request
-exports.update = async (req, res) => {
-    const id = req.params.typeID;
+// Update an author details by the id in the request
+exports.update_author_details = async (req, res) => {
+    const id = req.params.authorID;
 
-    material_types.update(req.body, {
-        where: { typeID: id },
+    author_details.update(req.body, {
+        where: { authorID: id },
     })
         .then((result) => {
         console.log(result);
         if (result) {
             // success
-            material_types.findByPk(id).then((data) => {
+            author_details.findByPk(id).then((data) => {
                 res.send({
                     error: false,
                     data: data,
@@ -96,18 +107,20 @@ exports.update = async (req, res) => {
         });
 };
 
-// Delete a material types with the specified id in the request
-exports.delete = (req, res) => {
-    const id = req.params.typeID;
+// Delete an author details with the specified id in the request
+exports.delete_author_details = (req, res) => {
+    const id = req.params.authorID;
+
     const body = { status: "Inactive" };
-        material_types.update(body, {
-            where: { typeID: id },
+    
+        author_details.update(body, {
+            where: { authorID: id },
         })
         .then((result) => {
         console.log(result);
         if (result) {
             // success
-            material_types.findByPk(id).then((data) => {
+            author_details.findByPk(id).then((data) => {
                 res.send({
                     error: false,
                     data: data,
@@ -132,4 +145,3 @@ exports.delete = (req, res) => {
         });
         });
 };
-

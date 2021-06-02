@@ -1,8 +1,8 @@
-const db = require("../models");
+const db = require("../../models");
 const publishers = db.publishers;
 
 // Create and Save a new publishers
-exports.create = async (req, res) => {
+exports.create_publishers = async (req, res) => {
     publishers.create(req.body).then((data) => {
         res.send({
             error: false,
@@ -20,7 +20,7 @@ exports.create = async (req, res) => {
 };
 
 // Retrieve all publishers from the database.
-exports.findAll = (req, res) => {
+exports.findAll_publishers = (req, res) => {
     publishers.findAll({ where: { status: "Active"}})
     .then((data) => {
     res.send({
@@ -39,8 +39,8 @@ exports.findAll = (req, res) => {
 };
 
 // Find a single publishers with an id
-exports.findOne = (req, res) => {
-     const id = req.params.publisherID; 
+exports.findOne_publishers = (req, res) => {
+    const id = req.params.publisherID; 
 
     publishers.findByPk(id).then((data) => {
         res.send({
@@ -60,7 +60,7 @@ exports.findOne = (req, res) => {
 }; 
 
 // Update a publishers by the id in the request
-exports.update = async (req, res) => {
+exports.update_publishers = async (req, res) => {
     const id = req.params.publisherID;
 
     publishers.update(req.body, {
@@ -97,7 +97,7 @@ exports.update = async (req, res) => {
 };
 
 // Delete a publishers with the specified id in the request
-exports.delete = (req, res) => {
+exports.delete_publishers = (req, res) => {
     const id = req.params.publisherID;
 
     const body = { status: "Inactive" };

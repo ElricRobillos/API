@@ -1,15 +1,15 @@
-const db = require("../models");
-const genres = db.genres;
+const db = require("../../models");
+const publication_countries = db.publication_countries;
 
-// Create and Save a new genres
-exports.create = async (req, res) => {
-  genres
+// Create and Save a new publication_countries
+exports.create_publication_countries = async (req, res) => {
+  publication_countries
     .create(req.body)
     .then((data) => {
       res.send({
         error: false,
         data: data,
-        message: ["A genre is created successfully."],
+        message: ["A publication country is created successfully."],
       });
     })
     .catch((err) => {
@@ -21,9 +21,9 @@ exports.create = async (req, res) => {
     });
 };
 
-// Retrieve all genres from the database.
-exports.findAll = (req, res) => {
-  genres
+// Retrieve all publication_countries from the database.
+exports.findAll_publication_countries = (req, res) => {
+  publication_countries
     .findAll({ where: { status: "Active" } })
     .then((data) => {
       res.send({
@@ -41,11 +41,11 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single genres with an id
-exports.findOne = (req, res) => {
-  const id = req.params.genreId;
+// Find a single publication_countries with an id
+exports.findOne_publication_countries = (req, res) => {
+  const id = req.params.pubCountryId;
 
-  genres
+  publication_countries
     .findByPk(id)
     .then((data) => {
       res.send({
@@ -64,19 +64,19 @@ exports.findOne = (req, res) => {
     });
 };
 
-// Update a genres by the id in the request
-exports.update = async (req, res) => {
-  const id = req.params.genreId;
+// Update a publication_countries by the id in the request
+exports.update_publication_countries = async (req, res) => {
+  const id = req.params.pubCountryId;
 
-  genres
+  publication_countries
     .update(req.body, {
-      where: { genreId: id },
+      where: { pubCountryId: id },
     })
     .then((result) => {
       console.log(result);
       if (result) {
         // success
-        genres.findByPk(id).then((data) => {
+        publication_countries.findByPk(id).then((data) => {
           res.send({
             error: false,
             data: data,
@@ -102,19 +102,19 @@ exports.update = async (req, res) => {
     });
 };
 
-// Delete a genre with the specified id in the request
-exports.delete = (req, res) => {
-  const id = req.params.genreId;
+// Delete a publication country with the specified id in the request
+exports.delete_publication_countries = (req, res) => {
+  const id = req.params.pubCountryId;
   const body = { status: "Inactive" };
-  genres
+  publication_countries
     .update(body, {
-      where: { genreId: id },
+      where: { pubCountryId: id },
     })
     .then((result) => {
       console.log(result);
       if (result) {
         // success
-        genres.findByPk(id).then((data) => {
+        publication_countries.findByPk(id).then((data) => {
           res.send({
             error: false,
             data: data,

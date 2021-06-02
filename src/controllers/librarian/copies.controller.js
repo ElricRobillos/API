@@ -1,27 +1,38 @@
-const db = require("../models");
-const transactions = db.transactions;
+const db = require("../../models");
+const copies = db.copies;
 
-// Create and Save a new transactions
-exports.create = async (req, res) => {
-    transactions.create(req.body).then((data) => {
-        res.send({
-            error: false,
-            data: data,
-            message: ["A transaction is created successfully."],
+// Create and Save a new copies
+exports.create_copies = async (req, res) => {
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        req.body.addedBy = req.user.userID
+
+        req.body.updatedBy = req.user.userID
+        
+        db.copies.create(req.body)
+        .then((data) => {
+            res.send({
+                error: false,
+                data: data,
+                message: ["A copy is created successfully."],
+            });
+                
+        })
+        .catch((err) =>{
+            res.status(500).send({
+                error: true,
+                data: [],
+                message: err.errors.map((e) => e.message),
+            });
         });
-    })
-    .catch((err) =>{
-        res.status(500).send({
-            error: true,
-            data: [],
-            message: err.errors.map((e) => e.message),
-        });
-    })
+    }
 };
 
-// Retrieve all transactions from the database.
-exports.findAll = (req, res) => {
-    transactions.findAll({ where: { status: "Active"}})
+// Retrieve all copies from the database.
+exports.findAll_copies = (req, res) => {
+    copies.findAll({ where: { status: "Active"}})
     .then((data) => {
     res.send({
         error: false,
@@ -38,11 +49,11 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single transactions with an id
-exports.findOne = (req, res) => {
-    const id = req.params.transactionID; 
+// Find a single copies with an id
+exports.findOne_copies = (req, res) => {
+    const id = req.params.copyID; 
 
-    transactions.findByPk(id).then((data) => {
+    copies.findByPk(id).then((data) => {
         res.send({
             error: false,
             data: data,
@@ -59,18 +70,18 @@ exports.findOne = (req, res) => {
     });
 };
 
-// Update a transaction by the id in the request
-exports.update = async (req, res) => {
-    const id = req.params.transactionID;
+// Update a copies by the id in the request
+exports.update_copies = async (req, res) => {
+    const id = req.params.copyID;
 
-    transactions.update(req.body, {
-        where: { transactionID: id },
+    copies.update(req.body, {
+        where: { copyID: id },
     })
         .then((result) => {
         console.log(result);
         if (result) {
             // success
-            transactions.findByPk(id).then((data) => {
+            copies.findByPk(id).then((data) => {
                 res.send({
                     error: false,
                     data: data,
@@ -96,18 +107,18 @@ exports.update = async (req, res) => {
         });
 };
 
-// Delete a transaction with the specified id in the request
-exports.delete = (req, res) => {
-    const id = req.params.transactionID;
+// Delete a copies with the specified id in the request
+exports.delete_copies = (req, res) => {
+    const id = req.params.copyID;
     const body = { status: "Inactive" };
-        transactions.update(body, {
-            where: { transactionID: id },
+        copies.update(body, {
+            where: { copyID: id },
         })
         .then((result) => {
         console.log(result);
         if (result) {
             // success
-            transactions.findByPk(id).then((data) => {
+            copies.findByPk(id).then((data) => {
                 res.send({
                     error: false,
                     data: data,

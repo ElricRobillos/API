@@ -1,13 +1,13 @@
-const db = require("../models");
-const rooms = db.rooms;
+const db = require("../../models");
+const material_types = db.material_types;
 
-// Create and Save a new rooms
-exports.create = async (req, res) => {
-    rooms.create(req.body).then((data) => {
+// Create and Save a new material types
+exports.create_material_types = async (req, res) => {
+    material_types.create(req.body).then((data) => {
         res.send({
             error: false,
             data: data,
-            message: ["A room is created successfully."],
+            message: ["A material type is created successfully."],
         });
     })
     .catch((err) =>{
@@ -19,9 +19,9 @@ exports.create = async (req, res) => {
     })
 };
 
-// Retrieve all rooms from the database.
-exports.findAll = (req, res) => {
-    rooms.findAll({ where: { status: "Active"}})
+// Retrieve all material types from the database.
+exports.findAll_material_types = (req, res) => {
+    material_types.findAll({ where: { status: "Active"}})
     .then((data) => {
     res.send({
         error: false,
@@ -38,11 +38,11 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single rooms with an id
-exports.findOne = (req, res) => {
-    const id = req.params.roomID; 
+// Find a single material types with an id
+exports.findOne_material_types = (req, res) => {
+    const id = req.params.typeID; 
 
-    rooms.findByPk(id).then((data) => {
+    material_types.findByPk(id).then((data) => {
         res.send({
             error: false,
             data: data,
@@ -59,18 +59,18 @@ exports.findOne = (req, res) => {
     });
 };
 
-// Update a room by the id in the request
-exports.update = async (req, res) => {
-    const id = req.params.roomID;
+// Update a material types by the id in the request
+exports.update_material_types = async (req, res) => {
+    const id = req.params.typeID;
 
-    rooms.update(req.body, {
-        where: { roomID: id },
+    material_types.update(req.body, {
+        where: { typeID: id },
     })
         .then((result) => {
         console.log(result);
         if (result) {
             // success
-            rooms.findByPk(id).then((data) => {
+            material_types.findByPk(id).then((data) => {
                 res.send({
                     error: false,
                     data: data,
@@ -96,18 +96,18 @@ exports.update = async (req, res) => {
         });
 };
 
-// Delete a room with the specified id in the request
-exports.delete = (req, res) => {
-    const id = req.params.roomID;
+// Delete a material types with the specified id in the request
+exports.delete_material_types = (req, res) => {
+    const id = req.params.typeID;
     const body = { status: "Inactive" };
-        rooms.update(body, {
-            where: { roomID: id },
+        material_types.update(body, {
+            where: { typeID: id },
         })
         .then((result) => {
         console.log(result);
         if (result) {
             // success
-            rooms.findByPk(id).then((data) => {
+            material_types.findByPk(id).then((data) => {
                 res.send({
                     error: false,
                     data: data,

@@ -1,13 +1,13 @@
-const db = require("../models");
-const favorites = db.favorites;
+const db = require("../../models");
+const rooms = db.rooms;
 
-// Create and Save a new favorites
-exports.create = async (req, res) => {
-    favorites.create(req.body).then((data) => {
+// Create and Save a new rooms
+exports.create_rooms = async (req, res) => {
+    rooms.create(req.body).then((data) => {
         res.send({
             error: false,
             data: data,
-            message: ["A favorite is created successfully."],
+            message: ["A room is created successfully."],
         });
     })
     .catch((err) =>{
@@ -19,9 +19,9 @@ exports.create = async (req, res) => {
     })
 };
 
-// Retrieve all favorites from the database.
-exports.findAll = (req, res) => {
-    favorites.findAll({ where: { status: "Active"}})
+// Retrieve all rooms from the database.
+exports.findAll_rooms = (req, res) => {
+    rooms.findAll({ where: { status: "Active"}})
     .then((data) => {
     res.send({
         error: false,
@@ -38,11 +38,11 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single favorites with an id
-exports.findOne = (req, res) => {
-    const id = req.params.favoriteID; 
+// Find a single rooms with an id
+exports.findOne_rooms = (req, res) => {
+    const id = req.params.roomID; 
 
-    favorites.findByPk(id).then((data) => {
+    rooms.findByPk(id).then((data) => {
         res.send({
             error: false,
             data: data,
@@ -59,18 +59,18 @@ exports.findOne = (req, res) => {
     });
 };
 
-// Update a favorites by the id in the request
-exports.update = async (req, res) => {
-    const id = req.params.favoriteID;
+// Update a room by the id in the request
+exports.update_rooms = async (req, res) => {
+    const id = req.params.roomID;
 
-    favorites.update(req.body, {
-        where: { favoriteID: id },
+    rooms.update(req.body, {
+        where: { roomID: id },
     })
         .then((result) => {
         console.log(result);
         if (result) {
             // success
-            favorites.findByPk(id).then((data) => {
+            rooms.findByPk(id).then((data) => {
                 res.send({
                     error: false,
                     data: data,
@@ -96,18 +96,18 @@ exports.update = async (req, res) => {
         });
 };
 
-// Delete a favorites with the specified id in the request
-exports.delete = (req, res) => {
-    const id = req.params.favoriteID;
+// Delete a room with the specified id in the request
+exports.delete_rooms = (req, res) => {
+    const id = req.params.roomID;
     const body = { status: "Inactive" };
-        favorites.update(body, {
-            where: { favoriteID: id },
+        rooms.update(body, {
+            where: { roomID: id },
         })
         .then((result) => {
         console.log(result);
         if (result) {
             // success
-            favorites.findByPk(id).then((data) => {
+            rooms.findByPk(id).then((data) => {
                 res.send({
                     error: false,
                     data: data,
