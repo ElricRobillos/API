@@ -32,17 +32,24 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'RESTRICT'
       })
 
-      // Added Buildings
-      this.hasMany(models.buildings, {
-        foreignKey: 'addedBy',
-        as: 'added_buildings',
-        onDelete: 'RESTRICT'
-      })
-
       // Added Author_details
       this.hasMany(models.author_details, {
         foreignKey: 'addedBy',
         as: 'added_author_details',
+        onDelete: 'RESTRICT'
+      })
+
+      // Added Authors
+      this.hasMany(models.authors, {
+        foreignKey: 'addedBy',
+        as: 'added_authors',
+        onDelete: 'RESTRICT'
+      })
+
+      // Added Buildings
+      this.hasMany(models.buildings, {
+        foreignKey: 'addedBy',
+        as: 'added_buildings',
         onDelete: 'RESTRICT'
       })
 
@@ -157,17 +164,24 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'RESTRICT'
       })
 
-      // Updated Buildings
-      this.hasMany(models.buildings, {
-        foreignKey: 'updatedBy',
-        as: 'updated_buildings',
-        onDelete: 'RESTRICT'
-      })
-
       // Updated Author_details
       this.hasMany(models.author_details, {
         foreignKey: 'updatedBy',
         as: 'updated_author_details',
+        onDelete: 'RESTRICT'
+      })
+
+      // Updated Authors
+      this.hasMany(models.authors, {
+        foreignKey: 'updatedBy',
+        as: 'updated_authors',
+        onDelete: 'RESTRICT'
+      })
+
+      // Updated Buildings
+      this.hasMany(models.buildings, {
+        foreignKey: 'updatedBy',
+        as: 'updated_buildings',
         onDelete: 'RESTRICT'
       })
 
@@ -338,7 +352,7 @@ module.exports = (sequelize, DataTypes) => {
         unique: {msg: "Contact Number already exists."},
     },
 
-    profile_pic: {
+    profilePic: {
       type: DataTypes.STRING,
     },
 

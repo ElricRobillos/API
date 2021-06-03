@@ -51,7 +51,7 @@ exports.findAll_author_details = (req, res) => {
 
 // Find a single author details with an id
 exports.findOne_author_details = (req, res) => {
-    const id = req.params.authorID; 
+    const id = req.params.authorDetailsID; 
 
     author_details.findByPk(id).then((data) => {
         res.send({
@@ -72,10 +72,10 @@ exports.findOne_author_details = (req, res) => {
 
 // Update an author details by the id in the request
 exports.update_author_details = async (req, res) => {
-    const id = req.params.authorID;
+    const id = req.params.authorDetailsID;
 
     author_details.update(req.body, {
-        where: { authorID: id },
+        where: { authorDetailsID: id },
     })
         .then((result) => {
         console.log(result);
@@ -109,12 +109,12 @@ exports.update_author_details = async (req, res) => {
 
 // Delete an author details with the specified id in the request
 exports.delete_author_details = (req, res) => {
-    const id = req.params.authorID;
+    const id = req.params.authorDetailsID;
 
     const body = { status: "Inactive" };
     
         author_details.update(body, {
-            where: { authorID: id },
+            where: { authorDetailsID: id },
         })
         .then((result) => {
         console.log(result);

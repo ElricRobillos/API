@@ -43,7 +43,7 @@ exports.findAll_genres = (req, res) => {
 
 // Find a single genres with an id
 exports.findOne_genres = (req, res) => {
-  const id = req.params.genreId;
+  const id = req.params.genreID;
 
   genres
     .findByPk(id)
@@ -66,11 +66,11 @@ exports.findOne_genres = (req, res) => {
 
 // Update a genres by the id in the request
 exports.update_genres = async (req, res) => {
-  const id = req.params.genreId;
+  const id = req.params.genreID;
 
   genres
     .update(req.body, {
-      where: { genreId: id },
+      where: { genreID: id },
     })
     .then((result) => {
       console.log(result);
@@ -104,11 +104,11 @@ exports.update_genres = async (req, res) => {
 
 // Delete a genre with the specified id in the request
 exports.delete_genres = (req, res) => {
-  const id = req.params.genreId;
+  const id = req.params.genreID;
   const body = { status: "Inactive" };
   genres
     .update(body, {
-      where: { genreId: id },
+      where: { genreID: id },
     })
     .then((result) => {
       console.log(result);

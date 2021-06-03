@@ -10,7 +10,6 @@ const borrowersRoute = require("./src/routes/borrowers.routes");
 const homeRoute = require("./src/routes/home.routes");
 
 const testRoute = require("./src/routes/test.routes");
-const loginRoute = require("./src/routes/login.routes.js")
 
 //initialize app
 var app = express();
@@ -84,7 +83,6 @@ const authenticateToken = (req, res, next) => {
 app.use(`${process.env.API_VERSION}/test`,  testRoute);
 
 // Doesn't need token
-app.use(`${process.env.API_VERSION}/login`, loginRoute);
 app.use(`${process.env.API_VERSION}/home`, homeRoute);
 
 // Needs token

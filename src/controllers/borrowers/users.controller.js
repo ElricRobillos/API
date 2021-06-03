@@ -38,40 +38,6 @@ const bcrypt = require("bcrypt");
 //     });
 // };
 
-// Create and Save a new User
-exports.create_users = async (req, res) => {
-    if (req.user == null || req.user.userType != 'Staff' || req.user.userType != 'Student'){
-        res.sendStatus(403);
-    }
-    else{
-        req.body.addedBy = req.user.userID
-
-        req.body.updatedBy = req.user.userID
-
-        req.body.password = await bcrypt.hash(
-            req.body.password, 
-            parseInt(process.env.SALT_ROUND)
-        );
-        
-        db.users.create(req.body)
-        .then((data) => {
-            res.send({
-                error: false,
-                data: data,
-                message: ["A User is created successfully."],
-            });
-                
-        })
-        .catch((err) =>{
-            res.status(500).send({
-                error: true,
-                data: [],
-                message: err.errors.map((e) => e.message),
-            });
-        });
-    }
-};
-
 
 // // Retrieve all User from the database.
 // exports.findAll = (req, res) => {
