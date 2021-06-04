@@ -44,6 +44,18 @@ module.exports = (sequelize, DataTypes) => {
         as: 'return_by_student',
         onDelete: 'RESTRICT'
       })
+      //copyID FK 
+      this.belongsTo(models.copies, {
+        foreignKey: 'copyID',
+        as: 'material_borrow_records_copies',
+        onDelete: 'RESTRICT'
+      })
+      //transactionID FK 
+      this.belongsTo(models.transactions, {
+        foreignKey: 'transactionID',
+        as: 'material_borrow_records_transactions',
+        onDelete: 'RESTRICT'
+      })
 
     }
   };
@@ -72,6 +84,15 @@ module.exports = (sequelize, DataTypes) => {
       validate : {
         isIn:[["Not Return Yet", "Returned",  "Overdue"]] 
       },
+    },
+    //FK's
+    copyID:{
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+      transactionID:{
+      type: DataTypes.UUID,
+      allowNull: false,
     },
     addedBy: { 
       type: DataTypes.UUID,

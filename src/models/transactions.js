@@ -25,10 +25,16 @@ module.exports = (sequelize, DataTypes) => {
         as: 'updated_by_librarian',
         onDelete: 'RESTRICT'
       })
+      // From material borrow records table
+      this.hasMany(models.materials_borrow_records, {
+        foreignKey: 'transactionID',
+        as: 'transactions_material_borrow_records',
+        onDelete: 'RESTRICT'
+      })
     }
   };
   transactions.init({
-    transactionId : {
+    transactionID : {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,

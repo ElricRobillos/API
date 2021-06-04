@@ -32,7 +32,12 @@ module.exports = (sequelize, DataTypes) => {
         as: 'materials_shelves',
         onDelete: 'RESTRICT'
       })
-
+       // From copies table
+       this.hasMany(models.copies, {
+        foreignKey: 'materialID',
+        as: 'materials_copies',
+        onDelete: 'RESTRICT'
+      })
     }
   };
   materials.init({

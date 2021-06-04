@@ -25,6 +25,12 @@ module.exports = (sequelize, DataTypes) => {
         as: 'updated_by_librarian',
         onDelete: 'RESTRICT'
       })
+      // From copies table
+      this.hasOne(models.copies, {
+        foreignKey: 'weedID',
+        as: 'weeding_copies',
+        onDelete: 'RESTRICT'
+      })
     }
   };
   weedings.init({

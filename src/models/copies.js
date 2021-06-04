@@ -25,6 +25,24 @@ module.exports = (sequelize, DataTypes) => {
         as: 'updated_by_librarian',
         onDelete: 'RESTRICT'
       })
+       // materialID FK
+       this.belongsTo(models.materials, {
+         foreignKey: 'materialID',
+         as: 'copies_materials',
+         onDelete: 'RESTRICT'
+       })
+        // weedID FK
+        this.belongsTo(models.weedings, {
+          foreignKey: 'weedID',
+          as: 'copies_weedings',
+          onDelete: 'RESTRICT'
+        })
+       // From material borrow records table
+       this.hasOne(models.materials_borrow_records, {
+        foreignKey: 'copyID',
+        as: 'copies_material_borrow_records',
+        onDelete: 'RESTRICT'
+      })
     }
   };
   copies.init({
@@ -57,6 +75,15 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+    },
+    //Foreign Keys
+    materialID: { 
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+    weedID: { 
+      type: DataTypes.UUID,
+      allowNull: false,
     },
     addedBy: { 
       type: DataTypes.UUID,
