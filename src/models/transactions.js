@@ -25,6 +25,12 @@ module.exports = (sequelize, DataTypes) => {
         as: 'updated_by_librarian',
         onDelete: 'RESTRICT'
       })
+      // userID FK
+      this.belongsTo(models.users, {
+        foreignKey: 'userID',
+        as: 'transactions_users',
+        onDelete: 'RESTRICT'
+      })
       // From material borrow records table
       this.hasMany(models.materials_borrow_records, {
         foreignKey: 'transactionID',
@@ -53,6 +59,12 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
     },
+    // Foreign Keys
+    userID: { 
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+
     addedBy: { 
       type: DataTypes.UUID,
       allowNull: true,

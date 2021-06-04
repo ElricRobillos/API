@@ -26,6 +26,19 @@ module.exports = (sequelize, DataTypes) => {
         as: 'updated_by_librarian',
         onDelete: 'RESTRICT'
       })
+
+      // userID FK
+      this.belongsTo(models.users, {
+        foreignKey: 'userID',
+        as: 'buildings_users',
+        onDelete: 'RESTRICT'
+      })
+      // From rooms table
+      this.hasMany(models.rooms, {
+        foreignKey: 'buildingID',
+        as: 'buildings_rooms',
+        onDelete: 'RESTRICT'
+      })
     }
   };
   buildings.init(
@@ -61,6 +74,11 @@ module.exports = (sequelize, DataTypes) => {
             msg: "Status should be Active or Inactive only." 
           },
         },
+      },
+      // Foreign Keys
+      userID: { 
+        type: DataTypes.UUID,
+        allowNull: false,
       },
       addedBy: { 
         type: DataTypes.UUID,

@@ -282,6 +282,18 @@ module.exports = (sequelize, DataTypes) => {
         as: 'returned_materials_borrow_records',
         onDelete: 'RESTRICT'
       })
+      // From transactions table
+      this.hasMany(models.transactions, {
+        foreignKey: 'userID',
+        as: 'users_transactions',
+        onDelete: 'RESTRICT'
+      })
+      // From buildings table
+      this.hasMany(models.buildings, {
+        foreignKey: 'userID',
+        as: 'users_buildings',
+        onDelete: 'RESTRICT'
+      })
     }
   };
   users.init(
