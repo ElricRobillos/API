@@ -44,6 +44,12 @@ module.exports = (sequelize, DataTypes) => {
         as: 'materials_authors',
         onDelete: 'RESTRICT'
       })
+      //From genres table
+      this.hasMany(models.genres, {
+        foreignKey: 'materialID',
+        as: 'materials_genres',
+        onDelete: 'RESTRICT'
+      })
     }
   };
   materials.init({

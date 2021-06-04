@@ -23,6 +23,13 @@ module.exports = (sequelize, DataTypes) => {
         as: 'updated_by_librarian',
         onDelete: 'RESTRICT'
       })
+      
+      //materialID FK
+      this.belongsTo(models.materials, {
+        foreignKey: 'materiaID',
+        as: 'genres_materials',
+        onDelete: 'RESTRICT'
+      })
     }
   }
   genres.init(
@@ -50,6 +57,11 @@ module.exports = (sequelize, DataTypes) => {
             msg: "Status should be Active or Inactive only.",
           },
         },
+      },
+      //Foreign keys
+      materialID: { 
+        type: DataTypes.UUID,
+        allowNull: false,
       },
       addedBy: { 
         type: DataTypes.UUID,
