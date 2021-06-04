@@ -25,6 +25,14 @@ module.exports = (sequelize, DataTypes) => {
         as: 'updated_by_librarian',
         onDelete: 'RESTRICT'
       })
+
+      // shelfID FK
+      this.belongsTo(models.shelves, {
+        foreignKey: 'shelfID',
+        as: 'materials_shelves',
+        onDelete: 'RESTRICT'
+      })
+
     }
   };
   materials.init({
@@ -113,6 +121,11 @@ module.exports = (sequelize, DataTypes) => {
         msg: "Status should be Active or Inactive only.", 
         },
       },
+    },
+    // Foreign keys
+    shelfID: { 
+      type: DataTypes.UUID,
+      allowNull: false,
     },
     addedBy: { 
       type: DataTypes.UUID,
