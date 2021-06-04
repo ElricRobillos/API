@@ -32,8 +32,32 @@ module.exports = (sequelize, DataTypes) => {
         as: 'materials_shelves',
         onDelete: 'RESTRICT'
       })
+      // languageID FK
+      this.belongsTo(models.languages, {
+        foreignKey: 'languageID',
+        as: 'materials_languages',
+        onDelete: 'RESTRICT'
+      })
+      // typeID FK
+      this.belongsTo(models.material_types, {
+        foreignKey: 'typeID',
+        as: 'materials_material_types',
+        onDelete: 'RESTRICT'
+      })
+      // publisherID FK
+      this.belongsTo(models.publishers, {
+        foreignKey: 'publisherID',
+        as: 'materials_publishers',
+        onDelete: 'RESTRICT'
+      })
+      // pubCountryID FK
+      this.belongsTo(models.publication_countries, {
+        foreignKey: 'pubCountryID',
+        as: 'materials_publication_countries',
+        onDelete: 'RESTRICT'
+      })
        // From copies table
-       this.hasMany(models.copies, {
+      this.hasMany(models.copies, {
         foreignKey: 'materialID',
         as: 'materials_copies',
         onDelete: 'RESTRICT'
@@ -135,6 +159,9 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg : 'Date of publication not be empty'},
       },
     },
+    image : {
+      type : DataTypes.STRING
+    },
     status: {
       type: DataTypes.STRING,
       defaultValue: "Active",
@@ -145,8 +172,24 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
     },
-    // Foreign keys
+    // Foreign Keys
     shelfID: { 
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+    languageID: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+    typeID: { 
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+    publisherID: { 
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+    pubCountryID: { 
       type: DataTypes.UUID,
       allowNull: false,
     },

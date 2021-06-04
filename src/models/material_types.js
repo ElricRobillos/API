@@ -25,6 +25,12 @@ module.exports = (sequelize, DataTypes) => {
         as: 'updated_by_librarian',
         onDelete: 'RESTRICT'
       })
+      // From materials table
+      this.hasMany(models.materials, {
+        foreignKey: 'typeID',
+        as: 'material_types_materials',
+        onDelete: 'RESTRICT'
+      })
     }
   };
   material_types.init({
