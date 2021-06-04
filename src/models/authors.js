@@ -25,6 +25,12 @@ module.exports = (sequelize, DataTypes) => {
         as: 'updated_by_librarian',
         onDelete: 'RESTRICT'
       })
+      // authorDetailsID FK
+      this.belongsTo(models.authorDetails, {
+        foreignKey: 'authorDetailsID',
+        as: 'authors_authorDetails',
+        onDelete: 'RESTRICT'
+      })
     }
   };
   authors.init({
@@ -32,6 +38,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
+    },
+    // Foreign keys
+    authorDetailsID: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+    materialID: {
+      type: DataTypes.UUID,
+      allowNull: false,
     },
     addedBy: { 
       type: DataTypes.UUID,
@@ -41,6 +56,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       allowNull: true,
     },
+
   }, 
   
   
