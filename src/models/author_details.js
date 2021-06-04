@@ -25,6 +25,12 @@ module.exports = (sequelize, DataTypes) => {
         as: 'updated_by_librarian',
         onDelete: 'RESTRICT'
       })
+      // From authors table
+      this.hasOne(models.authors, {
+        foreignKey: 'authorDetailsID',
+        as: 'authors_details_authors',
+        onDelete: 'RESTRICT'
+      })
     }
   };
   author_details.init({
