@@ -50,6 +50,12 @@ module.exports = (sequelize, DataTypes) => {
         as: 'materials_genres',
         onDelete: 'RESTRICT'
       })
+      //From favorites table
+      this.hasMany(models.favorites, {
+        foreignKey: 'materialID',
+        as: 'materials_favorites',
+        onDelete: 'RESTRICT'
+      })
     }
   };
   materials.init({

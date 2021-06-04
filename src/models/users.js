@@ -294,6 +294,12 @@ module.exports = (sequelize, DataTypes) => {
         as: 'users_buildings',
         onDelete: 'RESTRICT'
       })
+      //From favorites table
+      this.hasMany(models.favorites, {
+        foreignKey: 'userID',
+        as: 'users_favorites',
+        onDelete: 'RESTRICT'
+      })
     }
   };
   users.init(

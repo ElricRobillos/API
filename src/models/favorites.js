@@ -37,6 +37,19 @@ module.exports = (sequelize, DataTypes) => {
         as: 'updated_by_staffs',
         onDelete: 'RESTRICT'
       })
+      //userID FK
+      this.belongsTo(models.users, {
+        foreignKey: 'userID',
+        as: 'favorites_users',
+        onDelete: 'RESTRICT'
+      })
+      //materialID FK
+      this.belongsTo(models.materials, {
+        foreignKey: 'materialID',
+        as: 'favorites_materials',
+        onDelete: 'RESTRICT'
+      })
+
     }
   };
   favorites.init({
@@ -55,6 +68,15 @@ module.exports = (sequelize, DataTypes) => {
         msg: "Status should be Active or Inactive only.", 
         },
       },
+    },
+    //Foreign Keys
+    userID: { 
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+    materialID: { 
+      type: DataTypes.UUID,
+      allowNull: false,
     },
     addedBy: { 
       type: DataTypes.UUID,

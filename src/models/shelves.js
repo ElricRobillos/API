@@ -20,6 +20,12 @@ module.exports = (sequelize, DataTypes) => {
         as: 'updated_by_librarian',
         onDelete: 'RESTRICT'
       })
+      //roomID FK
+      this.belongsTo(models.rooms, {
+        foreignKey: 'roomID',
+        as: 'shelves_rooms',
+        onDelete: 'RESTRICT'
+      })
 
       // From materials table
       this.hasMany(models.materials, {
@@ -58,6 +64,12 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+//Foreign Keys
+      roomID: { 
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
+ 
       addedBy: { 
         type: DataTypes.UUID,
         allowNull: true,
