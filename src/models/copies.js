@@ -26,19 +26,19 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'RESTRICT'
       })
        // materialID FK
-       this.belongsTo(models.materials, {
-         foreignKey: 'materialID',
-         as: 'copies_materials',
-         onDelete: 'RESTRICT'
-       })
-        // weedID FK
-        this.belongsTo(models.weedings, {
-          foreignKey: 'weedID',
-          as: 'copies_weedings',
-          onDelete: 'RESTRICT'
-        })
+      this.belongsTo(models.materials, {
+        foreignKey: 'materialID',
+        as: 'copies_materials',
+        onDelete: 'RESTRICT'
+      })
+      // weedID FK
+      this.belongsTo(models.weedings, {
+        foreignKey: 'weedID',
+        as: 'copies_weedings',
+        onDelete: 'RESTRICT'
+      })
        // From material borrow records table
-       this.hasOne(models.materials_borrow_records, {
+      this.hasOne(models.materials_borrow_records, {
         foreignKey: 'copyID',
         as: 'copies_material_borrow_records',
         onDelete: 'RESTRICT'
@@ -51,31 +51,25 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },
-    status :{
-      type: DataTypes.STRING,
-      validate : {
-        isIn:[["Active", "Inactive", "Weeding"]] 
-      },
-    },
+
     copyNumber: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
       validate: {
         notNull: { msg : 'copy number should not be null'},
         notEmpty: { msg : 'copy number should not be empty'},
       },
       unique: {msg: "Unique - copyNumber already exists"},
-      status: {
-        type: DataTypes.STRING,
-        defaultValue: "Active",
-        validate : {
-          isIn:{
-          args: [["Active","Inactive"]],
-          msg: "Status should be Active or Inactive only.", 
-          },
-        },
+      defaultValue: DataTypes.UUIDV4
+    },
+
+    status :{
+      type: DataTypes.STRING,
+      validate : {
+        isIn:[["Active", "Inactive", "Weeding"]] 
       },
     },
+
     //Foreign Keys
     materialID: { 
       type: DataTypes.UUID,
@@ -83,7 +77,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     weedID: { 
       type: DataTypes.UUID,
-      allowNull: false,
     },
     addedBy: { 
       type: DataTypes.UUID,

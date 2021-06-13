@@ -16,7 +16,7 @@ exports.create_copies = async (req, res) => {
             res.send({
                 error: false,
                 data: data,
-                message: ["A copy is created successfully."],
+                message: ["A copy is added successfully."],
             });
                 
         })

@@ -50,7 +50,7 @@ exports.create_users = async (req, res) => {
             res.send({
                 error: false,
                 data: data,
-                message: ["A User is created successfully."],
+                message: ["A User is added successfully."],
             });
                 
         })

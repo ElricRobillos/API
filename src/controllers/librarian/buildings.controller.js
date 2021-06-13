@@ -16,7 +16,7 @@ exports.create_buildings = (req, res) => {
             res.send({
                 error: false,
                 data: data,
-                message: ["A building is created successfully."],
+                message: ["A building is added successfully."],
             });
                 
         })

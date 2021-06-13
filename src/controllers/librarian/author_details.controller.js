@@ -16,7 +16,7 @@ exports.create_author_details = async (req, res) => {
             res.send({
                 error: false,
                 data: data,
-                message: ["An author details are created successfully."],
+                message: ["An author details are added successfully."],
             });
                 
         })

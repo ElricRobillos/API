@@ -1,7 +1,7 @@
 const db = require("../../models");
 const shelves = db.shelves;
 
-// Create and Save a new shelves
+// Create and Save a new buildings
 exports.create_shelves = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
@@ -16,7 +16,7 @@ exports.create_shelves = (req, res) => {
             res.send({
                 error: false,
                 data: data,
-                message: ["A shelf is created successfully."],
+                message: ["A shelf is added successfully."],
             });
                 
         })

@@ -27,12 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'RESTRICT'
       })
 
-      // userID FK
-      this.belongsTo(models.users, {
-        foreignKey: 'userID',
-        as: 'buildings_users',
-        onDelete: 'RESTRICT'
-      })
+      
       // From rooms table
       this.hasMany(models.rooms, {
         foreignKey: 'buildingID',
@@ -76,10 +71,6 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       // Foreign Keys
-      userID: { 
-        type: DataTypes.UUID,
-        allowNull: false,
-      },
       addedBy: { 
         type: DataTypes.UUID,
         allowNull: true,

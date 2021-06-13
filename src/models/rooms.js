@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       })
       //From shelves table
       this.hasMany(models.shelves, {
-        foreignKey: 'shelfID',
+        foreignKey: 'roomID',
         as: 'rooms_shelves',
         onDelete: 'RESTRICT'
       })

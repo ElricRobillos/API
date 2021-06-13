@@ -1,25 +1,34 @@
 const db = require("../../models");
 const authors= db.authors;
 
-// Create and Save a new authors
+// Create and Save a new author
 exports.create_authors = async (req, res) => {
-    authors
-        .create(req.body)
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        req.body.addedBy = req.user.userID
+
+        req.body.updatedBy = req.user.userID
+        
+        db.authors.create(req.body)
         .then((data) => {
-        res.send({
-            error: false,
-            data: data,
-            message: ["An author is created successfully."],
-        });
+            res.send({
+                error: false,
+                data: data,
+                message: ["An author are added successfully."],
+            });
+                
         })
-        .catch((err) => {
-        res.status(500).send({
-            error: true,
-            data: [],
-            message: err.errors.map((e) => e.message),
+        .catch((err) =>{
+            res.status(500).send({
+                error: true,
+                data: [],
+                message: err.errors.map((e) => e.message),
+            });
         });
-        });
-    };
+    }
+};
 
     // Retrieve all authors from the database.
 exports.findAll_authors = (req, res) => {

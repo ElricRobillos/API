@@ -63,7 +63,13 @@ module.exports = (sequelize, DataTypes) => {
       // Added Favorites
       this.hasMany(models.favorites, {
         foreignKey: 'addedBy',
-        as: 'added_favorites',
+        as: 'added_students_favorites',
+        onDelete: 'RESTRICT'
+      })
+
+      this.hasMany(models.favorites, {
+        foreignKey: 'addedBy',
+        as: 'added_staffs_favorites',
         onDelete: 'RESTRICT'
       })
 
@@ -285,21 +291,16 @@ module.exports = (sequelize, DataTypes) => {
       // From transactions table
       this.hasMany(models.transactions, {
         foreignKey: 'userID',
-        as: 'users_transactions',
+        as: 'students_transactions',
         onDelete: 'RESTRICT'
       })
-      // From buildings table
-      this.hasMany(models.buildings, {
+
+      this.hasMany(models.transactions, {
         foreignKey: 'userID',
-        as: 'users_buildings',
+        as: 'staffs_transactions',
         onDelete: 'RESTRICT'
       })
-      //From favorites table
-      this.hasMany(models.favorites, {
-        foreignKey: 'userID',
-        as: 'users_favorites',
-        onDelete: 'RESTRICT'
-      })
+      
     }
   };
   users.init(
@@ -379,7 +380,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         isIn:{
-          args: [["Male", "Female"]],
+          args: [["Male", "Female", "Others"]],
           msg: "Gender should be Male or Female.",
         },
       },

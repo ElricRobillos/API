@@ -3,7 +3,7 @@ const favorites = db.favorites;
 
 // Added favorites of Students
 exports.create_favorites = async (req, res) => {
-    if (req.user == null || req.user.userType != 'Student'){
+    if (req.user == null || req.user.userType === 'Student' || req.user.userType === 'Staff'){
         res.sendStatus(403);
     }
     else{
@@ -30,34 +30,6 @@ exports.create_favorites = async (req, res) => {
     }
 };
 
-// Added favorites of Staffs
-exports.create_favorites = async (req, res) => {
-    if (req.user == null || req.user.userType != 'Staff'){
-        res.sendStatus(403);
-    }
-    else{
-        req.body.addedBy = req.user.userID
-
-        req.body.updatedBy = req.user.userID
-        
-        db.favorites.create(req.body)
-        .then((data) => {
-            res.send({
-                error: false,
-                data: data,
-                message: ["A Favorite is added successfully."],
-            });
-                
-        })
-        .catch((err) =>{
-            res.status(500).send({
-                error: true,
-                data: [],
-                message: err.errors.map((e) => e.message),
-            });
-        });
-    }
-};
 
 
 // Retrieve all favorites from the database.

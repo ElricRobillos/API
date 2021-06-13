@@ -1,23 +1,34 @@
 const db = require("../../models");
 const materials_borrow_records = db.materials_borrow_records;
 
-// Create and Save a new materials_borrow_records
+// Create and Save a new author
 exports.create_materials_borrow_records = async (req, res) => {
-    materials_borrow_records.create(req.body).then((data) => {
-        res.send({
-            error: false,
-            data: data,
-            message: ["A materials_borrow_records is created successfully."],
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        req.body.addedBy = req.user.userID
+
+        req.body.updatedBy = req.user.userID
+        
+        db.materials_borrow_records.create(req.body)
+        .then((data) => {
+            res.send({
+                error: false,
+                data: data,
+                message: ["A material borrowed is added successfully."],
+            });
+                
+        })
+        .catch((err) =>{
+            res.status(500).send({
+                error: true,
+                data: [],
+                message: err.errors.map((e) => e.message),
+            });
         });
-    })
-    .catch((err) =>{
-        res.status(500).send({
-            error: true,
-            data: [],
-            message: err.errors.map((e) => e.message),
-        });
-    })
-};
+    }
+  };
 
 // Retrieve all materials_borrow_records from the database.
 exports.findAll_materials_borrow_records = (req, res) => {

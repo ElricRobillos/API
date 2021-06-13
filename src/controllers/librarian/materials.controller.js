@@ -1,22 +1,33 @@
 const db = require("../../models");
 const materials = db.materials;
 
-//Create and Save a new materials
+// Create and Save a new author
 exports.create_materials = async (req, res) => {
-    materials.create(req.body).then((data) => {
-        res.send({
-            error: false,
-            data: data,
-            message: ["A material is created successfully."],
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        req.body.addedBy = req.user.userID
+
+        req.body.updatedBy = req.user.userID
+        
+        db.materials.create(req.body)
+        .then((data) => {
+            res.send({
+                error: false,
+                data: data,
+                message: ["A material is added successfully."],
+            });
+                
+        })
+        .catch((err) =>{
+            res.status(500).send({
+                error: true,
+                data: [],
+                message: err.errors.map((e) => e.message),
+            });
         });
-    })
-    .catch((err) =>{
-        res.status(500).send({
-            error: true,
-            data: [],
-            message: err.errors.map((e) => e.message),
-        });
-    })
+    }
 };
 
 // Retrieve all materials from the database.

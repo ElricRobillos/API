@@ -99,7 +99,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     standardNumber: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: true,
       unique: {msg: "Standard Number already existed"},
     },
@@ -129,27 +129,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     volumeNo: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notNull: { msg : 'Volume number should not be null'},
-        notEmpty: { msg : 'Volume number should not be empty'},
-      },
+    },
+    edition: {
+      type : DataTypes.STRING,
     },
     editionYear: {
       type : DataTypes.DATEONLY,
-      allowNull: false,
-      validate: {
-        notNull: { msg : 'Edition year should not be null'},
-        notEmpty: { msg : 'Edition year should not be empty'},
-      },
     },
     seriesYear: {
       type : DataTypes.DATEONLY,
-      allowNull: false,
-      validate: {
-        notNull: { msg : 'Series year should not be null'},
-        notEmpty: { msg : 'Series year should not be empty'},
-      },
     },
     dateOfPublication: {
       type : DataTypes.DATEONLY,

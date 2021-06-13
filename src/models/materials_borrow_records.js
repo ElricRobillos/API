@@ -83,14 +83,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate : {
         isIn:[["Not Return Yet", "Returned",  "Overdue"]] 
-      },
+    },
     },
     //FK's
     copyID:{
       type: DataTypes.UUID,
       allowNull: false,
     },
-      transactionID:{
+    transactionID:{
       type: DataTypes.UUID,
       allowNull: false,
     },

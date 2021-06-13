@@ -3,22 +3,31 @@ const genres = db.genres;
 
 // Create and Save a new genres
 exports.create_genres = async (req, res) => {
-  genres
-    .create(req.body)
-    .then((data) => {
-      res.send({
-        error: false,
-        data: data,
-        message: ["A genre is created successfully."],
+  if (req.user == null || req.user.userType != 'Librarian'){
+      res.sendStatus(403);
+  }
+  else{
+      req.body.addedBy = req.user.userID
+
+      req.body.updatedBy = req.user.userID
+      
+      db.genres.create(req.body)
+      .then((data) => {
+          res.send({
+              error: false,
+              data: data,
+              message: ["A genre is added successfully."],
+          });
+              
+      })
+      .catch((err) =>{
+          res.status(500).send({
+              error: true,
+              data: [],
+              message: err.errors.map((e) => e.message),
+          });
       });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        error: true,
-        data: [],
-        message: err.errors.map((e) => e.message),
-      });
-    });
+  }
 };
 
 // Retrieve all genres from the database.

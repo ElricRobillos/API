@@ -1,0 +1,86 @@
+### FOR CREATION OF ADMIN 
+### IF YOU DON'T HAVE AN ADMIN YET.. PLEASE DO THIS FIRST    
+### Remove first the authenticateToken at index.js in librarianRoute
+### Go to controllers > librarian > users.controller.js
+### Comment the If else condition  |from line 44 up to line 50, and line 73| |To comment 'CTRL+/'|
+### Click Send Request
+### Undo 'CTRL+Z' file in index.js and controllers > librarian > users.controller.js
+### Proceed to Login 
+
+POST http://localhost:3600/api/v1/librarian/create_users
+Content-Type: application/json
+
+{
+    "idNumber":"2018-00012-CM-0",
+    "email": "librarian@gmail.com",
+    "password": "admin",
+    "firstName": "Librarian",
+    "lastName": "Admin",
+    "contactNumber": "09127355978",
+    "gender":"Others",
+    "userType": "Librarian",
+    "status": "Active"
+}
+
+
+
+### FOR LOGIN
+### just click Send Request if you're logging in the admin
+### if not admin, change the value of columns email and password
+
+POST http://localhost:3600/api/v1/home/login
+Content-Type: application/json
+
+{
+    "email": "librarian@gmail.com",
+    "password": "admin"
+}
+
+
+### FOR CREATE     |don't forget to change the path before send request|
+### Check the path at routes folder
+### login first to get the token then paste and replace the sample token
+### change the example column and value depends on the what you want to create
+
+POST http://localhost:3600/api/v1/librarian/create_materials
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIzZjQ5ZTQ4ZS03ZTZmLTQzOTYtYTExMC03ZDM4YTEyNWQ4OTIiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyMzU5NTEyOSwiZXhwIjoxNjIzNjAyMzI5fQ.C_FFtGYTeAXveR2ZNFcg45Aw15bxrf9WNVJmkMHJBOc
+Content-Type: application/json
+
+{
+    "standardType": "ISBN",
+    "standardNumber": "978-3-16-148410-0",
+    "title": "Design Thinking for Interiors: Inquiry, Experience, Impact",
+    "format": "Hardcover",
+    "pageNo": "320",
+    "volumeNo": "",
+    "edition": "1st Edition",
+    "editionYear": "",
+    "seriesYear": "",
+    "dateOfPublication": "2011-06-24",
+    "status": "Active",
+    "shelfID":"ed1bf996-db54-4d2e-8489-9eeaf7e5db17",
+    "languageID":"cf64efc9-d3e3-4f71-87b4-068bd67e1b8e",
+    "typeID":"c8c3dccb-56be-47ee-b206-ffaa1db8bac3",
+    "publisherID":"eb9f514b-ae8e-4358-96e4-01168eb04c54",
+    "pubCountryID":"65f7a5e6-a217-45d6-be0b-7ae807af4b55"
+}
+
+
+
+
+### FOR UPDATE     |don't forget to change the path before send request|
+### Check the path at routes folder
+### login first to get the token then paste and replace the sample token
+### id of the record you want to update is required   |ID located at the end of path|
+
+PUT http://localhost:3600/api/v1/librarian/update_buildings/4936f4f6-33cb-4f57-ba0a-03c64b5567cd
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI4Zjc2NTZhNy1kY2E4LTQwMWMtYjRlNi1iMDQ5ZTc5ZjM0MDEiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyMzU4OTUwMCwiZXhwIjoxNjIzNTk2NzAwfQ.-lSR0QWOubRBoYz4ZGFdes2KkTk0svujvyNK7T2OvS8
+Content-Type: application/json
+
+{
+    "buildingName":"Roth",
+    "location": "Roth loc",
+    "status": "Active"
+}
+
