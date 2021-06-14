@@ -3,7 +3,8 @@ const favorites = db.favorites;
 
 // Added favorites of Students
 exports.create_favorites = async (req, res) => {
-    if (req.user == null || req.user.userType === 'Student' || req.user.userType === 'Staff'){
+    const authorizedUser = req.user.userType === 'Staff' || req.user.userType === 'Student';
+    if(res.user == null && !authorizedUser){
         res.sendStatus(403);
     }
     else{

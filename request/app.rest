@@ -7,7 +7,7 @@
 ### Undo 'CTRL+Z' file in index.js and controllers > librarian > users.controller.js
 ### Proceed to Login 
 
-POST http://localhost:3600/api/v1/librarian/create_users
+POST http://localhost:3600/api/v1/librarian/users
 Content-Type: application/json
 
 {
@@ -37,12 +37,23 @@ Content-Type: application/json
 }
 
 
+
+### FOR GET    |don't forget to change the path before send request|
+### Check the path at routes folder
+### login first to get the token then paste and replace the sample token
+### change the example column and value depends on the what you want to create
+
+GET http://localhost:3600/api/v1/librarian/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIzZjQ5ZTQ4ZS03ZTZmLTQzOTYtYTExMC03ZDM4YTEyNWQ4OTIiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyMzY4Mzc2OSwiZXhwIjoxNjIzNjkwOTY5fQ.E9W-U49O6sPCi5iA9FkQVOzY61SJ-NbvooqdM9OFCWc
+
+
+
 ### FOR CREATE     |don't forget to change the path before send request|
 ### Check the path at routes folder
 ### login first to get the token then paste and replace the sample token
 ### change the example column and value depends on the what you want to create
 
-POST http://localhost:3600/api/v1/librarian/create_materials
+POST http://localhost:3600/api/v1/librarian/materials
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIzZjQ5ZTQ4ZS03ZTZmLTQzOTYtYTExMC03ZDM4YTEyNWQ4OTIiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyMzU5NTEyOSwiZXhwIjoxNjIzNjAyMzI5fQ.C_FFtGYTeAXveR2ZNFcg45Aw15bxrf9WNVJmkMHJBOc
 Content-Type: application/json
 
@@ -67,20 +78,16 @@ Content-Type: application/json
 
 
 
-
 ### FOR UPDATE     |don't forget to change the path before send request|
 ### Check the path at routes folder
 ### login first to get the token then paste and replace the sample token
 ### id of the record you want to update is required   |ID located at the end of path|
 
-PUT http://localhost:3600/api/v1/librarian/update_buildings/4936f4f6-33cb-4f57-ba0a-03c64b5567cd
-
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI4Zjc2NTZhNy1kY2E4LTQwMWMtYjRlNi1iMDQ5ZTc5ZjM0MDEiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyMzU4OTUwMCwiZXhwIjoxNjIzNTk2NzAwfQ.-lSR0QWOubRBoYz4ZGFdes2KkTk0svujvyNK7T2OvS8
+PUT http://localhost:3600/api/v1/librarian/buildings/f48a6141-a89f-44cf-9503-cd08a3084afa
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIzZjQ5ZTQ4ZS03ZTZmLTQzOTYtYTExMC03ZDM4YTEyNWQ4OTIiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyMzY3MTg0OSwiZXhwIjoxNjIzNjc5MDQ5fQ.E0Qynkn7p_MBKVcSaEnH1YsL53rxKrf_sVgrUDpu810
 Content-Type: application/json
 
 {
-    "buildingName":"Roth",
-    "location": "Roth loc",
-    "status": "Active"
+    "buildingName":"Misserior Building"
 }
 

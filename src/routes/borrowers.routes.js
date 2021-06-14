@@ -6,11 +6,11 @@ var router = require("express").Router();
 
 // Favorites Route
 const favoritesController = require("../controllers/borrowers/favorites.controller");
-router.post("/create_favorites", favoritesController.create_favorites);
-router.put("/:favoriteID", favoritesController.update_favorites);
-router.get("/", favoritesController.findAll_favorites);
-router.get("/:favoriteID", favoritesController.findOne_favorites);
-router.delete("/:favoriteID", favoritesController.delete_favorites);
+router.post("/favorites", favoritesController.create_favorites);
+router.put("/favorites/:favoriteID", favoritesController.update_favorites);
+router.get("/favorites", favoritesController.findAll_favorites);
+router.get("/favorites/:favoriteID", favoritesController.findOne_favorites);
+router.delete("favorites/:favoriteID", favoritesController.delete_favorites);
 
 
 module.exports = router;
