@@ -29,31 +29,31 @@ module.exports = (sequelize, DataTypes) => {
       //Return Process by
       this.belongsTo(models.users, {
         foreignKey: 'return_processBy',
-        as: 'return_by_librarian',
+        as: 'librarian',
         onDelete: 'RESTRICT'
       })
 
       this.belongsTo(models.users, {
         foreignKey: 'return_processBy',
-        as: 'return_by_staff',
+        as: 'staff',
         onDelete: 'RESTRICT'
       })
 
       this.belongsTo(models.users, {
         foreignKey: 'return_processBy',
-        as: 'return_by_student',
+        as: 'student',
         onDelete: 'RESTRICT'
       })
       //copyID FK 
       this.belongsTo(models.copies, {
         foreignKey: 'copyID',
-        as: 'material_borrow_records_copies',
+        as: 'copy',
         onDelete: 'RESTRICT'
       })
       //transactionID FK 
       this.belongsTo(models.transactions, {
         foreignKey: 'transactionID',
-        as: 'material_borrow_records_transactions',
+        as: 'transaction',
         onDelete: 'RESTRICT'
       })
 

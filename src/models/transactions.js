@@ -28,20 +28,20 @@ module.exports = (sequelize, DataTypes) => {
       // userID FK
       this.belongsTo(models.users, {
         foreignKey: 'userID',
-        as: 'transactions_of_students',
+        as: 'student',
         onDelete: 'RESTRICT'
       })
 
       this.belongsTo(models.users, {
         foreignKey: 'userID',
-        as: 'transactions_of_staffs',
+        as: 'staff',
         onDelete: 'RESTRICT'
       })
 
       // From material borrow records table
       this.hasMany(models.materials_borrow_records, {
         foreignKey: 'transactionID',
-        as: 'transactions_material_borrow_records',
+        as: 'material_borrow_records',
         onDelete: 'RESTRICT'
       })
     }

@@ -29,55 +29,55 @@ module.exports = (sequelize, DataTypes) => {
       // shelfID FK
       this.belongsTo(models.shelves, {
         foreignKey: 'shelfID',
-        as: 'materials_shelves',
+        as: 'shelf',
         onDelete: 'RESTRICT'
       })
       // languageID FK
       this.belongsTo(models.languages, {
         foreignKey: 'languageID',
-        as: 'materials_languages',
+        as: 'language',
         onDelete: 'RESTRICT'
       })
       // typeID FK
       this.belongsTo(models.material_types, {
         foreignKey: 'typeID',
-        as: 'materials_material_types',
+        as: 'material_type',
         onDelete: 'RESTRICT'
       })
       // publisherID FK
       this.belongsTo(models.publishers, {
         foreignKey: 'publisherID',
-        as: 'materials_publishers',
+        as: 'publisher',
         onDelete: 'RESTRICT'
       })
       // pubCountryID FK
       this.belongsTo(models.publication_countries, {
         foreignKey: 'pubCountryID',
-        as: 'materials_publication_countries',
+        as: 'publication_country',
         onDelete: 'RESTRICT'
       })
        // From copies table
       this.hasMany(models.copies, {
         foreignKey: 'materialID',
-        as: 'materials_copies',
+        as: 'copies',
         onDelete: 'RESTRICT'
       })
       // From authors table
       this.hasMany(models.authors, {
         foreignKey: 'materialID',
-        as: 'materials_authors',
+        as: 'authors',
         onDelete: 'RESTRICT'
       })
       //From genres table
       this.hasMany(models.genres, {
         foreignKey: 'materialID',
-        as: 'materials_genres',
+        as: 'genres',
         onDelete: 'RESTRICT'
       })
       //From favorites table
       this.hasMany(models.favorites, {
         foreignKey: 'materialID',
-        as: 'materials_favorites',
+        as: 'favorites',
         onDelete: 'RESTRICT'
       })
     }

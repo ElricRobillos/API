@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       // From copies table
       this.hasOne(models.copies, {
         foreignKey: 'weedID',
-        as: 'weeding_copies',
+        as: 'copy',
         onDelete: 'RESTRICT'
       })
     }

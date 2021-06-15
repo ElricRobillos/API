@@ -28,13 +28,13 @@ module.exports = (sequelize, DataTypes) => {
       // buildingID FK
       this.belongsTo(models.buildings, {
         foreignKey: 'buildingID',
-        as: 'rooms_buildings',
+        as: 'building',
         onDelete: 'RESTRICT'
       })
       //From shelves table
       this.hasMany(models.shelves, {
         foreignKey: 'roomID',
-        as: 'rooms_shelves',
+        as: 'shelves',
         onDelete: 'RESTRICT'
       })
 

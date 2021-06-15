@@ -28,13 +28,13 @@ module.exports = (sequelize, DataTypes) => {
       // authorDetailsID FK
       this.belongsTo(models.author_details, {
         foreignKey: 'authorDetailsID',
-        as: 'authors_author_details',
+        as: 'author_detail',
         onDelete: 'RESTRICT'
       })
       // materialID FK
       this.belongsTo(models.materials, {
         foreignKey: 'materialID',
-        as: 'authors_materials',
+        as: 'material',
         onDelete: 'RESTRICT'
       })
     }

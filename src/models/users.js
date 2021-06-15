@@ -285,19 +285,20 @@ module.exports = (sequelize, DataTypes) => {
       //RETURN PROCESS
       this.hasMany(models.materials_borrow_records, {
         foreignKey: 'return_processBy',
-        as: 'returned_materials_borrow_records',
+        as: 'materials_borrow_records',
         onDelete: 'RESTRICT'
       })
+
       // From transactions table
       this.hasMany(models.transactions, {
         foreignKey: 'userID',
-        as: 'students_transactions',
+        as: 'student_transactions',
         onDelete: 'RESTRICT'
       })
 
       this.hasMany(models.transactions, {
         foreignKey: 'userID',
-        as: 'staffs_transactions',
+        as: 'staff_transactions',
         onDelete: 'RESTRICT'
       })
       

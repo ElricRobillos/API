@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
       // From rooms table
       this.hasMany(models.rooms, {
         foreignKey: 'buildingID',
-        as: 'buildings_rooms',
+        as: 'rooms',
         onDelete: 'RESTRICT'
       })
     }

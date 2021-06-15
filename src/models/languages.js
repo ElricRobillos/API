@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       // From materials table
       this.hasMany(models.materials, {
         foreignKey: 'languageID',
-        as: 'languages_materials',
+        as: 'materials',
         onDelete: 'RESTRICT'
       })
     }

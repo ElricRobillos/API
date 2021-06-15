@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       // From authors table
       this.hasOne(models.authors, {
         foreignKey: 'authorDetailsID',
-        as: 'authors_details_authors',
+        as: 'author',
         onDelete: 'RESTRICT'
       })
     }

@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
       //materialID FK
       this.belongsTo(models.materials, {
         foreignKey: 'materialID',
-        as: 'favorites_materials',
+        as: 'material',
         onDelete: 'RESTRICT'
       })
 
