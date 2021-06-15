@@ -5,19 +5,10 @@ const usersController = require("../controllers/librarian/users.controller");
 router.post("/users", usersController.create_users);
 router.get("/users", usersController.findAll_users);
 
-//Author_details
-const author_detailsController = require("../controllers/librarian/author_details.controller");
-router.post("/author_details", author_detailsController.create_author_details);
-router.put("/author_details:authorDetailsID", author_detailsController.update_author_details);
-router.get("/author_details", author_detailsController.findAll_author_details);
-router.get("/author_details/:authorDetailsID", author_detailsController.findOne_author_details);
-router.delete("/author_details/:authorDetailsID", author_detailsController.delete_author_details);
-
 //Authors
 const authorsController = require("../controllers/librarian/authors.controller");
 router.post("/authors", authorsController.create_authors);
 router.get("/authors", authorsController.findAll_authors);
-
 
 // Buildings Route
 const buildingsController = require("../controllers/librarian/buildings.controller");

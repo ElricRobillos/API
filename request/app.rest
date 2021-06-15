@@ -43,8 +43,8 @@ Content-Type: application/json
 ### login first to get the token then paste and replace the sample token
 ### change the example column and value depends on the what you want to create
 
-GET http://localhost:3600/api/v1/librarian/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIzZjQ5ZTQ4ZS03ZTZmLTQzOTYtYTExMC03ZDM4YTEyNWQ4OTIiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyMzczNTkwNiwiZXhwIjoxNjIzNzQzMTA2fQ.zwobRazJYfB80xmiPipxvERthmLfs3HSmnGTUluJDZU
+GET http://localhost:3600/api/v1/librarian/materials
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyMzc2NjE1OSwiZXhwIjoxNjIzNzczMzU5fQ.LBcjzWdivXmtimoGAq6fxhpOF5J4wMNMCaxTI6eIbfU
 
 
 
@@ -54,26 +54,40 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIzZjQ5Z
 ### change the example column and value depends on the what you want to create
 
 POST http://localhost:3600/api/v1/librarian/materials
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIzZjQ5ZTQ4ZS03ZTZmLTQzOTYtYTExMC03ZDM4YTEyNWQ4OTIiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyMzU5NTEyOSwiZXhwIjoxNjIzNjAyMzI5fQ.C_FFtGYTeAXveR2ZNFcg45Aw15bxrf9WNVJmkMHJBOc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyMzc2NjE1OSwiZXhwIjoxNjIzNzczMzU5fQ.LBcjzWdivXmtimoGAq6fxhpOF5J4wMNMCaxTI6eIbfU
 Content-Type: application/json
 
 {
     "standardType": "ISBN",
-    "standardNumber": "978-3-16-148410-0",
-    "title": "Design Thinking for Interiors: Inquiry, Experience, Impact",
-    "format": "Hardcover",
-    "pageNo": "320",
+    "standardNumber": "978-0-06-199227-8",
+    "title": "The One and Only Ivan",
+    "format": "Paperback",
+    "pageNo": "336",
     "volumeNo": "",
-    "edition": "1st Edition",
+    "edition": "",
     "editionYear": "",
     "seriesYear": "",
-    "dateOfPublication": "2011-06-24",
+    "dateOfPublication": "2015-01-06",
     "status": "Active",
-    "shelfID":"ed1bf996-db54-4d2e-8489-9eeaf7e5db17",
-    "languageID":"cf64efc9-d3e3-4f71-87b4-068bd67e1b8e",
-    "typeID":"c8c3dccb-56be-47ee-b206-ffaa1db8bac3",
-    "publisherID":"eb9f514b-ae8e-4358-96e4-01168eb04c54",
-    "pubCountryID":"65f7a5e6-a217-45d6-be0b-7ae807af4b55"
+    "shelfID":"3a97ed0b-7b45-4169-af1e-f4fc222b34c7",
+    "languageID":"f57be3a3-4b0e-454d-b90b-854b71de9aa3",
+    "typeID":"4cb08e50-652c-44f7-8fc7-d5a0af4b7044",
+    "publisherID":"8f57648a-84d2-484a-a67a-5a8bf6869aea",
+    "pubCountryID":"51c00c7c-eb96-47b2-bab3-3606966601bd",
+    "authors": [{
+            "authorFirstName":"Katherine",
+            "authorLastName": "Applegate",
+            "status":"Active"
+        },
+        {
+            "authorFirstName":"Patricia",
+            "authorLastName": "Castelao",
+            "status":"Active"
+        }],
+    "genres": [{
+            "genre":"Novel",
+            "status":"Active"
+        }]
 }
 
 
@@ -83,11 +97,26 @@ Content-Type: application/json
 ### login first to get the token then paste and replace the sample token
 ### id of the record you want to update is required   |ID located at the end of path|
 
-PUT http://localhost:3600/api/v1/librarian/buildings/f48a6141-a89f-44cf-9503-cd08a3084afa
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIzZjQ5ZTQ4ZS03ZTZmLTQzOTYtYTExMC03ZDM4YTEyNWQ4OTIiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyMzY3MTg0OSwiZXhwIjoxNjIzNjc5MDQ5fQ.E0Qynkn7p_MBKVcSaEnH1YsL53rxKrf_sVgrUDpu810
+PUT http://localhost:3600/api/v1/librarian/rooms/bce5407f-410b-470b-b440-a47fe51d71fa
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyMzc2NjE1OSwiZXhwIjoxNjIzNzczMzU5fQ.LBcjzWdivXmtimoGAq6fxhpOF5J4wMNMCaxTI6eIbfU
 Content-Type: application/json
 
 {
-    "buildingName":"Misserior Building"
+    "roomName":"Room 101"
 }
 
+
+POST http://localhost:3600/api/v1/librarian/materials
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyMzc2NjE1OSwiZXhwIjoxNjIzNzczMzU5fQ.LBcjzWdivXmtimoGAq6fxhpOF5J4wMNMCaxTI6eIbfU
+Content-Type: application/json
+
+###test
+POST http://localhost:3600/api/v1/librarian/shelves
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyMzc2NjE1OSwiZXhwIjoxNjIzNzczMzU5fQ.LBcjzWdivXmtimoGAq6fxhpOF5J4wMNMCaxTI6eIbfU
+Content-Type: application/json
+
+{
+    "shelfName":"Children's Book",
+    "status": "Active",
+    "roomID":"50d7d511-c1b3-4d9d-a5e8-25615b7d851a"
+}

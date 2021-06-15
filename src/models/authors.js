@@ -25,12 +25,6 @@ module.exports = (sequelize, DataTypes) => {
         as: 'updated_by_librarian',
         onDelete: 'RESTRICT'
       })
-      // authorDetailsID FK
-      this.belongsTo(models.author_details, {
-        foreignKey: 'authorDetailsID',
-        as: 'author_detail',
-        onDelete: 'RESTRICT'
-      })
       // materialID FK
       this.belongsTo(models.materials, {
         foreignKey: 'materialID',
@@ -45,11 +39,37 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },
-    // Foreign keys
-    authorDetailsID: {
-      type: DataTypes.UUID,
+    authorFirstName: {
+      type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notNull: { msg : 'Author first name should not be null'},
+        notEmpty: { msg : 'Author first name should not be empty'},
+      },
     },
+    authorLastName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: { msg : 'Author last name should not be null'},
+        notEmpty: { msg : 'Author last name should not be empty'},
+      },
+    },
+    authorMiddleName: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    }, 
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: "Active",
+      validate : {
+        isIn:{
+        args: [["Active","Inactive"]],
+        msg: "Status should be Active or Inactive only.", 
+        },
+      },
+    },
+    // Foreign keys
     materialID: {
       type: DataTypes.UUID,
       allowNull: false,

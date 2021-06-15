@@ -32,13 +32,6 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'RESTRICT'
       })
 
-      // Added Author_details
-      this.hasMany(models.author_details, {
-        foreignKey: 'addedBy',
-        as: 'added_author_details',
-        onDelete: 'RESTRICT'
-      })
-
       // Added Authors
       this.hasMany(models.authors, {
         foreignKey: 'addedBy',
@@ -167,13 +160,6 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.users, {
         foreignKey: 'updatedBy',
         as: 'updated_staffs',
-        onDelete: 'RESTRICT'
-      })
-
-      // Updated Author_details
-      this.hasMany(models.author_details, {
-        foreignKey: 'updatedBy',
-        as: 'updated_author_details',
         onDelete: 'RESTRICT'
       })
 

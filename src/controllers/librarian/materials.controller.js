@@ -11,7 +11,38 @@ exports.create_materials = async (req, res) => {
 
         req.body.updatedBy = req.user.userID
         
-        db.materials.create(req.body)
+        db.materials.create(req.body, {
+            include : [
+                {
+                    model: db.shelves,
+                    as: 'shelf'
+                },
+                {
+                    model: db.languages,
+                    as: 'language'
+                },
+                {
+                    model: db.material_types,
+                    as: 'material_type'
+                },
+                {
+                    model: db.publishers,
+                    as: 'publisher'
+                },
+                {
+                    model: db.publication_countries,
+                    as: 'publication_country'
+                },
+                {
+                    model: db.authors,
+                    as: 'authors',
+                },
+                {
+                    model: db.genres,
+                    as: 'genres'
+                }
+            ]
+        })
         .then((data) => {
             res.send({
                 error: false,
@@ -32,7 +63,52 @@ exports.create_materials = async (req, res) => {
 
 // Retrieve all materials from the database.
 exports.findAll_materials = (req, res) => {
-    materials.findAll({ where: { status: "Active"}})
+    materials.findAll({
+        attributes:{
+            exclude: [
+                'shelfID',
+                'languageID',
+                'typeID',
+                'publisherID',
+                'pubCountryID',
+                'authorID',
+                'genreID'
+            ]
+        },
+        where: { 
+            status: "Active"
+        },
+        include : [
+            {
+                model: db.shelves,
+                as: 'shelf'
+            },
+            {
+                model: db.languages,
+                as: 'language'
+            },
+            {
+                model: db.material_types,
+                as: 'material_type'
+            },
+            {
+                model: db.publishers,
+                as: 'publisher'
+            },
+            {
+                model: db.publication_countries,
+                as: 'publication_country'
+            },
+            {
+                model: db.authors,
+                as: 'authors'
+            },
+            {
+                model: db.genres,
+                as: 'genres'
+            }
+        ]
+    })
     .then((data) => {
     res.send({
         error: false,
