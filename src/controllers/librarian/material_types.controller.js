@@ -1,3 +1,4 @@
+const {errResponse, dataResponse} = require("../../helpers/controller.helper")
 const db = require("../../models");
 const material_types = db.material_types;
 
@@ -12,62 +13,25 @@ exports.create_material_types = async (req, res) => {
         req.body.updatedBy = req.user.userID
         
         db.material_types.create(req.body)
-        .then((data) => {
-            res.send({
-                error: false,
-                data: data,
-                message: ["A material type is added successfully."],
-            });
-                
-        })
-        .catch((err) =>{
-            res.status(500).send({
-                error: true,
-                data: [],
-                message: err.errors.map((e) => e.message),
-            });
-        });
+        .then((data) => dataResponse(res, data, 'A material type is added successfully!', 'Failed to add material type'))
+        .catch((err) => errResponse(res, err));
     }
-  };
+};
 
 // Retrieve all material types from the database.
 exports.findAll_material_types = (req, res) => {
     material_types.findAll({ where: { status: "Active"}})
-    .then((data) => {
-    res.send({
-        error: false,
-        data: data,
-        message: [process.env.SUCCESS_RETRIEVED],
-    });
-    })
-    .catch((err) => {
-    res.status(500).send({
-        error: true,
-        data: [],
-        message: err.errors.map((e) => e.message),
-    });
-    });
+    .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+    .catch((err) => errResponse(res, err));
 };
 
 // Find a single material types with an id
 exports.findOne_material_types = (req, res) => {
     const id = req.params.typeID; 
 
-    material_types.findByPk(id).then((data) => {
-        res.send({
-            error: false,
-            data: data,
-            message: [process.env.SUCCESS_RETRIEVED],
-        });
-    })
-    .catch((err) => {
-        res.status(500).send({
-        error: true,
-        data: [],
-        message:
-        err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
-        });
-    });
+    material_types.findByPk(id)
+    .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+    .catch((err) => errResponse(res, err));
 };
 
 // Update a material types by the id in the request
@@ -97,14 +61,7 @@ exports.update_material_types = async (req, res) => {
             });
         }
         })
-        .catch((err) => {
-        res.status(500).send({
-            error: true,
-            data: [],
-            message:
-            err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
-        });
-        });
+        .catch((err) => errResponse(res, err));
 };
 
 // Delete a material types with the specified id in the request
@@ -134,13 +91,6 @@ exports.delete_material_types = (req, res) => {
             });
         }
         })
-        .catch((err) => {
-        res.status(500).send({
-            error: true,
-            data: [],
-            message:
-            err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
-        });
-        });
+        .catch((err) => errResponse(res, err));
 };
 

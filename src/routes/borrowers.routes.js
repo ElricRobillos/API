@@ -1,8 +1,10 @@
 var router = require("express").Router();
 
-// User Route
-// const usersController = require("../controllers/borrowers/users.controller");
-// router.post("/", usersController.create_users);
+//User Route
+const usersController = require("../controllers/borrowers/users.controller");
+router.get("/users", usersController.view_user_account);
+router.put("/users/:userID", usersController.update_users);
+
 
 // Favorites Route
 const favoritesController = require("../controllers/borrowers/favorites.controller");

@@ -32,8 +32,8 @@ POST http://localhost:3600/api/v1/home/login
 Content-Type: application/json
 
 {
-    "email": "librarian@gmail.com",
-    "password": "admin"
+    "email": "jd@gmail.com",
+    "password": "password"
 }
 
 
@@ -43,8 +43,8 @@ Content-Type: application/json
 ### login first to get the token then paste and replace the sample token
 ### change the example column and value depends on the what you want to create
 
-GET http://localhost:3600/api/v1/librarian/materials
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyMzc2NjE1OSwiZXhwIjoxNjIzNzczMzU5fQ.LBcjzWdivXmtimoGAq6fxhpOF5J4wMNMCaxTI6eIbfU
+GET http://localhost:3600/api/v1/librarian/buildings
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJkZDJkZjBkOC0xNzJlLTQ5MmEtODA5Ni0yMGJiM2MzMDk5MDciLCJ1c2VyVHlwZSI6IlN0YWZmIiwiZW1haWwiOiJqZEBnbWFpbC5jb20iLCJpYXQiOjE2MjM4NDQwODUsImV4cCI6MTYyMzg1MTI4NX0.j30J1MMUtmMvQEa3CAssqST3U7441aVt_427WpHJgpU
 
 
 
@@ -54,7 +54,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2Z
 ### change the example column and value depends on the what you want to create
 
 POST http://localhost:3600/api/v1/librarian/materials
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyMzc2NjE1OSwiZXhwIjoxNjIzNzczMzU5fQ.LBcjzWdivXmtimoGAq6fxhpOF5J4wMNMCaxTI6eIbfU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI0Y2ZjN2UxNS0wOGY4LTRmZGEtYWQ3My1hNzlhYmRkNzZkNDUiLCJ1c2VyVHlwZSI6IlN0dWRlbnQiLCJlbWFpbCI6ImJhbkBnbWFpbC5jb20iLCJpYXQiOjE2MjM4NDIwOTYsImV4cCI6MTYyMzg0OTI5Nn0.YINOb3rtgR6MEdoydlZq6L-Tg2CeLHZkLuWKrL-QbSA
 Content-Type: application/json
 
 {
@@ -98,25 +98,9 @@ Content-Type: application/json
 ### id of the record you want to update is required   |ID located at the end of path|
 
 PUT http://localhost:3600/api/v1/librarian/rooms/bce5407f-410b-470b-b440-a47fe51d71fa
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyMzc2NjE1OSwiZXhwIjoxNjIzNzczMzU5fQ.LBcjzWdivXmtimoGAq6fxhpOF5J4wMNMCaxTI6eIbfU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI0Y2ZjN2UxNS0wOGY4LTRmZGEtYWQ3My1hNzlhYmRkNzZkNDUiLCJ1c2VyVHlwZSI6IlN0dWRlbnQiLCJlbWFpbCI6ImJhbkBnbWFpbC5jb20iLCJpYXQiOjE2MjM4NDIwOTYsImV4cCI6MTYyMzg0OTI5Nn0.YINOb3rtgR6MEdoydlZq6L-Tg2CeLHZkLuWKrL-QbSA
 Content-Type: application/json
 
 {
     "roomName":"Room 101"
-}
-
-
-POST http://localhost:3600/api/v1/librarian/materials
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyMzc2NjE1OSwiZXhwIjoxNjIzNzczMzU5fQ.LBcjzWdivXmtimoGAq6fxhpOF5J4wMNMCaxTI6eIbfU
-Content-Type: application/json
-
-###test
-POST http://localhost:3600/api/v1/librarian/shelves
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyMzc2NjE1OSwiZXhwIjoxNjIzNzczMzU5fQ.LBcjzWdivXmtimoGAq6fxhpOF5J4wMNMCaxTI6eIbfU
-Content-Type: application/json
-
-{
-    "shelfName":"Children's Book",
-    "status": "Active",
-    "roomID":"50d7d511-c1b3-4d9d-a5e8-25615b7d851a"
 }

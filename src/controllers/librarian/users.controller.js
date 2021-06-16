@@ -1,43 +1,7 @@
+const {errResponse, dataResponse} = require("../../helpers/controller.helper")
 const db = require("../../models");
 const bcrypt = require("bcrypt");
-const datatable = require(`sequelize-datatables`);
-
-exports.findDataTable = (req, res) => { 
-    req.body = {
-    draw: "1",
-    columns: [
-        {
-        data: "fullName",
-        name: "",
-        searchable: "true",
-        orderable: "true",
-        search: {
-            value: "",
-            regex: "false",
-        },
-        },
-    ],
-    order: [
-        {
-        column: "0",
-        dir: "asc",
-        },
-    ],
-    start: "0",
-    length: "10",
-    search: {
-        value: "",
-        regex: "false",
-    },
-    _: "1478912938246",
-    };
-
-    datatable(users, req.body).then((result) => { 
-    // result is response for datatables
-    res.json(result);
-    });
-};
-
+//const datatable = require(`sequelize-datatables`);
 
 // Create borrower
 exports.create_users = async (req, res) => {
@@ -55,21 +19,8 @@ exports.create_users = async (req, res) => {
         );
         
         db.users.create(req.body)
-        .then((data) => {
-            res.send({
-                error: false,
-                data: data,
-                message: ["A User is added successfully."],
-            });
-                
-        })
-        .catch((err) =>{
-            res.status(500).send({
-                error: true,
-                data: [],
-                message: err.errors.map((e) => e.message),
-            });
-        });
+        .then((data) => dataResponse(res, data, 'A user is added successfully!', 'Failed to add user'))
+        .catch((err) => errResponse(res, err));
     }
 
 };
@@ -80,42 +31,17 @@ exports.findAll_users = (req, res) => {
     db.users.findAll({ 
         where: { status: "Active" },
     })
-    .then((data) => {
-    res.send({
-        error: false,
-        data: data,
-        message: ["Retrieved successfully."],
-    });
-    })
-    .catch((err) => {
-    res.status(500).send({
-        error: true,
-        data: [],
-        message: err.errors.map((e) => e.message),
-    });
-    });
+    .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+    .catch((err) => errResponse(res, err));
 };
 
 // // Find a single User with an id
 // exports.findOne = (req, res) => { 
 //     const id = req.params.userID;
 
-//     users.findByPk(id).then((data) => {
-//         res.send({
-//             error: false,
-//             data: data,
-//             message: [process.env.SUCCESS_RETRIEVED],
-//         });
-//     })
-//     .catch((err) => {
-//         res.status(500).send({
-//         error: true,
-//         data: [],
-//         message:
-//         err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
-//         });
-//     });
-
+//     users.findByPk(id)
+//     .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+//     .catch((err) => errResponse(res, err));
 // };
 
 // // Update a User by the id in the request
@@ -151,15 +77,7 @@ exports.findAll_users = (req, res) => {
 //             });
 //         }
 //         })
-//         .catch((err) => {
-//             res.status(500).send({
-//                 error: true,
-//                 data: [],
-//                 message:
-//                 err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
-//             });
-//     });
-
+//         .catch((err) => errResponse(res, err));
 // };
 
 // // Delete a User with the specified id in the request
@@ -190,15 +108,6 @@ exports.findAll_users = (req, res) => {
 //             });
 //         }
 //         })
-//         .catch((err) => {
-//         res.status(500).send({
-//             error: true,
-//             data: [],
-//             message:
-//             err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
-//         });
-//     });
-
-
+//         .catch((err) => errResponse(res, err));
 // };
 
