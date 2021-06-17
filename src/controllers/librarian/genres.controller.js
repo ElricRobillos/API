@@ -12,21 +12,8 @@ exports.create_genres = async (req, res) => {
       req.body.updatedBy = req.user.userID
       
       db.genres.create(req.body)
-      .then((data) => {
-          res.send({
-              error: false,
-              data: data,
-              message: ["A genre is added successfully."],
-          });
-              
-      })
-      .catch((err) =>{
-          res.status(500).send({
-              error: true,
-              data: [],
-              message: err.errors.map((e) => e.message),
-          });
-      });
+      .then((data) => dataResponse(res, data, 'A genre is added successfully!', 'Failed to add genre'))
+      .catch((err)  => errResponse(res, err));
   }
 };
 
@@ -34,20 +21,8 @@ exports.create_genres = async (req, res) => {
 exports.findAll_genres = (req, res) => {
   genres
     .findAll({ where: { status: "Active" } })
-    .then((data) => {
-      res.send({
-        error: false,
-        data: data,
-        message: [process.env.SUCCESS_RETRIEVED],
-      });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        error: true,
-        data: [],
-        message: err.errors.map((e) => e.message),
-      });
-    });
+    .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+    .catch((err)  => errResponse(res, err));
 };
 
 // Find a single genres with an id
@@ -56,21 +31,8 @@ exports.findOne_genres = (req, res) => {
 
   genres
     .findByPk(id)
-    .then((data) => {
-      res.send({
-        error: false,
-        data: data,
-        message: [process.env.SUCCESS_RETRIEVED],
-      });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        error: true,
-        data: [],
-        message:
-          err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
-      });
-    });
+    .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+    .catch((err)  => errResponse(res, err));
 };
 
 // Update a genres by the id in the request
@@ -101,14 +63,7 @@ exports.update_genres = async (req, res) => {
         });
       }
     })
-    .catch((err) => {
-      res.status(500).send({
-        error: true,
-        data: [],
-        message:
-          err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
-      });
-    });
+    .catch((err)  => errResponse(res, err));
 };
 
 // Delete a genre with the specified id in the request
@@ -139,12 +94,5 @@ exports.delete_genres = (req, res) => {
         });
       }
     })
-    .catch((err) => {
-      res.status(500).send({
-        error: true,
-        data: [],
-        message:
-          err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
-      });
-    });
+    .catch((err)  => errResponse(res, err));
 };
