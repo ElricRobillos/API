@@ -1,3 +1,4 @@
+const {errResponse, dataResponse} = require("../../helpers/controller.helper")
 const db = require("../../models");
 const authors= db.authors;
 
@@ -12,21 +13,8 @@ exports.create_authors = async (req, res) => {
         req.body.updatedBy = req.user.userID
         
         db.authors.create(req.body)
-        .then((data) => {
-            res.send({
-                error: false,
-                data: data,
-                message: ["An author are added successfully."],
-            });
-                
-        })
-        .catch((err) =>{
-            res.status(500).send({
-                error: true,
-                data: [],
-                message: err.errors.map((e) => e.message),
-            });
-        });
+        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+        .catch((err) => errResponse(res, err));
     }
 };
 
@@ -34,18 +22,6 @@ exports.create_authors = async (req, res) => {
 exports.findAll_authors = (req, res) => {
     authors
         .findAll({ where: { status: "Active" } })
-        .then((data) => {
-        res.send({
-            error: false,
-            data: data,
-            message: [process.env.SUCCESS_RETRIEVED],
-        });
-        })
-        .catch((err) => {
-        res.status(500).send({
-            error: true,
-            data: [],
-            message: err.errors.map((e) => e.message),
-        });
-        });
+        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+        .catch((err) => errResponse(res, err));
 };
