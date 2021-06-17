@@ -13,7 +13,7 @@ exports.create_shelves = (req, res) => {
         req.body.updatedBy = req.user.userID
         
         db.shelves.create(req.body)
-        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+        .then((data) => dataResponse(res, data, 'A shelf is added successfully!', 'Failed to add shelf'))
         .catch((err)  => errResponse(res, err));
     }
 };
