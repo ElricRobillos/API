@@ -13,7 +13,7 @@ exports.create_authors = async (req, res) => {
         req.body.updatedBy = req.user.userID
         
         db.authors.create(req.body)
-        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+        .then((data) => dataResponse(res, data, 'An author is added succesfully!', 'Failed to add author'))
         .catch((err) => errResponse(res, err));
     }
 };

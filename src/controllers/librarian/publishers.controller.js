@@ -13,7 +13,7 @@ exports.create_publishers = async (req, res) => {
         req.body.updatedBy = req.user.userID
         
         db.publishers.create(req.body)
-        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+        .then((data) => dataResponse(res, data, 'A publisher is added succesfully', 'Failed to add publisher'))
         .catch((err) => errResponse(res, err));
     }
 };
