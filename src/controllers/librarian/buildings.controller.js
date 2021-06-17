@@ -1,3 +1,4 @@
+const {errResponse, dataResponse} = require("../../helpers/controller.helper")
 const db = require("../../models");
 const buildings = db.buildings;
 
@@ -12,62 +13,25 @@ exports.create_buildings = (req, res) => {
         req.body.updatedBy = req.user.userID
         
         db.buildings.create(req.body)
-        .then((data) => {
-            res.send({
-                error: false,
-                data: data,
-                message: ["A building is added successfully."],
-            });
-                
-        })
-        .catch((err) =>{
-            res.status(500).send({
-                error: true,
-                data: [],
-                message: err.errors.map((e) => e.message),
-            });
-        });
+        .then((data) => dataResponse(res, data, 'A building is added successfully!', 'Failed to add building'))
+        .catch((err) => errResponse(res, err));
     }
 };
 
 // Retrieve all buildings from the database.
 exports.findAll_buildings = (req, res) => {
     buildings.findAll({ where: { status: "Active"}})
-    .then((data) => {
-    res.send({
-        error: false,
-        data: data,
-        message: [process.env.SUCCESS_RETRIEVED],
-    });
-    })
-    .catch((err) => {
-    res.status(500).send({
-        error: true,
-        data: [],
-        message: err.errors.map((e) => e.message),
-    });
-    });
+    .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+    .catch((err) => errResponse(res, err));
 };
 
 // Find a single buildings with an id
 exports.findOne_buildings = (req, res) => {
     const id = req.params.buildingID; 
 
-    buildings.findByPk(id).then((data) => {
-        res.send({
-            error: false,
-            data: data,
-            message: [process.env.SUCCESS_RETRIEVED],
-        });
-    })
-    .catch((err) => {
-        res.status(500).send({
-        error: true,
-        data: [],
-        message:
-        err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
-        });
-    });
+    buildings.findByPk(id)
+    .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+    .catch((err) => errResponse(res, err));
 };
 
 // Update a buildings by the id in the request
@@ -97,14 +61,7 @@ exports.update_buildings = async (req, res) => {
             });
         }
         })
-        .catch((err) => {
-        res.status(500).send({
-            error: true,
-            data: [],
-            message:
-            err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
-        });
-        });
+        .catch((err) => errResponse(res, err));
 };
 
 // Delete a building with the specified id in the request
@@ -134,13 +91,6 @@ exports.delete_buildings = (req, res) => {
             });
         }
         })
-        .catch((err) => {
-        res.status(500).send({
-            error: true,
-            data: [],
-            message:
-            err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
-        });
-        });
+        .catch((err) => errResponse(res, err));
 };
 
