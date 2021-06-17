@@ -1,3 +1,4 @@
+const {errResponse, dataResponse} = require("../../helpers/controller.helper")  
 const db = require("../../models");
 const weedings = db.weedings;
 
@@ -12,41 +13,16 @@ exports.create_weedings = async (req, res) => {
         req.body.updatedBy = req.user.userID
         
         db.weedings.create(req.body)
-        .then((data) => {
-            res.send({
-                error: false,
-                data: data,
-                message: ["New weeded material added"],
-            });
-                
-        })
-        .catch((err) =>{
-            res.status(500).send({
-                error: true,
-                data: [],
-                message: err.errors.map((e) => e.message),
-            });
-        });
+        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+        .catch((err)  => errResponse(res, err));
     }
 };
 
 // Retrieve all weedings from the database.
 exports.findAll_weedings = (req, res) => {
     weedings.findAll({ where: { status: "Active"}})
-    .then((data) => {
-    res.send({
-        error: false,
-        data: data,
-        message: [process.env.SUCCESS_RETRIEVED],
-    });
-    })
-    .catch((err) => {
-    res.status(500).send({
-        error: true,
-        data: [],
-        message: err.errors.map((e) => e.message),
-    });
-    });
+    .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+    .catch((err)  => errResponse(res, err));
 };
 
 // Find a single weeding with an id
@@ -60,14 +36,7 @@ exports.findOne_weedings = (req, res) => {
             message: [process.env.SUCCESS_RETRIEVED],
         });
     })
-    .catch((err) => {
-        res.status(500).send({
-        error: true,
-        data: [],
-        message:
-        err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
-        });
-    });
+    .catch((err)  => errResponse(res, err));
 };
 
 // Update a weedings by the id in the request
@@ -97,14 +66,7 @@ exports.update_weedings = async (req, res) => {
             });
         }
         })
-        .catch((err) => {
-        res.status(500).send({
-            error: true,
-            data: [],
-            message:
-            err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
-        });
-        });
+        .catch((err)  => errResponse(res, err));
 };
 
 // Delete a weedings with the specified id in the request
@@ -134,13 +96,6 @@ exports.delete_weedings = (req, res) => {
             });
         }
         })
-        .catch((err) => {
-        res.status(500).send({
-            error: true,
-            data: [],
-            message:
-            err.errors.map((e) => e.message) || process.env.GENERAL_ERROR_MSG,
-        });
-        });
+        .catch((err)  => errResponse(res, err));
 };
 
