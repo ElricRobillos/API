@@ -13,7 +13,7 @@ exports.create_copies = async (req, res) => {
         req.body.updatedBy = req.user.userID
         
         db.copies.create(req.body)
-        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+        .then((data) => dataResponse(res, data, 'A Copy is added successfully!', 'Failed to add a copy'))
         .catch((err)  => errResponse(res, err));
     }
 };

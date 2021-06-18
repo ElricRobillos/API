@@ -13,7 +13,7 @@ exports.create_materials_borrow_records = async (req, res) => {
         req.body.updatedBy = req.user.userID
         
         db.materials_borrow_records.create(req.body)
-        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+        .then((data) => dataResponse(res, data, 'A Materials Borrow Record is added successfully!','Failed to add a Materials Borrow Record'))
         .catch((err)  => errResponse(res, err));
     }
   };

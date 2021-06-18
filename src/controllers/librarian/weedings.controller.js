@@ -13,7 +13,7 @@ exports.create_weedings = async (req, res) => {
         req.body.updatedBy = req.user.userID
         
         db.weedings.create(req.body)
-        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+        .then((data) => dataResponse(res, data, 'A Weeding is added successfully!', 'Failed to add a Weeding'))
         .catch((err)  => errResponse(res, err));
     }
 };
