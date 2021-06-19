@@ -2,8 +2,8 @@ const {errResponse, dataResponse} = require("../../helpers/controller.helper")
 const db = require("../../models");
 const material_types = db.material_types;
 
-// Create and Save a new author
-exports.create_material_types = async (req, res) => {
+// Add new material type
+exports.add_material_type = async (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
     }
@@ -12,30 +12,60 @@ exports.create_material_types = async (req, res) => {
 
         req.body.updatedBy = req.user.userID
         
-        db.material_types.create(req.body)
+        material_types.create(req.body)
         .then((data) => dataResponse(res, data, 'A material type is added successfully!', 'Failed to add material type'))
         .catch((err) => errResponse(res, err));
     }
 };
 
-// Retrieve all material types from the database.
-exports.findAll_material_types = (req, res) => {
-    material_types.findAll({ where: { status: "Active"}})
+// Retrieve all material types
+exports.view_all_material_types = (req, res) => {
+    material_types.findAll({ 
+        attributes:{
+            exclude: [
+                'materialID'
+            ]
+        },
+        where:{ 
+            status: "Active" 
+        },
+        include:[
+            {
+                model: db.materials,
+                as: 'materials'
+            }
+        ]
+    })
     .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
     .catch((err) => errResponse(res, err));
 };
 
-// Find a single material types with an id
-exports.findOne_material_types = (req, res) => {
+// Find specific material type
+exports.find_material_type = (req, res) => {
     const id = req.params.typeID; 
 
-    material_types.findByPk(id)
+    material_types.findByPk(id,{
+        attributes:{
+            exclude:[
+                'materialID'
+            ]
+        },
+        where:{ 
+            status: "Active" 
+        },
+        include:[
+            {
+                model: db.materials,
+                as: 'materials'
+            }
+        ]
+    })
     .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
     .catch((err) => errResponse(res, err));
 };
 
-// Update a material types by the id in the request
-exports.update_material_types = async (req, res) => {
+// Update material type record
+exports.update_material_type = async (req, res) => {
     const id = req.params.typeID;
 
     material_types.update(req.body, {
@@ -44,8 +74,9 @@ exports.update_material_types = async (req, res) => {
         .then((result) => {
         console.log(result);
         if (result) {
-            // success
-            material_types.findByPk(id).then((data) => {
+            // success update
+            material_types.findByPk(id)
+            .then((data) => {
                 res.send({
                     error: false,
                     data: data,
@@ -64,22 +95,28 @@ exports.update_material_types = async (req, res) => {
         .catch((err) => errResponse(res, err));
 };
 
-// Delete a material types with the specified id in the request
-exports.delete_material_types = (req, res) => {
+// Change status of material type
+exports.change_material_type_status = (req, res) => {
     const id = req.params.typeID;
-    const body = { status: "Inactive" };
-        material_types.update(body, {
-            where: { typeID: id },
-        })
-        .then((result) => {
+    const body = { 
+        status: "Inactive" 
+    };
+
+    material_types.update(body, {
+        where:{ 
+            typeID: id 
+        },
+    })
+    .then((result) => {
         console.log(result);
         if (result) {
-            // success
-            material_types.findByPk(id).then((data) => {
+            // success update
+            material_types.findByPk(id)
+            .then((data) => {
                 res.send({
                     error: false,
                     data: data,
-                    message: [process.env.SUCCESS_UPDATE],
+                    message: [process.env.STATUS_UPDATE],
                 });
             });
         } else {
@@ -90,7 +127,7 @@ exports.delete_material_types = (req, res) => {
             message: ["Error in deleting a record"],
             });
         }
-        })
-        .catch((err) => errResponse(res, err));
+    })
+    .catch((err) => errResponse(res, err));
 };
 

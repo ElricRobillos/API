@@ -32,8 +32,8 @@ POST http://localhost:3600/api/v1/home/login
 Content-Type: application/json
 
 {
-    "email": "jd@gmail.com",
-    "password": "password"
+    "email": "librarian@gmail.com",
+    "password": "admin"
 }
 
 
@@ -43,10 +43,12 @@ Content-Type: application/json
 ### login first to get the token then paste and replace the sample token
 ### change the example column and value depends on the what you want to create
 
-GET http://localhost:3600/api/v1/librarian/buildings
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJkZDJkZjBkOC0xNzJlLTQ5MmEtODA5Ni0yMGJiM2MzMDk5MDciLCJ1c2VyVHlwZSI6IlN0YWZmIiwiZW1haWwiOiJqZEBnbWFpbC5jb20iLCJpYXQiOjE2MjM4NDQwODUsImV4cCI6MTYyMzg1MTI4NX0.j30J1MMUtmMvQEa3CAssqST3U7441aVt_427WpHJgpU
+GET http://localhost:3600/api/v1/librarian/material_types
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDA5NDcyMCwiZXhwIjoxNjI0MTAxOTIwfQ.20lrq1dmJi2yzm2BoO5IHkmQXtkfXqlg30XznXftYOQ
 
-
+### Find specific record
+GET http://localhost:3600/api/v1/librarian/material_types/4cb08e50-652c-44f7-8fc7-d5a0af4b7044
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDA5NDcyMCwiZXhwIjoxNjI0MTAxOTIwfQ.20lrq1dmJi2yzm2BoO5IHkmQXtkfXqlg30XznXftYOQ
 
 ### FOR CREATE     |don't forget to change the path before send request|
 ### Check the path at routes folder
@@ -54,7 +56,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJkZDJkZ
 ### change the example column and value depends on the what you want to create
 
 POST http://localhost:3600/api/v1/librarian/materials
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI0Y2ZjN2UxNS0wOGY4LTRmZGEtYWQ3My1hNzlhYmRkNzZkNDUiLCJ1c2VyVHlwZSI6IlN0dWRlbnQiLCJlbWFpbCI6ImJhbkBnbWFpbC5jb20iLCJpYXQiOjE2MjM4NDIwOTYsImV4cCI6MTYyMzg0OTI5Nn0.YINOb3rtgR6MEdoydlZq6L-Tg2CeLHZkLuWKrL-QbSA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDA5NDcyMCwiZXhwIjoxNjI0MTAxOTIwfQ.20lrq1dmJi2yzm2BoO5IHkmQXtkfXqlg30XznXftYOQ
 Content-Type: application/json
 
 {
@@ -74,7 +76,8 @@ Content-Type: application/json
     "typeID":"4cb08e50-652c-44f7-8fc7-d5a0af4b7044",
     "publisherID":"8f57648a-84d2-484a-a67a-5a8bf6869aea",
     "pubCountryID":"51c00c7c-eb96-47b2-bab3-3606966601bd",
-    "authors": [{
+    "authors": [
+        {
             "authorFirstName":"Katherine",
             "authorLastName": "Applegate",
             "status":"Active"
@@ -83,11 +86,18 @@ Content-Type: application/json
             "authorFirstName":"Patricia",
             "authorLastName": "Castelao",
             "status":"Active"
-        }],
-    "genres": [{
+        }
+    ],
+    "genres": [
+        {
             "genre":"Novel",
             "status":"Active"
-        }]
+        },
+        {
+            "genre":"Adventure",
+            "status":"Active"
+        }
+    ]
 }
 
 
@@ -97,10 +107,24 @@ Content-Type: application/json
 ### login first to get the token then paste and replace the sample token
 ### id of the record you want to update is required   |ID located at the end of path|
 
-PUT http://localhost:3600/api/v1/librarian/rooms/bce5407f-410b-470b-b440-a47fe51d71fa
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI0Y2ZjN2UxNS0wOGY4LTRmZGEtYWQ3My1hNzlhYmRkNzZkNDUiLCJ1c2VyVHlwZSI6IlN0dWRlbnQiLCJlbWFpbCI6ImJhbkBnbWFpbC5jb20iLCJpYXQiOjE2MjM4NDIwOTYsImV4cCI6MTYyMzg0OTI5Nn0.YINOb3rtgR6MEdoydlZq6L-Tg2CeLHZkLuWKrL-QbSA
+PUT http://localhost:3600/api/v1/librarian/material_types/4cb08e50-652c-44f7-8fc7-d5a0af4b7044
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDA5NDcyMCwiZXhwIjoxNjI0MTAxOTIwfQ.20lrq1dmJi2yzm2BoO5IHkmQXtkfXqlg30XznXftYOQ
 Content-Type: application/json
 
 {
-    "roomName":"Room 101"
+    "status":"Active"
+}
+
+### Change Status of record into Inactive
+DELETE http://localhost:3600/api/v1/librarian/material_types/4cb08e50-652c-44f7-8fc7-d5a0af4b7044
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDA5NDcyMCwiZXhwIjoxNjI0MTAxOTIwfQ.20lrq1dmJi2yzm2BoO5IHkmQXtkfXqlg30XznXftYOQ
+
+###test
+POST http://localhost:3600/api/v1/librarian/languages
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDA5NDcyMCwiZXhwIjoxNjI0MTAxOTIwfQ.20lrq1dmJi2yzm2BoO5IHkmQXtkfXqlg30XznXftYOQ
+Content-Type: application/json
+
+{
+    "language":"Filipino",
+    "status":"Active"
 }
