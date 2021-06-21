@@ -71,7 +71,7 @@ exports.update_genre = async (req, res) => {
   genres.update(req.body, {
       where:{ 
         genreID: id 
-      },
+      }
   })
   .then((result) => {
     console.log(result);
@@ -119,7 +119,7 @@ exports.change_genre_status = (req, res) => {
   genres.update(body, {
     where:{ 
       genreID: id 
-    },
+    }
   })
   .then((result) => {
     console.log(result);

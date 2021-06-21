@@ -2,8 +2,8 @@ const {errResponse, dataResponse} = require("../../helpers/controller.helper")
 const db = require("../../models");
 const weedings = db.weedings;
 
-// Create and Save a new author
-exports.create_weedings = async (req, res) => {
+// Add new weeding
+exports.add_weeding = async (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
     }
@@ -12,24 +12,55 @@ exports.create_weedings = async (req, res) => {
 
         req.body.updatedBy = req.user.userID
         
-        db.weedings.create(req.body)
+        weedings.create(req.body)
         .then((data) => dataResponse(res, data, 'A Weeding is added successfully!', 'Failed to add a Weeding'))
         .catch((err)  => errResponse(res, err));
     }
 };
 
-// Retrieve all weedings from the database.
-exports.findAll_weedings = (req, res) => {
-    weedings.findAll({ where: { status: "Active"}})
+// Retrieve all weedings
+exports.view_all_weedings = (req, res) => {
+    weedings.findAll({ 
+        attributes:{
+            exclude: [
+                'copyID'
+            ]
+        },
+        where:{ 
+            status: "Active" 
+        },
+        include:[
+            {
+                model: db.copies,
+                as: 'copy'
+            }
+        ]
+    })
     .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
     .catch((err)  => errResponse(res, err));
 };
 
-// Find a single weeding with an id
-exports.findOne_weedings = (req, res) => {
+// Find specific weeding
+exports.find_weeding = (req, res) => {
     const id = req.params.weedID; 
 
-    weedings.findByPk(id).then((data) => {
+    weedings.findByPk(id,{
+        attributes:{
+            exclude: [
+                'copyID'
+            ]
+        },
+        where:{ 
+            status: "Active" 
+        },
+        include:[
+            {
+                model: db.copies,
+                as: 'copy'
+            }
+        ]
+    })
+    .then((data) => {
         res.send({
             error: false,
             data: data,
@@ -39,63 +70,72 @@ exports.findOne_weedings = (req, res) => {
     .catch((err)  => errResponse(res, err));
 };
 
-// Update a weedings by the id in the request
-exports.update_weedings = async (req, res) => {
+// Update weeding record
+exports.update_weeding = async (req, res) => {
     const id = req.params.weedID;
 
     weedings.update(req.body, {
-        where: { weedID: id },
-    })
-        .then((result) => {
-        console.log(result);
-        if (result) {
-            // success
-            weedings.findByPk(id).then((data) => {
-                res.send({
-                    error: false,
-                    data: data,
-                    message: [process.env.SUCCESS_UPDATE],
-                });
-            });
-        } else {
-            // error in updating
-            res.status(500).send({
-            error: true,
-            data: [],
-            message: ["Error in updating a record"],
-            });
+        where:{ 
+            weedID: id 
         }
-        })
-        .catch((err)  => errResponse(res, err));
+    })
+    .then((result) => {
+    console.log(result);
+    if (result) {
+        // success update
+        weedings.findByPk(id)
+        .then((data) => {
+            res.send({
+                error: false,
+                data: data,
+                message: [process.env.SUCCESS_UPDATE],
+            });
+        });
+    } else {
+        // error in updating
+        res.status(500).send({
+        error: true,
+        data: [],
+        message: ["Error in updating a record"],
+        });
+    }
+    })
+    .catch((err)  => errResponse(res, err));
 };
 
-// Delete a weedings with the specified id in the request
-exports.delete_weedings = (req, res) => {
+// Change status of weding
+exports.change_weeding_status = (req, res) => {
     const id = req.params.weedID;
-    const body = { status: "Inactive" };
-        weedings.update(body, {
-            where: { weedID: id },
-        })
-        .then((result) => {
-        console.log(result);
-        if (result) {
-            // success
-            weedings.findByPk(id).then((data) => {
-                res.send({
-                    error: false,
-                    data: data,
-                    message: [process.env.SUCCESS_UPDATE],
-                });
-            });
-        } else {
-            // error in updating
-            res.status(500).send({
-            error: true,
-            data: [],
-            message: ["Error in deleting a record"],
-            });
+    const body = { 
+        status: "Inactive" 
+    };
+        
+    weedings.update(body, {
+        where:{ 
+            weedID: id 
         }
-        })
-        .catch((err)  => errResponse(res, err));
+    })
+    .then((result) => {
+    console.log(result);
+    if (result) {
+        // success update
+        weedings.findByPk(id)
+        .then((data) => {
+            res.send({
+                error: false,
+                data: data,
+                message: [process.env.STATUS_UPDATE],
+            });
+        });
+    } else {
+        // error in updating
+        res.status(500).send({
+        error: true,
+        data: [],
+        message: ["Error in deleting a record"],
+        });
+    }
+    })
+    .catch((err)  => errResponse(res, err));
 };
 

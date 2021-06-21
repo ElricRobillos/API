@@ -20,7 +20,27 @@ exports.add_materials_borrow_record = async (req, res) => {
 
 // Retrieve all materials_borrow_records
 exports.view_all_materials_borrow_records = (req, res) => {
-    materials_borrow_records.findAll()
+    materials_borrow_records.findAll({
+        attributes:{
+            exclude: [
+                'copyID',
+                'transactionID'
+            ]
+        },
+        where:{ 
+            status: "Active" 
+        },
+        include:[
+            {
+                model: db.copies,
+                as: 'copy'
+            },
+            {
+                model: db.transactions,
+                as: 'transaction'
+            }
+        ] 
+    })
     .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
     .catch((err)  => errResponse(res, err));
 };
@@ -29,7 +49,27 @@ exports.view_all_materials_borrow_records = (req, res) => {
 exports.find_materials_borrow_record = (req, res) => {
     const id = req.params.borrowID; 
 
-    materials_borrow_records.findByPk(id)
+    materials_borrow_records.findByPk(id,{
+        attributes:{
+            exclude: [
+                'copyID',
+                'transactionID'
+            ]
+        },
+        where:{ 
+            status: "Active" 
+        },
+        include:[
+            {
+                model: db.copies,
+                as: 'copy'
+            },
+            {
+                model: db.transactions,
+                as: 'transaction'
+            }
+        ]
+    })
     .then((data) => {
         res.send({
             error: false,
@@ -47,7 +87,7 @@ exports.update_materials_borrow_record = async (req, res) => {
     materials_borrow_records.update(req.body, {
         where:{ 
             borrowID: id 
-        },
+        }
     })
     .then((result) => {
     console.log(result);

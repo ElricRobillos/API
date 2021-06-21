@@ -72,7 +72,9 @@ exports.update_publication_country = async (req, res) => {
 
   publication_countries
     .update(req.body, {
-      where: { pubCountryID: id },
+      where:{ 
+        pubCountryID: id 
+      }
     })
     .then((result) => {
       console.log(result);
@@ -107,7 +109,9 @@ exports.change_publication_country_status = (req, res) => {
   
   publication_countries
     .update(body, {
-      where: { pubCountryID: id },
+      where:{ 
+        pubCountryID: id 
+      }
     })
     .then((result) => {
       console.log(result);

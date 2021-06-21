@@ -69,7 +69,9 @@ exports.update_material_type = async (req, res) => {
     const id = req.params.typeID;
 
     material_types.update(req.body, {
-        where: { typeID: id },
+        where:{ 
+            typeID: id 
+        }
     })
         .then((result) => {
         console.log(result);
@@ -105,7 +107,7 @@ exports.change_material_type_status = (req, res) => {
     material_types.update(body, {
         where:{ 
             typeID: id 
-        },
+        }
     })
     .then((result) => {
         console.log(result);

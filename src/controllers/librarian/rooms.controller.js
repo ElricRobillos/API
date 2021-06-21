@@ -79,7 +79,9 @@ exports.update_room = async (req, res) => {
     const id = req.params.roomID;
 
     rooms.update(req.body, {
-        where: { roomID: id },
+        where:{ 
+            roomID: id 
+        }
     })
     .then((result) => {
     console.log(result);
@@ -115,7 +117,7 @@ exports.change_room_status = (req, res) => {
     rooms.update(body, {
         where:{ 
             roomID: id 
-        },
+        }
     })
     .then((result) => {
     console.log(result);

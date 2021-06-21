@@ -1,10 +1,11 @@
 const {errResponse, dataResponse} = require("../../helpers/controller.helper")
 const db = require("../../models");
+const users= db.users;
 const bcrypt = require("bcrypt");
 //const datatable = require(`sequelize-datatables`);
 
-// Create borrower
-exports.create_users = async (req, res) => {
+// Add borrower
+exports.add_user = async (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
     }
@@ -18,7 +19,7 @@ exports.create_users = async (req, res) => {
             parseInt(process.env.SALT_ROUND)
         );
         
-        db.users.create(req.body)
+        users.create(req.body)
         .then((data) => dataResponse(res, data, 'A user is added successfully!', 'Failed to add user'))
         .catch((err) => errResponse(res, err));
     }
@@ -26,10 +27,12 @@ exports.create_users = async (req, res) => {
 };
 
 
-//Retrieve all User from the database.
-exports.findAll_users = (req, res) => {
-    db.users.findAll({ 
-        where: { status: "Active" },
+//Retrieve all users
+exports.view_all_users = (req, res) => {
+    users.findAll({ 
+        where:{ 
+            status: "Active" 
+        }
     })
     .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
     .catch((err) => errResponse(res, err));
@@ -80,34 +83,37 @@ exports.findAll_users = (req, res) => {
 //         .catch((err) => errResponse(res, err));
 // };
 
-// // Delete a User with the specified id in the request
-// exports.delete = (req, res) => { 
-//         // delete
-//     const id = req.params.userID;
-//     const body = { status: "Inactive" };
+// Change status of user
+exports.change_user_status = (req, res) => {
+    const id = req.params.userID;
+    const body = { 
+        status: "Inactive" 
+    };
 
-//     users.update(body, {
-//         where: { userID: id },
-//     })
-//         .then((result) => {
-//         if (result) {
-//             // success
-//             users.findByPk(id).then((data) => {
-//             res.send({
-//                 error: false,
-//                 data: data,
-//                 message: [process.env.SUCCESS_UPDATE],
-//             });
-//             });
-//         } else {
-//             // error in deleting
-//             res.status(500).send({
-//             error: true,
-//             data: [],
-//             message: ["Error in deleting a record"],
-//             });
-//         }
-//         })
-//         .catch((err) => errResponse(res, err));
-// };
+    users.update(body, {
+        where:{ 
+            userID: id 
+        }
+    })
+    .then((result) => {
+    if (result) {
+        // success update
+        users.findByPk(id).then((data) => {
+        res.send({
+            error: false,
+            data: data,
+            message: [process.env.STATUS_UPDATE],
+        });
+        });
+    } else {
+        // error in deleting
+        res.status(500).send({
+        error: true,
+        data: [],
+        message: ["Error in deleting a record"],
+        });
+    }
+    })
+    .catch((err) => errResponse(res, err));
+};
 

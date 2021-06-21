@@ -71,7 +71,7 @@ exports.update_language = async (req, res) => {
   languages.update(req.body, {
     where:{ 
       languageID: id 
-    },
+    }
   })
   .then((result) => {
     console.log(result);

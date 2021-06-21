@@ -77,7 +77,7 @@ exports.update_publisher = async (req, res) => {
     publishers.update(req.body, {
         where:{ 
             publisherID: id 
-        },
+        }
     })
         .then((result) => {
         console.log(result);
@@ -113,7 +113,7 @@ exports.change_publisher_status = (req, res) => {
     publishers.update(body, {
         where:{ 
             publisherID: id 
-        },
+        }
     })
     .then((result) => {
     console.log(result);

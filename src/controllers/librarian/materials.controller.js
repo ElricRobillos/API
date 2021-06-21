@@ -278,7 +278,7 @@ exports.change_material_status = (req, res) => {
     materials.update(body, {
         where:{ 
             materialID: id 
-        },
+        }
     })
     .then((result) => {
     console.log(result);

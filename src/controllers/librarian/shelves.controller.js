@@ -12,7 +12,7 @@ exports.add_shelf = (req, res) => {
 
         req.body.updatedBy = req.user.userID
         
-        db.shelves.create(req.body)
+        shelves.create(req.body)
         .then((data) => dataResponse(res, data, 'A shelf is added successfully!', 'Failed to add shelf'))
         .catch((err)  => errResponse(res, err));
     }
@@ -88,7 +88,7 @@ exports.update_shelf = async (req, res) => {
     shelves.update(req.body, {
         where:{ 
             shelfID: id 
-        },
+        }
     })
     .then((result) => {
     console.log(result);
@@ -125,7 +125,7 @@ exports.change_shelf_status = (req, res) => {
     shelves.update(body, {
         where:{ 
             shelfID: id 
-        },
+        }
     })
     .then((result) => {
     console.log(result);

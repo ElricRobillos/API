@@ -1,16 +1,17 @@
 const {errResponse, dataResponse} = require("../../helpers/controller.helper")
 const db = require("../../models");
+const users= db.users;
 const bcrypt = require("bcrypt");
 
 // View user account
 exports.view_user_account  = (req, res) => {
-    db.users.findByPk(req.user.userID)
+    users.findByPk(req.user.userID)
         .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
         .catch((err) => errResponse(res, err));
 };
 
 // Update user account
-exports.update_users = async (req, res) => {
+exports.update_user = async (req, res) => {
     const id = req.params.userID
 
     if (req.body.password) {
@@ -21,28 +22,31 @@ exports.update_users = async (req, res) => {
     }
 
     users.update(req.body, {
-        where: { userID: id },
+        where:{ 
+            userID: id 
+        },
     })
-        .then((result) => {
-        if (result) {
-            // success
-            users.findByPk(id).then((data) => {
-            res.send({
-                error: false,
-                data: data,
-                message: [process.env.SUCCESS_UPDATE],
-            });
-            });
-        } else {
-            // error in updating
-            res.status(500).send({
-            error: true,
-            data: [],
+    .then((result) => {
+    if (result) {
+        // success update
+        users.findByPk(id)
+        .then((data) => {
+        res.send({
+            error: false,
+            data: data,
             message: [process.env.SUCCESS_UPDATE],
-            });
-        }
-        })
-        .catch((err) => errResponse(res, err));
+        });
+        });
+    } else {
+        // error in updating
+        res.status(500).send({
+        error: true,
+        data: [],
+        message: [process.env.SUCCESS_UPDATE],
+        });
+    }
+    })
+    .catch((err) => errResponse(res, err));
 
 };
 

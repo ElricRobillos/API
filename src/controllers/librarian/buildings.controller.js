@@ -45,7 +45,7 @@ exports.update_building = async (req, res) => {
     buildings.update(req.body, {
         where:{ 
             buildingID: id 
-        },
+        }
     })
     .then((result) => {
         console.log(result);
@@ -81,7 +81,7 @@ exports.change_building_status = (req, res) => {
     buildings.update(body, {
         where:{ 
             buildingID: id 
-        },
+        }
     })
     .then((result) => {
         console.log(result);

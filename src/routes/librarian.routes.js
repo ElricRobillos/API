@@ -2,8 +2,9 @@ var router = require("express").Router();
 
 // User Route 
 const usersController = require("../controllers/librarian/users.controller");
-router.post("/users", usersController.create_users);
-router.get("/users", usersController.findAll_users);
+router.post("/users", usersController.add_user);
+router.get("/users", usersController.view_all_users);
+router.delete("/users/:userID", usersController.change_user_status);
 
 //Authors
 const authorsController = require("../controllers/librarian/authors.controller");
@@ -23,11 +24,11 @@ router.delete("/buildings/:buildingID", buildingsController.change_building_stat
 
 // Copies Route
 const copiesController = require("../controllers/librarian/copies.controller");
-router.post("/copies", copiesController.create_copies);
-router.put("/copies/:copyID", copiesController.update_copies);
-router.get("/copies", copiesController.findAll_copies);
-router.get("/copies/:copyID", copiesController.findOne_copies);
-router.delete("/copies/:copyID", copiesController.delete_copies);
+router.post("/copies", copiesController.add_copy);
+router.put("/copies/:copyID", copiesController.update_copy);
+router.get("/copies", copiesController.view_all_copies);
+router.get("/copies/:copyID", copiesController.find_copy);
+router.delete("/copies/:copyID", copiesController.change_copy_status);
 
 // Genres Route
 const genresController = require("../controllers/librarian/genres.controller");
@@ -102,19 +103,19 @@ router.delete("/shelves/:shelfID", shelvesController.change_shelf_status);
 
 // Transactions Route
 const transactionsController = require("../controllers/librarian/transactions.controller");
-router.post("/transactions", transactionsController.create_transactions);
-router.put("/transactions/:transactionID", transactionsController.update_transactions);
-router.get("/transactions", transactionsController.findAll_transactions);
-router.get("/transactions/:transactionID", transactionsController.findOne_transactions);
-router.delete("/transactions/:transactionID", transactionsController.delete_transactions);
+router.post("/transactions", transactionsController.add_transaction);
+router.put("/transactions/:transactionID", transactionsController.update_transaction);
+router.get("/transactions", transactionsController.view_all_transactions);
+router.get("/transactions/:transactionID", transactionsController.find_transaction);
+router.delete("/transactions/:transactionID", transactionsController.change_transaction_status);
 
 // Weedings Route
 const weedingsController = require("../controllers/librarian/weedings.controller");
-router.post("/weedings", weedingsController.create_weedings);
-router.put("/weedings/:weedID", weedingsController.update_weedings);
-router.get("/weedings", weedingsController.findAll_weedings);
-router.get("/weedings/:weedID", weedingsController.findOne_weedings);
-router.delete("/weedings/:weedID", weedingsController.delete_weedings);
+router.post("/weedings", weedingsController.add_weeding);
+router.put("/weedings/:weedID", weedingsController.update_weeding);
+router.get("/weedings", weedingsController.view_all_weedings);
+router.get("/weedings/:weedID", weedingsController.find_weeding);
+router.delete("/weedings/:weedID", weedingsController.change_weeding_status);
 
 
 

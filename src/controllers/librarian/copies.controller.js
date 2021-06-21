@@ -2,8 +2,8 @@ const {errResponse, dataResponse} = require("../../helpers/controller.helper")
 const db = require("../../models");
 const copies = db.copies;
 
-// Create and Save a new copies
-exports.create_copies = async (req, res) => {
+// Add new copy
+exports.add_copy = async (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
     }
@@ -12,24 +12,29 @@ exports.create_copies = async (req, res) => {
 
         req.body.updatedBy = req.user.userID
         
-        db.copies.create(req.body)
+        copies.create(req.body)
         .then((data) => dataResponse(res, data, 'A Copy is added successfully!', 'Failed to add a copy'))
         .catch((err)  => errResponse(res, err));
     }
 };
 
-// Retrieve all copies from the database.
-exports.findAll_copies = (req, res) => {
-    copies.findAll({ where: { status: "Active"}})
+// Retrieve all copies
+exports.view_all_copies = (req, res) => {
+    copies.findAll({ 
+        where:{ 
+            status: "Active"
+        }
+    })
     .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
     .catch((err)  => errResponse(res, err));
 };
 
-// Find a single copies with an id
-exports.findOne_copies = (req, res) => {
+// Find specific copy
+exports.find_copy = (req, res) => {
     const id = req.params.copyID; 
 
-    copies.findByPk(id).then((data) => {
+    copies.findByPk(id)
+    .then((data) => {
         res.send({
             error: false,
             data: data,
@@ -39,63 +44,72 @@ exports.findOne_copies = (req, res) => {
     .catch((err)  => errResponse(res, err));
 };
 
-// Update a copies by the id in the request
-exports.update_copies = async (req, res) => {
+// Update copy record
+exports.update_copy = async (req, res) => {
     const id = req.params.copyID;
-
+    
     copies.update(req.body, {
-        where: { copyID: id },
-    })
-        .then((result) => {
-        console.log(result);
-        if (result) {
-            // success
-            copies.findByPk(id).then((data) => {
-                res.send({
-                    error: false,
-                    data: data,
-                    message: [process.env.SUCCESS_UPDATE],
-                });
-            });
-        } else {
-            // error in updating
-            res.status(500).send({
-            error: true,
-            data: [],
-            message: ["Error in updating a record"],
-            });
+        where:{ 
+            copyID: id 
         }
-        })
-        .catch((err)  => errResponse(res, err));
+    })
+    .then((result) => {
+    console.log(result);
+    if (result) {
+        // success update
+        copies.findByPk(id)
+        .then((data) => {
+            res.send({
+                error: false,
+                data: data,
+                message: [process.env.SUCCESS_UPDATE],
+            });
+        });
+    } else {
+        // error in updating
+        res.status(500).send({
+        error: true,
+        data: [],
+        message: ["Error in updating a record"],
+        });
+    }
+    })
+    .catch((err)  => errResponse(res, err));
 };
 
-// Delete a copies with the specified id in the request
-exports.delete_copies = (req, res) => {
+// Change status of copy
+exports.change_copy_status = (req, res) => {
     const id = req.params.copyID;
-    const body = { status: "Inactive" };
-        copies.update(body, {
-            where: { copyID: id },
-        })
-        .then((result) => {
-        console.log(result);
-        if (result) {
-            // success
-            copies.findByPk(id).then((data) => {
-                res.send({
-                    error: false,
-                    data: data,
-                    message: [process.env.SUCCESS_UPDATE],
-                });
-            });
-        } else {
-            // error in updating
-            res.status(500).send({
-            error: true,
-            data: [],
-            message: ["Error in deleting a record"],
-            });
+    const body = { 
+        status: "Inactive" 
+    };
+
+    copies.update(body, {
+        where:{ 
+            copyID: id 
         }
-        })
-        .catch((err)  => errResponse(res, err));
+    })
+    .then((result) => {
+    console.log(result);
+    if (result) {
+        // success update
+        copies.findByPk(id)
+        .then((data) => {
+            res.send({
+                error: false,
+                data: data,
+                message: [process.env.STATUS_UPDATE],
+            });
+        });
+    } else {
+        // error in updating
+        res.status(500).send({
+        error: true,
+        data: [],
+        message: ["Error in deleting a record"],
+        });
+    }
+    })
+    .catch((err)  => errResponse(res, err));
 };
 

@@ -2,8 +2,8 @@ const {errResponse, dataResponse} = require("../../helpers/controller.helper")
 const db = require("../../models");
 const transactions = db.transactions;
 
-// Create and Save a new author
-exports.create_transactions = async (req, res) => {
+// Add new transaction
+exports.add_transaction = async (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
     }
@@ -12,85 +12,123 @@ exports.create_transactions = async (req, res) => {
 
         req.body.updatedBy = req.user.userID
         
-        db.transactions.create(req.body)
+        transactions.create(req.body)
         .then((data) => dataResponse(res, data, 'A transaction is added successfully!', 'Failed to add transaction'))
         .catch((err) => errResponse(res, err));
     }
 };
 
-// Retrieve all transactions from the database.
-exports.findAll_transactions = (req, res) => {
-    transactions.findAll({ where: { status: "Active"}})
+// Retrieve all transactions
+exports.view_all_transactions = (req, res) => {
+    transactions.findAll({ 
+        attributes:{
+            exclude: [
+                'borrowID'
+            ]
+        },
+        where:{ 
+            status: "Active" 
+        },
+        include:[
+            {
+                model: db.materials_borrow_records,
+                as: 'material_borrow_records'
+            }
+        ] 
+    })
     .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
     .catch((err) => errResponse(res, err));
 };
 
-// Find a single transactions with an id
-exports.findOne_transactions = (req, res) => {
+// Find specific transaction
+exports.find_transaction = (req, res) => {
     const id = req.params.transactionID; 
 
-    transactions.findByPk(id) 
+    transactions.findByPk(id,{
+        attributes:{
+            exclude: [
+                'borrowID'
+            ]
+        },
+        where:{ 
+            status: "Active" 
+        },
+        include:[
+            {
+                model: db.materials_borrow_records,
+                as: 'material_borrow_records'
+            }
+        ]
+    }) 
     .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
     .catch((err) => errResponse(res, err));
 };
 
-// Update a transaction by the id in the request
-exports.update_transactions = async (req, res) => {
+// Update transaction record
+exports.update_transaction = async (req, res) => {
     const id = req.params.transactionID;
 
     transactions.update(req.body, {
-        where: { transactionID: id },
-    })
-        .then((result) => {
-        console.log(result);
-        if (result) {
-            // success
-            transactions.findByPk(id).then((data) => {
-                res.send({
-                    error: false,
-                    data: data,
-                    message: [process.env.SUCCESS_UPDATE],
-                });
-            });
-        } else {
-            // error in updating
-            res.status(500).send({
-            error: true,
-            data: [],
-            message: ["Error in updating a record"],
-            });
+        where:{ 
+            transactionID: id 
         }
-        })
-        .catch((err) => errResponse(res, err));
+    })
+    .then((result) => {
+    console.log(result);
+    if (result) {
+        // success update
+        transactions.findByPk(id)
+        .then((data) => {
+            res.send({
+                error: false,
+                data: data,
+                message: [process.env.SUCCESS_UPDATE],
+            });
+        });
+    } else {
+        // error in updating
+        res.status(500).send({
+        error: true,
+        data: [],
+        message: ["Error in updating a record"],
+        });
+    }
+    })
+    .catch((err) => errResponse(res, err));
 };
 
-// Delete a transaction with the specified id in the request
-exports.delete_transactions = (req, res) => {
+// Change status of transaction
+exports.change_transaction_status = (req, res) => {
     const id = req.params.transactionID;
-    const body = { status: "Inactive" };
-        transactions.update(body, {
-            where: { transactionID: id },
-        })
-        .then((result) => {
-        console.log(result);
-        if (result) {
-            // success
-            transactions.findByPk(id).then((data) => {
-                res.send({
-                    error: false,
-                    data: data,
-                    message: [process.env.SUCCESS_UPDATE],
-                });
-            });
-        } else {
-            // error in updating
-            res.status(500).send({
-            error: true,
-            data: [],
-            message: ["Error in deleting a record"],
-            });
+    const body = { 
+        status: "Inactive" 
+    };
+    transactions.update(body, {
+        where:{ 
+            transactionID: id 
         }
-        })
-        .catch((err) => errResponse(res, err));
+    })
+    .then((result) => {
+    console.log(result);
+    if (result) {
+        // success update
+        transactions.findByPk(id)
+        .then((data) => {
+            res.send({
+                error: false,
+                data: data,
+                message: [process.env.STATUS_UPDATE],
+            });
+        });
+    } else {
+        // error in updating
+        res.status(500).send({
+        error: true,
+        data: [],
+        message: ["Error in deleting a record"],
+        });
+    }
+    })
+    .catch((err) => errResponse(res, err));
 };
 

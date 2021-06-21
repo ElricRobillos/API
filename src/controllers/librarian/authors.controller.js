@@ -71,7 +71,7 @@ exports.update_author = async (req, res) => {
     authors.update(req.body, {
         where:{ 
             authorID: id 
-        },
+        }
     })
     .then((result) => {
         console.log(result);
@@ -120,7 +120,7 @@ exports.change_author_status = (req, res) => {
     authors.update(body, {
         where:{ 
             authorID: id 
-        },
+        }
     })
     .then((result) => {
         console.log(result);
