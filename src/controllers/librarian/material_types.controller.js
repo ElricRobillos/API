@@ -2,7 +2,7 @@ const {errResponse, dataResponse} = require("../../helpers/controller.helper")
 const db = require("../../models");
 const material_types = db.material_types;
 
-// Add new material type
+// Add new material_type
 exports.add_material_type = async (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
@@ -18,7 +18,7 @@ exports.add_material_type = async (req, res) => {
     }
 };
 
-// Retrieve all material types
+// Retrieve all material_types
 exports.view_all_material_types = (req, res) => {
     material_types.findAll({ 
         attributes:{
@@ -40,7 +40,7 @@ exports.view_all_material_types = (req, res) => {
     .catch((err) => errResponse(res, err));
 };
 
-// Find specific material type
+// Find specific material_type
 exports.find_material_type = (req, res) => {
     const id = req.params.typeID; 
 
@@ -64,7 +64,7 @@ exports.find_material_type = (req, res) => {
     .catch((err) => errResponse(res, err));
 };
 
-// Update material type record
+// Update material_type record
 exports.update_material_type = async (req, res) => {
     const id = req.params.typeID;
 
@@ -95,7 +95,7 @@ exports.update_material_type = async (req, res) => {
         .catch((err) => errResponse(res, err));
 };
 
-// Change status of material type
+// Change status of material_type
 exports.change_material_type_status = (req, res) => {
     const id = req.params.typeID;
     const body = { 

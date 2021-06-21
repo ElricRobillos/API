@@ -2,8 +2,8 @@ const {errResponse, dataResponse} = require("../../helpers/controller.helper")
 const db = require("../../models");
 const shelves = db.shelves;
 
-// Create and Save a new buildings
-exports.create_shelves = (req, res) => {
+// Add new shelf
+exports.add_shelf = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
     }
@@ -18,20 +18,59 @@ exports.create_shelves = (req, res) => {
     }
 };
 
-// Retrieve all shelves from the database.
-exports.findAll_shelves = (req, res) => {
+// Retrieve all shelves
+exports.view_all_shelves = (req, res) => {
     shelves.findAll({ 
-        where: { status: "Active" },
+        attributes:{
+            exclude: [
+                'roomID',
+                'materialID'
+            ]
+        },
+        where:{ 
+            status: "Active" 
+        },
+        include:[
+            {
+                model: db.rooms,
+                as: 'room'
+            },
+            {
+                model: db.materials,
+                as: 'materials'
+            }
+        ] 
     })
     .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
     .catch((err)  => errResponse(res, err));
 };
 
-// Find a single shelves with an id
-exports.findOne_shelves = (req, res) => {
+// Find specific shelf
+exports.find_shelf = (req, res) => {
     const id = req.params.shelfID; 
 
-    shelves.findByPk(id).then((data) => {
+    shelves.findByPk(id,{
+        attributes:{
+            exclude: [
+                'roomID',
+                'materialID'
+            ]
+        },
+        where:{ 
+            status: "Active" 
+        },
+        include:[
+            {
+                model: db.rooms,
+                as: 'room'
+            },
+            {
+                model: db.materials,
+                as: 'materials'
+            }
+        ] 
+    })
+    .then((data) => {
         res.send({
             error: false,
             data: data,
@@ -42,65 +81,74 @@ exports.findOne_shelves = (req, res) => {
 
 };
 
-// Update a shelves by the id in the request
-exports.update_shelves = async (req, res) => {
+// Update shelf record
+exports.update_shelf = async (req, res) => {
     const id = req.params.shelfID;
 
     shelves.update(req.body, {
-        where: { shelfID: id },
+        where:{ 
+            shelfID: id 
+        },
     })
-        .then((result) => {
-        console.log(result);
-        if (result) {
-            // success
-            shelves.findByPk(id).then((data) => {
-                res.send({
-                    error: false,
-                    data: data,
-                    message: [process.env.SUCCESS_UPDATE],
-                });
+    .then((result) => {
+    console.log(result);
+    if (result) {
+        // success update
+        shelves.findByPk(id)
+        .then((data) => {
+            res.send({
+                error: false,
+                data: data,
+                message: [process.env.SUCCESS_UPDATE],
             });
-        } else {
-            // error in updating
-            res.status(500).send({
-            error: true,
-            data: [],
-            message: ["Error in updating a record"],
-            });
-        }
-        })
-        .catch((err)  => errResponse(res, err));
+        });
+    } else {
+        // error in updating
+        res.status(500).send({
+        error: true,
+        data: [],
+        message: ["Error in updating a record"],
+        });
+    }
+    })
+    .catch((err)  => errResponse(res, err));
 
 };
 
-// Delete a shelves with the specified id in the request
-exports.delete_shelves = (req, res) => {
+// Change status of shelf
+exports.change_shelf_status = (req, res) => {
     const id = req.params.shelfID;
-    const body = { status: "Inactive" };
-        db.shelves.update(body, {
-            where: { shelfID: id },
-        })
-        .then((result) => {
-        console.log(result);
-        if (result) {
-            // success
-            shelves.findByPk(id).then((data) => {
-                res.send({
-                    error: false,
-                    data: data,
-                    message: [process.env.SUCCESS_UPDATE],
-                });
+    const body = { 
+        status: "Inactive" 
+    };
+
+    shelves.update(body, {
+        where:{ 
+            shelfID: id 
+        },
+    })
+    .then((result) => {
+    console.log(result);
+    if (result) {
+        // success update
+        shelves.findByPk(id)
+        .then((data) => {
+            res.send({
+                error: false,
+                data: data,
+                message: [process.env.STATUS_UPDATE],
             });
-        } else {
-            // error in updating
-            res.status(500).send({
-            error: true,
-            data: [],
-            message: ["Error in deleting a record"],
-            });
-        }
-        })
-        .catch((err)  => errResponse(res, err));
+        });
+    } else {
+        // error in updating
+        res.status(500).send({
+        error: true,
+        data: [],
+        message: ["Error in deleting a record"],
+        });
+    }
+    })
+    .catch((err)  => errResponse(res, err));
 
 };
 

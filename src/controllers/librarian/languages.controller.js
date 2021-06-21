@@ -40,7 +40,7 @@ exports.view_all_languages = (req, res) => {
   .catch((err)  => errResponse(res, err));
 };
 
-// Find specific languages
+// Find specific language
 exports.find_language = (req, res) => {
   const id = req.params.languageID;
 
@@ -107,7 +107,7 @@ exports.change_language_status = (req, res) => {
   languages.update(body, {
       where:{ 
         languageID: id 
-      },
+      }
     })
   .then((result) => {
     console.log(result);

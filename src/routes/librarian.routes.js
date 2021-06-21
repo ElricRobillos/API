@@ -55,50 +55,50 @@ router.delete("/material_types/:typeID", material_typesController.change_materia
 
 // Material Borrow Records Route
 const materials_borrow_recordsController = require("../controllers/librarian/materials_borrow_records.controller");
-router.post("/materials_borrow_records", materials_borrow_recordsController.create_materials_borrow_records);
-router.put("/materials_borrow_records/:borrowID", materials_borrow_recordsController.update_materials_borrow_records);
-router.get("/materials_borrow_records", materials_borrow_recordsController.findAll_materials_borrow_records);
-router.get("/materials_borrow_records/:borrowID", materials_borrow_recordsController.findOne_materials_borrow_records);
+router.post("/materials_borrow_records", materials_borrow_recordsController.add_materials_borrow_record);
+router.put("/materials_borrow_records/:borrowID", materials_borrow_recordsController.update_materials_borrow_record);
+router.get("/materials_borrow_records", materials_borrow_recordsController.view_all_materials_borrow_records);
+router.get("/materials_borrow_records/:borrowID", materials_borrow_recordsController.find_materials_borrow_record);
 
 // Materials Route
 const materialsController = require("../controllers/librarian/materials.controller");
-router.post("/materials", materialsController.create_materials);
-router.put("/materials/:materialID", materialsController.update_materials);
-router.get("/materials", materialsController.findAll_materials);
-router.get("/materials/:materialID", materialsController.findOne_materials);
-router.delete("/materials/:materialID", materialsController.delete_materials);
+router.post("/materials", materialsController.add_material);
+router.put("/materials/:materialID", materialsController.update_material);
+router.get("/materials", materialsController.view_all_materials);
+router.get("/materials/:materialID", materialsController.find_material);
+router.delete("/materials/:materialID", materialsController.change_material_status);
 
 // Publication Countries Route
 const publication_countriesController = require("../controllers/librarian/publication_countries.controller");
-router.post("/publication_countries", publication_countriesController.create_publication_countries);
-router.put("/publication_countries/:pubCountryId", publication_countriesController.update_publication_countries);
-router.get("/publication_countries", publication_countriesController.findAll_publication_countries);
-router.get("/publication_countries/:pubCountryId", publication_countriesController.findOne_publication_countries);
-router.delete("/publication_countries/:pubCountryId", publication_countriesController.delete_publication_countries);
+router.post("/publication_countries", publication_countriesController.add_publication_country);
+router.put("/publication_countries/:pubCountryID", publication_countriesController.update_publication_country);
+router.get("/publication_countries", publication_countriesController.view_all_publication_countries);
+router.get("/publication_countries/:pubCountryID", publication_countriesController.find_publication_country);
+router.delete("/publication_countries/:pubCountryID", publication_countriesController.change_publication_country_status);
 
 // Publishers Route
 const publishersController = require("../controllers/librarian/publishers.controller");
-router.post("/publishers", publishersController.create_publishers);
-router.put("/publishers/:publisherID", publishersController.update_publishers);
-router.get("/publishers", publishersController.findAll_publishers);
-router.get("/publishers/:publisherID", publishersController.findOne_publishers);
-router.delete("/publishers/:publisherID", publishersController.delete_publishers);
+router.post("/publishers", publishersController.add_publisher);
+router.put("/publishers/:publisherID", publishersController.update_publisher);
+router.get("/publishers", publishersController.view_all_publishers);
+router.get("/publishers/:publisherID", publishersController.find_publisher);
+router.delete("/publishers/:publisherID", publishersController.change_publisher_status);
 
 // Rooms Route
 const roomsController = require("../controllers/librarian/rooms.controller");
-router.post("/rooms", roomsController.create_rooms);
-router.put("/rooms/:roomID", roomsController.update_rooms);
-router.get("/rooms", roomsController.findAll_rooms);
-router.get("/rooms/:roomID", roomsController.findOne_rooms);
-router.delete("/rooms/:roomID", roomsController.delete_rooms);
+router.post("/rooms", roomsController.add_room);
+router.put("/rooms/:roomID", roomsController.update_room);
+router.get("/rooms", roomsController.view_all_rooms);
+router.get("/rooms/:roomID", roomsController.find_room);
+router.delete("/rooms/:roomID", roomsController.change_room_status);
 
 // Shelves Route
 const shelvesController = require("../controllers/librarian/shelves.controller");
-router.post("/shelves", shelvesController.create_shelves);
-router.put("/shelves/:shelfID", shelvesController.update_shelves);
-router.get("/shelves", shelvesController.findAll_shelves);
-router.get("/shelves/:shelfID", shelvesController.findOne_shelves);
-router.delete("/shelves/:shelfID", shelvesController.delete_shelves);
+router.post("/shelves", shelvesController.add_shelf);
+router.put("/shelves/:shelfID", shelvesController.update_shelf);
+router.get("/shelves", shelvesController.view_all_shelves);
+router.get("/shelves/:shelfID", shelvesController.find_shelf);
+router.delete("/shelves/:shelfID", shelvesController.change_shelf_status);
 
 // Transactions Route
 const transactionsController = require("../controllers/librarian/transactions.controller");
