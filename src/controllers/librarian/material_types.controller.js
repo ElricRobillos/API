@@ -21,20 +21,9 @@ exports.add_material_type = async (req, res) => {
 // Retrieve all material_types
 exports.view_all_material_types = (req, res) => {
     material_types.findAll({ 
-        attributes:{
-            exclude: [
-                'materialID'
-            ]
-        },
         where:{ 
             status: "Active" 
-        },
-        include:[
-            {
-                model: db.materials,
-                as: 'materials'
-            }
-        ]
+        }
     })
     .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
     .catch((err) => errResponse(res, err));
@@ -45,20 +34,9 @@ exports.find_material_type = (req, res) => {
     const id = req.params.typeID; 
 
     material_types.findByPk(id,{
-        attributes:{
-            exclude:[
-                'materialID'
-            ]
-        },
         where:{ 
             status: "Active" 
-        },
-        include:[
-            {
-                model: db.materials,
-                as: 'materials'
-            }
-        ]
+        }
     })
     .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
     .catch((err) => errResponse(res, err));

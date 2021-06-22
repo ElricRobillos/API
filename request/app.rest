@@ -43,12 +43,16 @@ Content-Type: application/json
 ### login first to get the token then paste and replace the sample token
 ### change the example column and value depends on the what you want to create
 
-GET http://localhost:3600/api/v1/librarian/material_types
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDA5NDcyMCwiZXhwIjoxNjI0MTAxOTIwfQ.20lrq1dmJi2yzm2BoO5IHkmQXtkfXqlg30XznXftYOQ
+GET http://localhost:3600/api/v1/librarian/languages
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDM4NTUwNywiZXhwIjoxNjI0MzkyNzA3fQ.W4P-l5ml_2yJalJcdtupsMDEbta7fSNjInNE64iBezs
+
+
 
 ### Find specific record
-GET http://localhost:3600/api/v1/librarian/material_types/4cb08e50-652c-44f7-8fc7-d5a0af4b7044
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDA5NDcyMCwiZXhwIjoxNjI0MTAxOTIwfQ.20lrq1dmJi2yzm2BoO5IHkmQXtkfXqlg30XznXftYOQ
+GET http://localhost:3600/api/v1/librarian/authors/54848164-11ba-4f7e-9b4c-720adcb9b958
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDM4NTUwNywiZXhwIjoxNjI0MzkyNzA3fQ.W4P-l5ml_2yJalJcdtupsMDEbta7fSNjInNE64iBezs
+
+
 
 ### FOR CREATE     |don't forget to change the path before send request|
 ### Check the path at routes folder
@@ -56,7 +60,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2Z
 ### change the example column and value depends on the what you want to create
 
 POST http://localhost:3600/api/v1/librarian/materials
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDA5NDcyMCwiZXhwIjoxNjI0MTAxOTIwfQ.20lrq1dmJi2yzm2BoO5IHkmQXtkfXqlg30XznXftYOQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDM4NTUwNywiZXhwIjoxNjI0MzkyNzA3fQ.W4P-l5ml_2yJalJcdtupsMDEbta7fSNjInNE64iBezs
 Content-Type: application/json
 
 {
@@ -70,6 +74,7 @@ Content-Type: application/json
     "editionYear": "",
     "seriesYear": "",
     "dateOfPublication": "2015-01-06",
+    "description":"This unforgettable novel from renowned author Katherine Applegate celebrates the transformative power of unexpected friendship. Inspired by the true story of a captive gorilla known as Ivan, this illustrated book is told from the point of view of Ivan himself. Having spent twenty-seven years behind the glass walls of his enclosure in a shopping mall, Ivan has grown accustomed to humans watching him. He hardly ever thinks about his life in the jungle. Instead, Ivan occupies himself with television, his friends Stella and Bob, and painting. But when he meets Ruby, a baby elephant taken from the wild, he is forced to see their home, and his art, through new eyes.",
     "status": "Active",
     "shelfID":"3a97ed0b-7b45-4169-af1e-f4fc222b34c7",
     "languageID":"f57be3a3-4b0e-454d-b90b-854b71de9aa3",
@@ -108,23 +113,27 @@ Content-Type: application/json
 ### id of the record you want to update is required   |ID located at the end of path|
 
 PUT http://localhost:3600/api/v1/librarian/material_types/4cb08e50-652c-44f7-8fc7-d5a0af4b7044
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDA5NDcyMCwiZXhwIjoxNjI0MTAxOTIwfQ.20lrq1dmJi2yzm2BoO5IHkmQXtkfXqlg30XznXftYOQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDM4NTUwNywiZXhwIjoxNjI0MzkyNzA3fQ.W4P-l5ml_2yJalJcdtupsMDEbta7fSNjInNE64iBezs
 Content-Type: application/json
 
 {
     "status":"Active"
 }
 
+
+
 ### Change Status of record into Inactive
 DELETE http://localhost:3600/api/v1/librarian/material_types/4cb08e50-652c-44f7-8fc7-d5a0af4b7044
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDA5NDcyMCwiZXhwIjoxNjI0MTAxOTIwfQ.20lrq1dmJi2yzm2BoO5IHkmQXtkfXqlg30XznXftYOQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDM4NTUwNywiZXhwIjoxNjI0MzkyNzA3fQ.W4P-l5ml_2yJalJcdtupsMDEbta7fSNjInNE64iBezs
+
+
 
 ###test
-POST http://localhost:3600/api/v1/librarian/languages
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDA5NDcyMCwiZXhwIjoxNjI0MTAxOTIwfQ.20lrq1dmJi2yzm2BoO5IHkmQXtkfXqlg30XznXftYOQ
+POST http://localhost:3600/api/v1/librarian/publishers
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDM4NTUwNywiZXhwIjoxNjI0MzkyNzA3fQ.W4P-l5ml_2yJalJcdtupsMDEbta7fSNjInNE64iBezs
 Content-Type: application/json
 
 {
-    "language":"Filipino",
+    "publisherName":"HarperOne",
     "status":"Active"
 }

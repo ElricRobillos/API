@@ -147,8 +147,12 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg : 'Date of publication not be empty'},
       },
     },
-    image : {
+    image: {
       type : DataTypes.STRING
+    },
+    description: {
+      type : DataTypes.STRING,
+      allowNull: false
     },
     status: {
       type: DataTypes.STRING,

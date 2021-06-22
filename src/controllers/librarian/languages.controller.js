@@ -21,20 +21,9 @@ exports.add_language = async (req, res) => {
 // Retrieve all languages
 exports.view_all_languages = (req, res) => {
   languages.findAll({
-    attributes:{
-        exclude: [
-            'materialID'
-        ]
-    },
     where:{ 
         status: "Active" 
-    },
-    include:[
-        {
-            model: db.materials,
-            as: 'materials'
-        }
-    ] 
+    }
   })
   .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
   .catch((err)  => errResponse(res, err));
@@ -44,22 +33,7 @@ exports.view_all_languages = (req, res) => {
 exports.find_language = (req, res) => {
   const id = req.params.languageID;
 
-  languages.findByPk(id,{
-    attributes:{
-        exclude:[
-            'materialID'
-        ]
-    },
-    where:{ 
-        status: "Active" 
-    },
-    include:[
-        {
-            model: db.materials,
-            as: 'materials'
-        }
-    ]
-  })
+  languages.findByPk(id)
   .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
   .catch((err)  => errResponse(res, err));
 };

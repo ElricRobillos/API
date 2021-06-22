@@ -21,20 +21,9 @@ exports.add_publisher = async (req, res) => {
 // Retrieve all publishers
 exports.view_all_publishers = (req, res) => {
     publishers.findAll({ 
-        attributes:{
-            exclude: [
-                'materialID'
-            ]
-        },
         where:{ 
             status: "Active" 
-        },
-        include:[
-            {
-                model: db.materials,
-                as: 'materials'
-            }
-        ]
+        }
     })
     .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
     .catch((err) => errResponse(res, err));
@@ -45,20 +34,9 @@ exports.find_publisher = (req, res) => {
     const id = req.params.publisherID; 
 
     publishers.findByPk(id,{
-        attributes:{
-            exclude:[
-                'materialID'
-            ]
-        },
         where:{ 
             status: "Active" 
-        },
-        include:[
-            {
-                model: db.materials,
-                as: 'materials'
-            }
-        ]
+        }
     })
     .then((data) => {
         res.send({
