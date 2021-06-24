@@ -38,18 +38,18 @@ exports.login = (req, res) => {
                     });
                     } else {
                     // if not equal
-                    res.status(500).send({
+                    res.send({
                         error: true,
                         data: [],
-                        message: ["Invalid email and Password."],
+                        message: "Invalid email and Password.",
                     });
                     }
                 });
             } else {
-                res.status(500).send({
+                res.send({
                 error: true,
                 data: [],
-                message: ["Email does not exist."],
+                message: "Email does not exist.",
                 });
             }
         })

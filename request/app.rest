@@ -32,8 +32,8 @@ POST http://localhost:3600/api/v1/home/login
 Content-Type: application/json
 
 {
-    "email": "librarian@gmail.com",
-    "password": "admin"
+    "email": "ban@gmail.com",
+    "password": "password"
 }
 
 

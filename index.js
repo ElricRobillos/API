@@ -25,6 +25,9 @@ app.use(
   })
 );
 
+// connection to web
+app.use(cors());
+
 //console.log(require("crypto").randomBytes(64).toString("hex"));
 
 //get config variables
