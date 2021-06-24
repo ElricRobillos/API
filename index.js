@@ -3,6 +3,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const db = require("./src/models");
 const jwt = require("jsonwebtoken"); 
+const cors = require('cors');
 
 //routes
 const librarianRoute = require("./src/routes/librarian.routes");
