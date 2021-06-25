@@ -23,7 +23,6 @@ Content-Type: application/json
 }
 
 
-
 ### FOR LOGIN
 ### just click Send Request if you're logging in the admin
 ### if not admin, change the value of columns email and password
@@ -43,8 +42,8 @@ Content-Type: application/json
 ### login first to get the token then paste and replace the sample token
 ### change the example column and value depends on the what you want to create
 
-GET http://localhost:3600/api/v1/librarian/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDU5NDY2MSwiZXhwIjoxNjI0NjAxODYxfQ.YG29kEfNilLHeYZkz1tiyYLbBNjg4mPydDP549Et0oI
+GET http://localhost:3600/api/v1/librarian/buildings
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDYwMjQ4NSwiZXhwIjoxNjI0NjEzMjg1fQ.Y0GNf9tDremWLR-gKOFA_1DFOWXvDjFClaoLt4Fwm_4
 
 
 
@@ -112,12 +111,12 @@ Content-Type: application/json
 ### login first to get the token then paste and replace the sample token
 ### id of the record you want to update is required   |ID located at the end of path|
 
-PUT http://localhost:3600/api/v1/librarian/material_types/4cb08e50-652c-44f7-8fc7-d5a0af4b7044
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDM4NTUwNywiZXhwIjoxNjI0MzkyNzA3fQ.W4P-l5ml_2yJalJcdtupsMDEbta7fSNjInNE64iBezs
+PUT http://localhost:3600/api/v1/librarian/buildings/0c2db614-2f10-4e7b-a66c-812ab5ca7839
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDYwMjQ4NSwiZXhwIjoxNjI0NjEzMjg1fQ.Y0GNf9tDremWLR-gKOFA_1DFOWXvDjFClaoLt4Fwm_4
 Content-Type: application/json
 
 {
-    "status":"Active"
+    "location":"Guard house"
 }
 
 
@@ -129,11 +128,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2Z
 
 
 ###test
-POST http://localhost:3600/api/v1/librarian/publishers
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDM4NTUwNywiZXhwIjoxNjI0MzkyNzA3fQ.W4P-l5ml_2yJalJcdtupsMDEbta7fSNjInNE64iBezs
+POST http://localhost:3600/api/v1/librarian/buildings
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDU5NTU1NiwiZXhwIjoxNjI0NjAyNzU2fQ.jpCc-78bgljbN7AN15S-XSbGC0S_54gR9hb5P4SImnM
 Content-Type: application/json
 
 {
-    "publisherName":"HarperOne",
+    "buildingName":"AVR",
+    "location": "Near Roth",
     "status":"Active"
 }

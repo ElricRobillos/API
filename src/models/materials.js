@@ -62,18 +62,21 @@ module.exports = (sequelize, DataTypes) => {
         as: 'copies',
         onDelete: 'RESTRICT'
       })
-      // From authors table
-      this.hasMany(models.authors, {
+
+      // From author_material table
+      this.hasMany(models.author_material, {
         foreignKey: 'materialID',
-        as: 'authors',
+        as: 'author_materials',
         onDelete: 'RESTRICT'
       })
-      //From genres table
-      this.hasMany(models.genres, {
+
+      // From genre_material table
+      this.hasMany(models.genre_material, {
         foreignKey: 'materialID',
-        as: 'genres',
+        as: 'genre_materials',
         onDelete: 'RESTRICT'
       })
+
       //From favorites table
       this.hasMany(models.favorites, {
         foreignKey: 'materialID',

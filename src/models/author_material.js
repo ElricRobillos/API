@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class authors extends Model {
+  class author_material extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -26,51 +26,37 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'RESTRICT'
       })
 
-      // From author_material table
-      this.hasMany(models.author_material, {
+      // authorID FK
+      this.belongsTo(models.authors, {
         foreignKey: 'authorID',
-        as: 'author_materials',
+        as: 'authors',
+        onDelete: 'RESTRICT'
+      })
+
+      // materialID FK
+      this.belongsTo(models.materials, {
+        foreignKey: 'materialID',
+        as: 'materials',
         onDelete: 'RESTRICT'
       })
     }
   };
-  authors.init({
-    authorID: {
+  author_material.init({
+    authorMaterialID: {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },
-    authorFirstName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: { msg : 'Author first name should not be null'},
-        notEmpty: { msg : 'Author first name should not be empty'},
-      },
-    },
-    authorLastName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: { msg : 'Author last name should not be null'},
-        notEmpty: { msg : 'Author last name should not be empty'},
-      },
-    },
-    authorMiddleName: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    }, 
-    status: {
-      type: DataTypes.STRING,
-      defaultValue: "Active",
-      validate : {
-        isIn:{
-        args: [["Active","Inactive"]],
-        msg: "Status should be Active or Inactive only.", 
-        },
-      },
-    },
+
     // Foreign keys
+    authorID: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+    materialID: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
     addedBy: { 
       type: DataTypes.UUID,
       allowNull: true,
@@ -86,7 +72,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     timestamps: true,
     createdAt: 'addedAt',
-    modelName: 'authors',
+    modelName: 'author_material',
   });
-  return authors;
+  return author_material;
 };

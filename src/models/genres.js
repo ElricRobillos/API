@@ -23,11 +23,11 @@ module.exports = (sequelize, DataTypes) => {
         as: 'updated_by_librarian',
         onDelete: 'RESTRICT'
       })
-      
-      //materialID FK
-      this.belongsTo(models.materials, {
-        foreignKey: 'materialID',
-        as: 'material',
+
+      // From genre_material table
+      this.hasMany(models.genre_material, {
+        foreignKey: 'genreID',
+        as: 'genre_materials',
         onDelete: 'RESTRICT'
       })
     }
@@ -59,10 +59,6 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       //Foreign keys
-      materialID: { 
-        type: DataTypes.UUID,
-        allowNull: false,
-      },
       addedBy: { 
         type: DataTypes.UUID,
         allowNull: true,

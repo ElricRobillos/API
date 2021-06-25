@@ -39,6 +39,13 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'RESTRICT'
       })
 
+      // Added Author Material
+      this.hasMany(models.author_material, {
+        foreignKey: 'addedBy',
+        as: 'added_author_material',
+        onDelete: 'RESTRICT'
+      })
+
       // Added Buildings
       this.hasMany(models.buildings, {
         foreignKey: 'addedBy',
@@ -73,6 +80,13 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'RESTRICT'
       })
 
+      // Added Genre Material
+      this.hasMany(models.genre_material, {
+        foreignKey: 'updatedBy',
+        as: 'added_genre_material',
+        onDelete: 'RESTRICT'
+      }) 
+      
       // Added Languages
       this.hasMany(models.languages, {
         foreignKey: 'addedBy',
@@ -170,6 +184,13 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'RESTRICT'
       })
 
+      // Updated Author Material
+      this.hasMany(models.author_material, {
+        foreignKey: 'updatedBy',
+        as: 'updated_author_material',
+        onDelete: 'RESTRICT'
+      })
+
       // Updated Buildings
       this.hasMany(models.buildings, {
         foreignKey: 'updatedBy',
@@ -195,6 +216,13 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.genres, {
         foreignKey: 'updatedBy',
         as: 'updated_genres',
+        onDelete: 'RESTRICT'
+      })
+
+      // Updated Genre Material
+      this.hasMany(models.genre_material, {
+        foreignKey: 'updatedBy',
+        as: 'updated_genre_material',
         onDelete: 'RESTRICT'
       })
 

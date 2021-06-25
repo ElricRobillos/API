@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const generateToken = (data) => {
-    return jwt.sign(data, process.env.TOKEN_SECRET, { expiresIn: "7200s" });
+    return jwt.sign(data, process.env.TOKEN_SECRET, { expiresIn: "3h" });
     };
 
 exports.login = (req, res) => {
@@ -41,7 +41,7 @@ exports.login = (req, res) => {
                     res.send({
                         error: true,
                         data: [],
-                        message: "Invalid email and Password.",
+                        message: "Invalid email or Password.",
                     });
                     }
                 });

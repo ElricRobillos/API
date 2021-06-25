@@ -3,7 +3,7 @@ const db = require("../../models");
 const buildings = db.buildings;
 
 // Add new building
-exports.add_buildings = (req, res) => {
+exports.add_building = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
     }
@@ -12,9 +12,23 @@ exports.add_buildings = (req, res) => {
 
         req.body.updatedBy = req.user.userID
         
-        buildings.create(req.body)
-        .then((data) => dataResponse(res, data, 'A building is added successfully!', 'Failed to add building'))
+        buildings.findOne({
+            where: {
+                buildingName: req.body.buildingName
+            }
+        })
+        .then(result => {
+            if (result){
+                errResponse(res,'Building Name Already Existed')
+            }
+            else{
+                buildings.create(req.body)
+                .then((data) => dataResponse(res, data, 'A building is added successfully!', 'Failed to add building'))
+                .catch((err) => errResponse(res, err));
+            }
+        })
         .catch((err) => errResponse(res, err));
+        
     }
 };
 

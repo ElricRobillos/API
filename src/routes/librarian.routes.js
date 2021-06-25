@@ -17,7 +17,7 @@ router.delete("/authors/:authorID", authorsController.change_author_status);
 
 // Buildings Route
 const buildingsController = require("../controllers/librarian/buildings.controller");
-router.post("/buildings", buildingsController.add_buildings);
+router.post("/buildings", buildingsController.add_building);
 router.put("/buildings/:buildingID", buildingsController.update_building);
 router.get("/buildings/", buildingsController.view_all_buildings);
 router.get("/buildings/:buildingID", buildingsController.find_building);
