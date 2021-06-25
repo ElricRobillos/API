@@ -38,14 +38,14 @@ exports.view_all_users = (req, res) => {
     .catch((err) => errResponse(res, err));
 };
 
-// // Find a single User with an id
-// exports.findOne = (req, res) => { 
-//     const id = req.params.userID;
+// Find librarian
+exports.find_user = (req, res) => { 
+    const id = req.params.userID;
 
-//     users.findByPk(id)
-//     .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
-//     .catch((err) => errResponse(res, err));
-// };
+    users.findByPk(id)
+    .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+    .catch((err) => errResponse(res, err));
+};
 
 // // Update a User by the id in the request
 // exports.update = async (req, res) => {

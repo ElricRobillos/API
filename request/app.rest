@@ -32,8 +32,8 @@ POST http://localhost:3600/api/v1/home/login
 Content-Type: application/json
 
 {
-    "email": "ban@gmail.com",
-    "password": "password"
+    "email": "librarian@gmail.com",
+    "password": "admin"
 }
 
 
@@ -43,8 +43,8 @@ Content-Type: application/json
 ### login first to get the token then paste and replace the sample token
 ### change the example column and value depends on the what you want to create
 
-GET http://localhost:3600/api/v1/librarian/languages
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDM4NTUwNywiZXhwIjoxNjI0MzkyNzA3fQ.W4P-l5ml_2yJalJcdtupsMDEbta7fSNjInNE64iBezs
+GET http://localhost:3600/api/v1/librarian/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDU5NDY2MSwiZXhwIjoxNjI0NjAxODYxfQ.YG29kEfNilLHeYZkz1tiyYLbBNjg4mPydDP549Et0oI
 
 
 

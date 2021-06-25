@@ -4,6 +4,7 @@ var router = require("express").Router();
 const usersController = require("../controllers/librarian/users.controller");
 router.post("/users", usersController.add_user);
 router.get("/users", usersController.view_all_users);
+router.get("/users/:userID", usersController.find_user);
 router.delete("/users/:userID", usersController.change_user_status);
 
 //Authors
