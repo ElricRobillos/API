@@ -21,109 +21,13 @@ exports.add_authors = async (req, res) => {
 // Retrieve all authors
 exports.view_all_authors = (req, res) => {
     authors.findAll({
-        attributes:{
-            exclude:[
-                'materialID'
-            ]
-        },
         where:{ 
             status: "Active" 
         },
         include:[
             {
-                model: db.materials,
-                as: 'material',
-                attributes:{
-                    exclude: [
-                        'addedBy',
-                        'updatedBy',
-                        'addedAt',
-                        'updatedAt',
-                        'shelfID',
-                        'languageID',
-                        'typeID',
-                        'publisherID',
-                        'pubCountryID',
-                        'authorID',
-                        'genreID'
-                    ]
-                },
-                include : [
-                    {
-                        model: db.shelves,
-                        as: 'shelf',
-                        attributes:{
-                            exclude: [
-                                'addedBy',
-                                'updatedBy',
-                                'addedAt',
-                                'updatedAt',
-                                'roomID'
-                            ]
-                        }
-                    },
-                    {
-                        model: db.genres,
-                        as: 'genres',
-                        attributes:{
-                            exclude: [
-                                'addedBy',
-                                'updatedBy',
-                                'addedAt',
-                                'updatedAt',
-                                'materialID'
-                            ]
-                        }
-                    },
-                    {
-                        model: db.languages,
-                        as: 'language',
-                        attributes:{
-                            exclude: [
-                                'addedBy',
-                                'updatedBy',
-                                'addedAt',
-                                'updatedAt'
-                            ]
-                        }
-                    },
-                    {
-                        model: db.material_types,
-                        as: 'material_type',
-                        attributes:{
-                            exclude: [
-                                'addedBy',
-                                'updatedBy',
-                                'addedAt',
-                                'updatedAt'
-                            ]
-                        }
-                    },
-                    {
-                        model: db.publishers,
-                        as: 'publisher',
-                        attributes:{
-                            exclude: [
-                                'addedBy',
-                                'updatedBy',
-                                'addedAt',
-                                'updatedAt'
-                            ]
-                        }
-                    },
-                    {
-                        model: db.publication_countries,
-                        as: 'publication_country',
-                        attributes:{
-                            exclude: [
-                                'addedBy',
-                                'updatedBy',
-                                'addedAt',
-                                'updatedAt'
-                            ]
-                        }
-                    }
-                ]
+                model: db.author_material,
+                as: 'author_materials'
             }
         ] 
     })
@@ -136,111 +40,15 @@ exports.find_author = (req, res) => {
     const id = req.params.authorID; 
     
     authors.findByPk(id,{
-        attributes:{
-            exclude:[
-                'materialID'
-            ]
-        },
         where:{ 
             status: "Active" 
         },
         include:[
             {
-                model: db.materials,
-                as: 'material',
-                attributes:{
-                    exclude: [
-                        'addedBy',
-                        'updatedBy',
-                        'addedAt',
-                        'updatedAt',
-                        'shelfID',
-                        'languageID',
-                        'typeID',
-                        'publisherID',
-                        'pubCountryID',
-                        'authorID',
-                        'genreID'
-                    ]
-                },
-                include : [
-                    {
-                        model: db.shelves,
-                        as: 'shelf',
-                        attributes:{
-                            exclude: [
-                                'addedBy',
-                                'updatedBy',
-                                'addedAt',
-                                'updatedAt',
-                                'roomID'
-                            ]
-                        }
-                    },
-                    {
-                        model: db.languages,
-                        as: 'language',
-                        attributes:{
-                            exclude: [
-                                'addedBy',
-                                'updatedBy',
-                                'addedAt',
-                                'updatedAt'
-                            ]
-                        }
-                    },
-                    {
-                        model: db.material_types,
-                        as: 'material_type',
-                        attributes:{
-                            exclude: [
-                                'addedBy',
-                                'updatedBy',
-                                'addedAt',
-                                'updatedAt'
-                            ]
-                        }
-                    },
-                    {
-                        model: db.publishers,
-                        as: 'publisher',
-                        attributes:{
-                            exclude: [
-                                'addedBy',
-                                'updatedBy',
-                                'addedAt',
-                                'updatedAt'
-                            ]
-                        }
-                    },
-                    {
-                        model: db.publication_countries,
-                        as: 'publication_country',
-                        attributes:{
-                            exclude: [
-                                'addedBy',
-                                'updatedBy',
-                                'addedAt',
-                                'updatedAt'
-                            ]
-                        }
-                    },
-                    {
-                        model: db.genres,
-                        as: 'genres',
-                        attributes:{
-                            exclude: [
-                                'addedBy',
-                                'updatedBy',
-                                'addedAt',
-                                'updatedAt',
-                                'materialID'
-                            ]
-                        }
-                    }
-                ]
+                model: db.author_material,
+                as: 'author_materials'
             }
-        ]
+        ] 
     })
     .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
     .catch((err) => errResponse(res, err));
@@ -260,111 +68,15 @@ exports.update_author = async (req, res) => {
         if (result) {
             // success update
             authors.findByPk(id,{
-                attributes:{
-                    exclude:[
-                        'materialID'
-                    ]
-                },
                 where:{ 
                     status: "Active" 
                 },
                 include:[
                     {
-                        model: db.materials,
-                        as: 'material',
-                        attributes:{
-                            exclude: [
-                                'addedBy',
-                                'updatedBy',
-                                'addedAt',
-                                'updatedAt',
-                                'shelfID',
-                                'languageID',
-                                'typeID',
-                                'publisherID',
-                                'pubCountryID',
-                                'authorID',
-                                'genreID'
-                            ]
-                        },
-                        include : [
-                            {
-                                model: db.shelves,
-                                as: 'shelf',
-                                attributes:{
-                                    exclude: [
-                                        'addedBy',
-                                        'updatedBy',
-                                        'addedAt',
-                                        'updatedAt',
-                                        'roomID'
-                                    ]
-                                }
-                            },
-                            {
-                                model: db.genres,
-                                as: 'genres',
-                                attributes:{
-                                    exclude: [
-                                        'addedBy',
-                                        'updatedBy',
-                                        'addedAt',
-                                        'updatedAt',
-                                        'materialID'
-                                    ]
-                                }
-                            },
-                            {
-                                model: db.languages,
-                                as: 'language',
-                                attributes:{
-                                    exclude: [
-                                        'addedBy',
-                                        'updatedBy',
-                                        'addedAt',
-                                        'updatedAt'
-                                    ]
-                                }
-                            },
-                            {
-                                model: db.material_types,
-                                as: 'material_type',
-                                attributes:{
-                                    exclude: [
-                                        'addedBy',
-                                        'updatedBy',
-                                        'addedAt',
-                                        'updatedAt'
-                                    ]
-                                }
-                            },
-                            {
-                                model: db.publishers,
-                                as: 'publisher',
-                                attributes:{
-                                    exclude: [
-                                        'addedBy',
-                                        'updatedBy',
-                                        'addedAt',
-                                        'updatedAt'
-                                    ]
-                                }
-                            },
-                            {
-                                model: db.publication_countries,
-                                as: 'publication_country',
-                                attributes:{
-                                    exclude: [
-                                        'addedBy',
-                                        'updatedBy',
-                                        'addedAt',
-                                        'updatedAt'
-                                    ]
-                                }
-                            }
-                        ]
+                        model: db.author_material,
+                        as: 'author_materials'
                     }
-                ]
+                ] 
             })
             .then((data) => {
                 res.send({
