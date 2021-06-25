@@ -42,14 +42,14 @@ Content-Type: application/json
 ### login first to get the token then paste and replace the sample token
 ### change the example column and value depends on the what you want to create
 
-GET http://localhost:3600/api/v1/librarian/authors
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJjMGM1MTBhMi05OWM0LTRmMTctYjg4Ni1hOGIwOGNjZTdhZjMiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDYxODEwNiwiZXhwIjoxNjI0NjI4OTA2fQ.N4T-7ua0hpW_wZx9T2Gn24JPwlzl2LzXC-s7XoJtPZw
+GET http://localhost:3600/api/v1/librarian/materials
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJjMGM1MTBhMi05OWM0LTRmMTctYjg4Ni1hOGIwOGNjZTdhZjMiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDYyODg2NiwiZXhwIjoxNjI0NjM5NjY2fQ.4dfPlVkady8x-1AzfR8sTC4cVkPmTcqYBF1TZxB-DV0
 
 
 
 ### Find specific record
-GET http://localhost:3600/api/v1/librarian/authors/54848164-11ba-4f7e-9b4c-720adcb9b958
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDM4NTUwNywiZXhwIjoxNjI0MzkyNzA3fQ.W4P-l5ml_2yJalJcdtupsMDEbta7fSNjInNE64iBezs
+GET http://localhost:3600/api/v1/librarian/materials/b6bc4d67-83c4-415d-96a2-59a1f2e3f8a7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJjMGM1MTBhMi05OWM0LTRmMTctYjg4Ni1hOGIwOGNjZTdhZjMiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDYyODg2NiwiZXhwIjoxNjI0NjM5NjY2fQ.4dfPlVkady8x-1AzfR8sTC4cVkPmTcqYBF1TZxB-DV0
 
 
 
@@ -59,7 +59,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2Z
 ### change the example column and value depends on the what you want to create
 
 POST http://localhost:3600/api/v1/librarian/materials
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDM4NTUwNywiZXhwIjoxNjI0MzkyNzA3fQ.W4P-l5ml_2yJalJcdtupsMDEbta7fSNjInNE64iBezs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJjMGM1MTBhMi05OWM0LTRmMTctYjg4Ni1hOGIwOGNjZTdhZjMiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDYyODg2NiwiZXhwIjoxNjI0NjM5NjY2fQ.4dfPlVkady8x-1AzfR8sTC4cVkPmTcqYBF1TZxB-DV0
 Content-Type: application/json
 
 {
@@ -75,33 +75,11 @@ Content-Type: application/json
     "dateOfPublication": "2015-01-06",
     "description":"This unforgettable novel from renowned author Katherine Applegate celebrates the transformative power of unexpected friendship. Inspired by the true story of a captive gorilla known as Ivan, this illustrated book is told from the point of view of Ivan himself. Having spent twenty-seven years behind the glass walls of his enclosure in a shopping mall, Ivan has grown accustomed to humans watching him. He hardly ever thinks about his life in the jungle. Instead, Ivan occupies himself with television, his friends Stella and Bob, and painting. But when he meets Ruby, a baby elephant taken from the wild, he is forced to see their home, and his art, through new eyes.",
     "status": "Active",
-    "shelfID":"3a97ed0b-7b45-4169-af1e-f4fc222b34c7",
-    "languageID":"f57be3a3-4b0e-454d-b90b-854b71de9aa3",
-    "typeID":"4cb08e50-652c-44f7-8fc7-d5a0af4b7044",
-    "publisherID":"8f57648a-84d2-484a-a67a-5a8bf6869aea",
-    "pubCountryID":"51c00c7c-eb96-47b2-bab3-3606966601bd",
-    "authors": [
-        {
-            "authorFirstName":"Katherine",
-            "authorLastName": "Applegate",
-            "status":"Active"
-        },
-        {
-            "authorFirstName":"Patricia",
-            "authorLastName": "Castelao",
-            "status":"Active"
-        }
-    ],
-    "genres": [
-        {
-            "genre":"Novel",
-            "status":"Active"
-        },
-        {
-            "genre":"Adventure",
-            "status":"Active"
-        }
-    ]
+    "shelfID":"d716f07e-6723-4ec2-88f6-cd63087e4acb",
+    "languageID":"15ef910f-1283-4c23-b43d-be6b938ea01f",
+    "typeID":"deb90ffd-ec76-4640-923a-8cbc84fa5432",
+    "publisherID":"cb2376a9-4c84-431e-b9ee-4385c7f959f0",
+    "pubCountryID":"5b44e449-4426-4f53-b46f-45b4a9fe4ccf"
 }
 
 
@@ -128,12 +106,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2Z
 
 
 ###test
-POST http://localhost:3600/api/v1/librarian/buildings
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDU5NTU1NiwiZXhwIjoxNjI0NjAyNzU2fQ.jpCc-78bgljbN7AN15S-XSbGC0S_54gR9hb5P4SImnM
+POST http://localhost:3600/api/v1/librarian/author_material
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJjMGM1MTBhMi05OWM0LTRmMTctYjg4Ni1hOGIwOGNjZTdhZjMiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDYyNjMzNywiZXhwIjoxNjI0NjM3MTM3fQ.vLw9u9q-yIyXQ829_-OaHfXefVrcD2OYHhY1sX7GgHA
 Content-Type: application/json
 
 {
-    "buildingName":"AVR",
-    "location": "Near Roth",
-    "status":"Active"
+    "authorID":"f9839972-8c91-487c-9521-252ab150a9d7",
+    "materialID":"b6bc4d67-83c4-415d-96a2-59a1f2e3f8a7"
 }

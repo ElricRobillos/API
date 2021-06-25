@@ -15,6 +15,10 @@ router.get("/authors", authorsController.view_all_authors);
 router.get("/authors/:authorID", authorsController.find_author);
 router.delete("/authors/:authorID", authorsController.change_author_status);
 
+//Authors
+const author_materialController = require("../controllers/librarian/author_material.controller");
+router.post("/author_material", author_materialController.add_author_material);
+
 // Buildings Route
 const buildingsController = require("../controllers/librarian/buildings.controller");
 router.post("/buildings", buildingsController.add_building);
