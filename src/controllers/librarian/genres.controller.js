@@ -20,145 +20,109 @@ exports.add_genre = async (req, res) => {
 
 // Retrieve all genres
 exports.view_all_genres = (req, res) => {
-    genres.findAll({
-        attributes:{
-            exclude:[
-                'materialID'
-            ]
-        },
-        where:{ 
-            status: "Active" 
-        },
-        include:[
-            {
-                model: db.genre_material,
-                as: 'genre_materials'
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        genres.findAll({
+            where:{ 
+                status: "Active" 
             }
-        ]
-    })
-    .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
-    .catch((err) => errResponse(res, err));
+        })
+        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+        .catch((err) => errResponse(res, err));
+    }
 };
 
 // Find specific genre
 exports.find_genre = (req, res) => {
-    const id = req.params.genreID;
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        const id = req.params.genreID;
 
-    genres.findByPk(id,{
-        attributes:{
-            exclude:[
-                'materialID'
-            ]
-        },
-        where:{ 
-            status: "Active" 
-        },
-        include:[
-            {
-                model: db.genre_material,
-                as: 'genre_materials'
-            }
-        ]
-    })
-    .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
-    .catch((err)  => errResponse(res, err));
+        genres.findByPk(id)
+        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+        .catch((err)  => errResponse(res, err));
+    }
 };
 
 // Update genre record
 exports.update_genre = async (req, res) => {
-    const id = req.params.genreID;
-
-    genres.update(req.body, {
-        where:{ 
-        genreID: id 
-        }
-    })
-    .then((result) => {
-    console.log(result);
-    if (result) {
-        // success update
-        genres.findByPk(id,{
-            attributes:{
-                exclude:[
-                    'materialID'
-                ]
-            },
-            where:{ 
-                status: "Active" 
-            },
-            include:[
-                {
-                    model: db.genre_material,
-                    as: 'genre_materials'
-                }
-            ]
-        })
-        .then((data) => {
-            res.send({
-                error: false,
-                data: data,
-                message: [process.env.SUCCESS_UPDATE],
-            });
-        });
-    } else {
-        // error in updating
-        res.status(500).send({
-        error: true,
-        data: [],
-        message: ["Error in updating a record"],
-        });
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
     }
-    })
-    .catch((err)  => errResponse(res, err));
+    else{
+        const id = req.params.genreID;
+
+        genres.update(req.body, {
+            where:{ 
+            genreID: id 
+            }
+        })
+        .then((result) => {
+        console.log(result);
+        if (result) {
+            // success update
+            genres.findByPk(id)
+            .then((data) => {
+                res.send({
+                    error: false,
+                    data: data,
+                    message: [process.env.SUCCESS_UPDATE],
+                });
+            });
+        } else {
+            // error in updating
+            res.status(500).send({
+            error: true,
+            data: [],
+            message: ["Error in updating a record"],
+            });
+        }
+        })
+        .catch((err)  => errResponse(res, err));
+    }
 };
 
 // Change status of genre
 exports.change_genre_status = (req, res) => {
-    const id = req.params.genreID;
-    const body = { 
-    status: "Inactive" 
-    };
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        const id = req.params.genreID;
+        const body = { 
+        status: "Inactive" 
+        };
 
-    genres.update(body, {
-        where:{ 
-            genreID: id 
+        genres.update(body, {
+            where:{ 
+                genreID: id 
+            }
+            })
+        .then((result) => {
+        console.log(result);
+        if (result) {
+        // success update
+            genres.findByPk(id)
+            .then((data) => {
+                res.send({
+                    error: false,
+                    data: data,
+                    message: [process.env.STATUS_UPDATE],
+                });
+            });
+        } else {
+            // error in updating
+            res.status(500).send({
+            error: true,
+            data: [],
+            message: ["Error in deleting a record"],
+            });
         }
         })
-    .then((result) => {
-    console.log(result);
-    if (result) {
-      // success update
-        genres.findByPk(id,{
-            attributes:{
-                exclude:[
-                    'materialID'
-                ]
-            },
-            where:{ 
-                status: "Active" 
-            },
-            include:[
-                {
-                    model: db.genre_material,
-                    as: 'genre_materials'
-                }
-            ]
-        })
-        .then((data) => {
-            res.send({
-                error: false,
-                data: data,
-                message: [process.env.STATUS_UPDATE],
-            });
-        });
-    } else {
-        // error in updating
-        res.status(500).send({
-        error: true,
-        data: [],
-        message: ["Error in deleting a record"],
-        });
+        .catch((err)  => errResponse(res, err));
     }
-    })
-    .catch((err)  => errResponse(res, err));
 };

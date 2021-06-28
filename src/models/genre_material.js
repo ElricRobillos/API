@@ -12,20 +12,6 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
 
-      // Added
-      this.belongsTo(models.users, {
-        foreignKey: 'addedBy',
-        as: 'added_by_librarian',
-        onDelete: 'RESTRICT'
-      })
-
-      // Updated
-      this.belongsTo(models.users, {
-        foreignKey: 'updatedBy',
-        as: 'updated_by_librarian',
-        onDelete: 'RESTRICT'
-      })
-
       // genreID FK
       this.belongsTo(models.genres, {
         foreignKey: 'genreID',
@@ -56,15 +42,7 @@ module.exports = (sequelize, DataTypes) => {
     materialID: {
       type: DataTypes.UUID,
       allowNull: false,
-    },
-    addedBy: { 
-      type: DataTypes.UUID,
-      allowNull: true,
-    },
-    updatedBy: {
-      type: DataTypes.UUID,
-      allowNull: true,
-    },
+    }
 
   }, 
   

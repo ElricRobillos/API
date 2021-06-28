@@ -63,7 +63,7 @@ module.exports = (sequelize, DataTypes) => {
     borrowID : {
       type: DataTypes.UUID,
       primaryKey: true,
-      defaultValue: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV4
     }, 
     dueDate : {
       type : DataTypes.DATE,
@@ -82,8 +82,9 @@ module.exports = (sequelize, DataTypes) => {
     status :{
       type: DataTypes.STRING,
       validate : {
-        isIn:[["Not Return Yet", "Returned",  "Overdue"]] 
-    },
+        isIn:[["Unreturned", "Returned", "Overdue"]] 
+      },
+      defaultValue: "Unreturned"
     },
     //FK's
     copyID:{

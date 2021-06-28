@@ -42,14 +42,14 @@ Content-Type: application/json
 ### login first to get the token then paste and replace the sample token
 ### change the example column and value depends on the what you want to create
 
-GET http://localhost:3600/api/v1/librarian/materials
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJjMGM1MTBhMi05OWM0LTRmMTctYjg4Ni1hOGIwOGNjZTdhZjMiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDYyODg2NiwiZXhwIjoxNjI0NjM5NjY2fQ.4dfPlVkady8x-1AzfR8sTC4cVkPmTcqYBF1TZxB-DV0
+GET http://localhost:3600/api/v1/librarian/genres
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJjMGM1MTBhMi05OWM0LTRmMTctYjg4Ni1hOGIwOGNjZTdhZjMiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDg1NDU3NywiZXhwIjoxNjI0ODY1Mzc3fQ.MKwrO9BWw7CIiPosZcG3wKfHovwcuhI2vdxlYfMQaBE
 
 
 
 ### Find specific record
-GET http://localhost:3600/api/v1/librarian/materials/b6bc4d67-83c4-415d-96a2-59a1f2e3f8a7
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJjMGM1MTBhMi05OWM0LTRmMTctYjg4Ni1hOGIwOGNjZTdhZjMiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDYyODg2NiwiZXhwIjoxNjI0NjM5NjY2fQ.4dfPlVkady8x-1AzfR8sTC4cVkPmTcqYBF1TZxB-DV0
+GET http://localhost:3600/api/v1/librarian/materials/593fc725-9fbc-4f5c-a6f1-7d8b6ca37d17
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIyZDlmNmU4MS1iMGI3LTQzNzYtODgxMC1iZmNmNjMyNjU3NDUiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDkwMzE4MCwiZXhwIjoxNjI0OTEzOTgwfQ.ciwLgZxTiu7J9RmK1arfGwP5qSl9ouyQdGg05x0h36s
 
 
 
@@ -59,27 +59,43 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJjMGM1M
 ### change the example column and value depends on the what you want to create
 
 POST http://localhost:3600/api/v1/librarian/materials
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJjMGM1MTBhMi05OWM0LTRmMTctYjg4Ni1hOGIwOGNjZTdhZjMiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDYyODg2NiwiZXhwIjoxNjI0NjM5NjY2fQ.4dfPlVkady8x-1AzfR8sTC4cVkPmTcqYBF1TZxB-DV0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIyZDlmNmU4MS1iMGI3LTQzNzYtODgxMC1iZmNmNjMyNjU3NDUiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDkwMzE4MCwiZXhwIjoxNjI0OTEzOTgwfQ.ciwLgZxTiu7J9RmK1arfGwP5qSl9ouyQdGg05x0h36s
 Content-Type: application/json
 
 {
     "standardType": "ISBN",
     "standardNumber": "978-0-06-199227-8",
     "title": "The One and Only Ivan",
+    "author_materials":[
+        {
+            "authorID": "bfbec48b-925b-4f16-bc6c-61a170fd7955"
+        }
+    ],
+    "genre_materials":[
+        {
+            "genreID": "518e1482-d989-42a0-ab10-27266d3bdd10"
+        },
+        {
+            "genreID": "746ed845-9cea-43b3-9a9c-95f58c42e728"
+        },
+        {
+            "genreID": "4cb815ff-097d-4fd1-9966-b20fdfc77d44"
+        }
+    ],
     "format": "Paperback",
     "pageNo": "336",
     "volumeNo": "",
     "edition": "",
     "editionYear": "",
     "seriesYear": "",
-    "dateOfPublication": "2015-01-06",
+    "dateOfPublication": "2012-01-17",
     "description":"This unforgettable novel from renowned author Katherine Applegate celebrates the transformative power of unexpected friendship. Inspired by the true story of a captive gorilla known as Ivan, this illustrated book is told from the point of view of Ivan himself. Having spent twenty-seven years behind the glass walls of his enclosure in a shopping mall, Ivan has grown accustomed to humans watching him. He hardly ever thinks about his life in the jungle. Instead, Ivan occupies himself with television, his friends Stella and Bob, and painting. But when he meets Ruby, a baby elephant taken from the wild, he is forced to see their home, and his art, through new eyes.",
     "status": "Active",
-    "shelfID":"d716f07e-6723-4ec2-88f6-cd63087e4acb",
-    "languageID":"15ef910f-1283-4c23-b43d-be6b938ea01f",
-    "typeID":"deb90ffd-ec76-4640-923a-8cbc84fa5432",
-    "publisherID":"cb2376a9-4c84-431e-b9ee-4385c7f959f0",
-    "pubCountryID":"5b44e449-4426-4f53-b46f-45b4a9fe4ccf"
+    "shelfID":"4011678b-d51a-4717-a1d7-7caae6947191",
+    "languageID":"b34925bd-7857-4ff7-875e-5b2e41f21564",
+    "typeID":"2cf304c1-f30f-4aa7-bec9-0c8fcf828f1e",
+    "publisherID":"99c7c760-dc7e-4a51-9fdb-e5dcd1d8bbec",
+    "pubCountryID":"69c059cc-1491-413e-9f7e-f9656ebe9306"
 }
 
 
@@ -89,12 +105,12 @@ Content-Type: application/json
 ### login first to get the token then paste and replace the sample token
 ### id of the record you want to update is required   |ID located at the end of path|
 
-PUT http://localhost:3600/api/v1/librarian/buildings/0c2db614-2f10-4e7b-a66c-812ab5ca7839
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2ZDJjZC1jNmFjLTRhYjQtOTRlZi0xMDQ5MzkyMjhiYWYiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDYwMjQ4NSwiZXhwIjoxNjI0NjEzMjg1fQ.Y0GNf9tDremWLR-gKOFA_1DFOWXvDjFClaoLt4Fwm_4
+PUT http://localhost:3600/api/v1/librarian/publishers/f6ad93b1-fcbb-4112-b1ea-9ffc2205ae9f
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI4Nzc1Y2FkMi05NzhjLTQ2MmEtYjgwMi04ZWY2MGY1Zjg5MmQiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDkwMDkwMywiZXhwIjoxNjI0OTExNzAzfQ.Ff-36GN1g8o6jXrDUzG4kx2tg3woYVidyNi2Fo3zUpQ
 Content-Type: application/json
 
 {
-    "location":"Guard house"
+    "publisherName":"HarperCollins"
 }
 
 
@@ -106,11 +122,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2Z
 
 
 ###test
-POST http://localhost:3600/api/v1/librarian/author_material
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJjMGM1MTBhMi05OWM0LTRmMTctYjg4Ni1hOGIwOGNjZTdhZjMiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDYyNjMzNywiZXhwIjoxNjI0NjM3MTM3fQ.vLw9u9q-yIyXQ829_-OaHfXefVrcD2OYHhY1sX7GgHA
+POST http://localhost:3600/api/v1/librarian/genres
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIyZDlmNmU4MS1iMGI3LTQzNzYtODgxMC1iZmNmNjMyNjU3NDUiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDkwMzE4MCwiZXhwIjoxNjI0OTEzOTgwfQ.ciwLgZxTiu7J9RmK1arfGwP5qSl9ouyQdGg05x0h36s
 Content-Type: application/json
 
 {
-    "authorID":"f9839972-8c91-487c-9521-252ab150a9d7",
-    "materialID":"b6bc4d67-83c4-415d-96a2-59a1f2e3f8a7"
+    "genre":"Biographical Fiction",
+    "status":"Active"
 }

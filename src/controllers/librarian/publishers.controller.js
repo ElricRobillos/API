@@ -20,43 +20,57 @@ exports.add_publisher = async (req, res) => {
 
 // Retrieve all publishers
 exports.view_all_publishers = (req, res) => {
-    publishers.findAll({ 
-        where:{ 
-            status: "Active" 
-        }
-    })
-    .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
-    .catch((err) => errResponse(res, err));
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        publishers.findAll({ 
+            where:{ 
+                status: "Active" 
+            }
+        })
+        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+        .catch((err) => errResponse(res, err));
+    }
 };
 
 // Find specific publisher
 exports.find_publisher = (req, res) => {
-    const id = req.params.publisherID; 
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        const id = req.params.publisherID; 
 
-    publishers.findByPk(id,{
-        where:{ 
-            status: "Active" 
-        }
-    })
-    .then((data) => {
-        res.send({
-            error: false,
-            data: data,
-            message: [process.env.SUCCESS_RETRIEVED],
-        });
-    })
-    .catch((err) => errResponse(res, err));
+        publishers.findByPk(id,{
+            where:{ 
+                status: "Active" 
+            }
+        })
+        .then((data) => {
+            res.send({
+                error: false,
+                data: data,
+                message: [process.env.SUCCESS_RETRIEVED],
+            });
+        })
+        .catch((err) => errResponse(res, err));
+    }
 }; 
 
 // Update publisher record
 exports.update_publisher = async (req, res) => {
-    const id = req.params.publisherID;
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        const id = req.params.publisherID;
 
-    publishers.update(req.body, {
-        where:{ 
-            publisherID: id 
-        }
-    })
+        publishers.update(req.body, {
+            where:{ 
+                publisherID: id 
+            }
+        })
         .then((result) => {
         console.log(result);
         if (result) {
@@ -79,40 +93,46 @@ exports.update_publisher = async (req, res) => {
         }
         })
         .catch((err) => errResponse(res, err));
+    }
 };
 
 // Change status of publisher
 exports.change_publisher_status = (req, res) => {
-    const id = req.params.publisherID;
-    const body = { 
-        status: "Inactive" 
-    };
-    
-    publishers.update(body, {
-        where:{ 
-            publisherID: id 
-        }
-    })
-    .then((result) => {
-    console.log(result);
-    if (result) {
-        // success update
-        publishers.findByPk(id)
-        .then((data) => {
-            res.send({
-                error: false,
-                data: data,
-                message: [process.env.STATUS_UPDATE],
-            });
-        });
-    } else {
-        // error in updating
-        res.status(500).send({
-        error: true,
-        data: [],
-        message: ["Error in deleting a record"],
-        });
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
     }
-    })
-    .catch((err) => errResponse(res, err));
+    else{
+        const id = req.params.publisherID;
+        const body = { 
+            status: "Inactive" 
+        };
+        
+        publishers.update(body, {
+            where:{ 
+                publisherID: id 
+            }
+        })
+        .then((result) => {
+        console.log(result);
+        if (result) {
+            // success update
+            publishers.findByPk(id)
+            .then((data) => {
+                res.send({
+                    error: false,
+                    data: data,
+                    message: [process.env.STATUS_UPDATE],
+                });
+            });
+        } else {
+            // error in updating
+            res.status(500).send({
+            error: true,
+            data: [],
+            message: ["Error in deleting a record"],
+            });
+        }
+        })
+        .catch((err) => errResponse(res, err));
+    }
 };

@@ -20,6 +20,10 @@ exports.add_publication_country = async (req, res) => {
 
 // Retrieve all publication_countries
 exports.view_all_publication_countries = (req, res) => {
+  if (req.user == null || req.user.userType != 'Librarian'){
+    res.sendStatus(403);
+  }
+  else{
   publication_countries
     .findAll({ 
       where:{ 
@@ -27,29 +31,38 @@ exports.view_all_publication_countries = (req, res) => {
       } 
     })
     .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
-    .catch((err)  => errResponse(res, err));;
+    .catch((err)  => errResponse(res, err));
+  }
 };
 
 // Find specific publication_country
 exports.find_publication_country = (req, res) => {
-  const id = req.params.pubCountryID;
+  if (req.user == null || req.user.userType != 'Librarian'){
+    res.sendStatus(403);
+  }
+  else{
+    const id = req.params.pubCountryID;
 
-  publication_countries
-    .findByPk(id,{
-      where:{ 
-          status: "Active" 
-      }
-    })
-    .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
-    .catch((err)  => errResponse(res, err));
+    publication_countries
+      .findByPk(id,{
+        where:{ 
+            status: "Active" 
+        }
+      })
+      .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+      .catch((err)  => errResponse(res, err));
+  }
 };
 
 // Update publication_country record
 exports.update_publication_country = async (req, res) => {
-  const id = req.params.pubCountryID;
+  if (req.user == null || req.user.userType != 'Librarian'){
+    res.sendStatus(403);
+  }
+  else{
+    const id = req.params.pubCountryID;
 
-  publication_countries
-    .update(req.body, {
+    publication_countries.update(req.body, {
       where:{ 
         pubCountryID: id 
       }
@@ -76,17 +89,21 @@ exports.update_publication_country = async (req, res) => {
       }
     })
     .catch((err)  => errResponse(res, err));
+  }
 };
 
 // Change status of publication_country
 exports.change_publication_country_status = (req, res) => {
-  const id = req.params.pubCountryID;
-  const body = { 
-    status: "Inactive" 
-  };
-  
-  publication_countries
-    .update(body, {
+  if (req.user == null || req.user.userType != 'Librarian'){
+    res.sendStatus(403);
+  }
+  else{
+    const id = req.params.pubCountryID;
+    const body = { 
+      status: "Inactive" 
+    };
+    
+    publication_countries.update(body, {
       where:{ 
         pubCountryID: id 
       }
@@ -113,4 +130,5 @@ exports.change_publication_country_status = (req, res) => {
       }
     })
     .catch((err)  => errResponse(res, err));
+  }
 };

@@ -12,7 +12,14 @@ exports.add_transaction = async (req, res) => {
 
         req.body.updatedBy = req.user.userID
         
-        transactions.create(req.body)
+        transactions.create(req.body,{
+            include: [
+                {
+                    model: materials_borrow_records,
+                    as: "material_borrow_records"
+                }
+            ]
+        })
         .then((data) => dataResponse(res, data, 'A transaction is added successfully!', 'Failed to add transaction'))
         .catch((err) => errResponse(res, err));
     }
@@ -20,115 +27,94 @@ exports.add_transaction = async (req, res) => {
 
 // Retrieve all transactions
 exports.view_all_transactions = (req, res) => {
-    transactions.findAll({ 
-        attributes:{
-            exclude: [
-                'borrowID'
-            ]
-        },
-        where:{ 
-            status: "Active" 
-        },
-        include:[
-            {
-                model: db.materials_borrow_records,
-                as: 'material_borrow_records'
-            }
-        ] 
-    })
-    .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
-    .catch((err) => errResponse(res, err));
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        transactions.findAll({ 
+            attributes:{
+                exclude: [
+                    'borrowID'
+                ]
+            },
+            where:{ 
+                status: "Active" 
+            },
+            include:[
+                {
+                    model: db.materials_borrow_records,
+                    as: 'material_borrow_records'
+                }
+            ] 
+        })
+        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+        .catch((err) => errResponse(res, err));
+    }
 };
 
 // Find specific transaction
 exports.find_transaction = (req, res) => {
-    const id = req.params.transactionID; 
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        const id = req.params.transactionID; 
 
-    transactions.findByPk(id,{
-        attributes:{
-            exclude: [
-                'borrowID'
+        transactions.findByPk(id,{
+            attributes:{
+                exclude: [
+                    'borrowID'
+                ]
+            },
+            where:{ 
+                status: "Active" 
+            },
+            include:[
+                {
+                    model: db.materials_borrow_records,
+                    as: 'material_borrow_records'
+                }
             ]
-        },
-        where:{ 
-            status: "Active" 
-        },
-        include:[
-            {
-                model: db.materials_borrow_records,
-                as: 'material_borrow_records'
-            }
-        ]
-    }) 
-    .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
-    .catch((err) => errResponse(res, err));
+        }) 
+        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+        .catch((err) => errResponse(res, err));
+    }
 };
 
 // Update transaction record
 exports.update_transaction = async (req, res) => {
-    const id = req.params.transactionID;
-
-    transactions.update(req.body, {
-        where:{ 
-            transactionID: id 
-        }
-    })
-    .then((result) => {
-    console.log(result);
-    if (result) {
-        // success update
-        transactions.findByPk(id)
-        .then((data) => {
-            res.send({
-                error: false,
-                data: data,
-                message: [process.env.SUCCESS_UPDATE],
-            });
-        });
-    } else {
-        // error in updating
-        res.status(500).send({
-        error: true,
-        data: [],
-        message: ["Error in updating a record"],
-        });
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
     }
-    })
-    .catch((err) => errResponse(res, err));
-};
+    else{
+        const id = req.params.transactionID;
 
-// Change status of transaction
-exports.change_transaction_status = (req, res) => {
-    const id = req.params.transactionID;
-    const body = { 
-        status: "Inactive" 
-    };
-    transactions.update(body, {
-        where:{ 
-            transactionID: id 
-        }
-    })
-    .then((result) => {
-    console.log(result);
-    if (result) {
-        // success update
-        transactions.findByPk(id)
-        .then((data) => {
-            res.send({
-                error: false,
-                data: data,
-                message: [process.env.STATUS_UPDATE],
+        transactions.update(req.body, {
+            where:{ 
+                transactionID: id 
+            }
+        })
+        .then((result) => {
+        console.log(result);
+        if (result) {
+            // success update
+            transactions.findByPk(id)
+            .then((data) => {
+                res.send({
+                    error: false,
+                    data: data,
+                    message: [process.env.SUCCESS_UPDATE],
+                });
             });
-        });
-    } else {
-        // error in updating
-        res.status(500).send({
-        error: true,
-        data: [],
-        message: ["Error in deleting a record"],
-        });
+        } else {
+            // error in updating
+            res.status(500).send({
+            error: true,
+            data: [],
+            message: ["Error in updating a record"],
+            });
+        }
+        })
+        .catch((err) => errResponse(res, err));
     }
-    })
-    .catch((err) => errResponse(res, err));
 };
-

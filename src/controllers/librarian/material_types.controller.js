@@ -20,37 +20,51 @@ exports.add_material_type = async (req, res) => {
 
 // Retrieve all material_types
 exports.view_all_material_types = (req, res) => {
-    material_types.findAll({ 
-        where:{ 
-            status: "Active" 
-        }
-    })
-    .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
-    .catch((err) => errResponse(res, err));
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        material_types.findAll({ 
+            where:{ 
+                status: "Active" 
+            }
+        })
+        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+        .catch((err) => errResponse(res, err));
+    }
 };
 
 // Find specific material_type
 exports.find_material_type = (req, res) => {
-    const id = req.params.typeID; 
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        const id = req.params.typeID; 
 
-    material_types.findByPk(id,{
-        where:{ 
-            status: "Active" 
-        }
-    })
-    .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
-    .catch((err) => errResponse(res, err));
+        material_types.findByPk(id,{
+            where:{ 
+                status: "Active" 
+            }
+        })
+        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+        .catch((err) => errResponse(res, err));
+    }
 };
 
 // Update material_type record
 exports.update_material_type = async (req, res) => {
-    const id = req.params.typeID;
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        const id = req.params.typeID;
 
-    material_types.update(req.body, {
-        where:{ 
-            typeID: id 
-        }
-    })
+        material_types.update(req.body, {
+            where:{ 
+                typeID: id 
+            }
+        })
         .then((result) => {
         console.log(result);
         if (result) {
@@ -73,41 +87,47 @@ exports.update_material_type = async (req, res) => {
         }
         })
         .catch((err) => errResponse(res, err));
+    }
 };
 
 // Change status of material_type
 exports.change_material_type_status = (req, res) => {
-    const id = req.params.typeID;
-    const body = { 
-        status: "Inactive" 
-    };
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        const id = req.params.typeID;
+        const body = { 
+            status: "Inactive" 
+        };
 
-    material_types.update(body, {
-        where:{ 
-            typeID: id 
-        }
-    })
-    .then((result) => {
-        console.log(result);
-        if (result) {
-            // success update
-            material_types.findByPk(id)
-            .then((data) => {
-                res.send({
-                    error: false,
-                    data: data,
-                    message: [process.env.STATUS_UPDATE],
+        material_types.update(body, {
+            where:{ 
+                typeID: id 
+            }
+        })
+        .then((result) => {
+            console.log(result);
+            if (result) {
+                // success update
+                material_types.findByPk(id)
+                .then((data) => {
+                    res.send({
+                        error: false,
+                        data: data,
+                        message: [process.env.STATUS_UPDATE],
+                    });
                 });
-            });
-        } else {
-            // error in updating
-            res.status(500).send({
-            error: true,
-            data: [],
-            message: ["Error in deleting a record"],
-            });
-        }
-    })
-    .catch((err) => errResponse(res, err));
+            } else {
+                // error in updating
+                res.status(500).send({
+                error: true,
+                data: [],
+                message: ["Error in deleting a record"],
+                });
+            }
+        })
+        .catch((err) => errResponse(res, err));
+    }
 };
 

@@ -15,9 +15,9 @@ router.get("/authors", authorsController.view_all_authors);
 router.get("/authors/:authorID", authorsController.find_author);
 router.delete("/authors/:authorID", authorsController.change_author_status);
 
-//Authors
+//Author Material
 const author_materialController = require("../controllers/librarian/author_material.controller");
-router.post("/author_material", author_materialController.add_author_material);
+router.get("/author_material/:authorMaterialID", author_materialController.view_author_materials);
 
 // Buildings Route
 const buildingsController = require("../controllers/librarian/buildings.controller");
@@ -43,6 +43,10 @@ router.get("/genres", genresController.view_all_genres);
 router.get("/genres/:genreID", genresController.find_genre);
 router.delete("/genres/:genreID", genresController.change_genre_status);
 
+//Genre Material
+const genre_materialController = require("../controllers/librarian/genre_material.controller");
+router.get("/genre_material/:genreMaterialID", genre_materialController.view_genre_materials);
+
 // Languages Route
 const languagesController = require("../controllers/librarian/languages.controller");
 router.post("/languages", languagesController.add_language);
@@ -61,7 +65,6 @@ router.delete("/material_types/:typeID", material_typesController.change_materia
 
 // Material Borrow Records Route
 const materials_borrow_recordsController = require("../controllers/librarian/materials_borrow_records.controller");
-router.post("/materials_borrow_records", materials_borrow_recordsController.add_materials_borrow_record);
 router.put("/materials_borrow_records/:borrowID", materials_borrow_recordsController.update_materials_borrow_record);
 router.get("/materials_borrow_records", materials_borrow_recordsController.view_all_materials_borrow_records);
 router.get("/materials_borrow_records/:borrowID", materials_borrow_recordsController.find_materials_borrow_record);
@@ -112,15 +115,12 @@ router.post("/transactions", transactionsController.add_transaction);
 router.put("/transactions/:transactionID", transactionsController.update_transaction);
 router.get("/transactions", transactionsController.view_all_transactions);
 router.get("/transactions/:transactionID", transactionsController.find_transaction);
-router.delete("/transactions/:transactionID", transactionsController.change_transaction_status);
 
 // Weedings Route
 const weedingsController = require("../controllers/librarian/weedings.controller");
-router.post("/weedings", weedingsController.add_weeding);
 router.put("/weedings/:weedID", weedingsController.update_weeding);
 router.get("/weedings", weedingsController.view_all_weedings);
 router.get("/weedings/:weedID", weedingsController.find_weeding);
-router.delete("/weedings/:weedID", weedingsController.change_weeding_status);
 
 
 

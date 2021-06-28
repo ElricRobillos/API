@@ -20,96 +20,116 @@ exports.add_copy = async (req, res) => {
 
 // Retrieve all copies
 exports.view_all_copies = (req, res) => {
-    copies.findAll({ 
-        where:{ 
-            status: "Active"
-        }
-    })
-    .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
-    .catch((err)  => errResponse(res, err));
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        copies.findAll({ 
+            where:{ 
+                status: "Active"
+            }
+        })
+        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+        .catch((err)  => errResponse(res, err));
+    }
 };
 
 // Find specific copy
 exports.find_copy = (req, res) => {
-    const id = req.params.copyID; 
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        const id = req.params.copyID; 
 
-    copies.findByPk(id)
-    .then((data) => {
-        res.send({
-            error: false,
-            data: data,
-            message: [process.env.SUCCESS_RETRIEVED],
-        });
-    })
-    .catch((err)  => errResponse(res, err));
+        copies.findByPk(id)
+        .then((data) => {
+            res.send({
+                error: false,
+                data: data,
+                message: [process.env.SUCCESS_RETRIEVED],
+            });
+        })
+        .catch((err)  => errResponse(res, err));
+    }
 };
 
 // Update copy record
 exports.update_copy = async (req, res) => {
-    const id = req.params.copyID;
-    
-    copies.update(req.body, {
-        where:{ 
-            copyID: id 
-        }
-    })
-    .then((result) => {
-    console.log(result);
-    if (result) {
-        // success update
-        copies.findByPk(id)
-        .then((data) => {
-            res.send({
-                error: false,
-                data: data,
-                message: [process.env.SUCCESS_UPDATE],
-            });
-        });
-    } else {
-        // error in updating
-        res.status(500).send({
-        error: true,
-        data: [],
-        message: ["Error in updating a record"],
-        });
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
     }
-    })
-    .catch((err)  => errResponse(res, err));
+    else{
+        const id = req.params.copyID;
+        
+        copies.update(req.body, {
+            where:{ 
+                copyID: id 
+            }
+        })
+        .then((result) => {
+        console.log(result);
+        if (result) {
+            // success update
+            copies.findByPk(id)
+            .then((data) => {
+                res.send({
+                    error: false,
+                    data: data,
+                    message: [process.env.SUCCESS_UPDATE],
+                });
+            });
+        } else {
+            // error in updating
+            res.status(500).send({
+            error: true,
+            data: [],
+            message: ["Error in updating a record"],
+            });
+        }
+        })
+        .catch((err)  => errResponse(res, err));
+    }
 };
 
 // Change status of copy
 exports.change_copy_status = (req, res) => {
-    const id = req.params.copyID;
-    const body = { 
-        status: "Inactive" 
-    };
-
-    copies.update(body, {
-        where:{ 
-            copyID: id 
-        }
-    })
-    .then((result) => {
-    console.log(result);
-    if (result) {
-        // success update
-        copies.findByPk(id)
-        .then((data) => {
-            res.send({
-                error: false,
-                data: data,
-                message: [process.env.STATUS_UPDATE],
-            });
-        });
-    } else {
-        // error in updating
-        res.status(500).send({
-        error: true,
-        data: [],
-        message: ["Error in deleting a record"],
-        });
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
     }
-    })
-    .catch((err)  => errResponse(res, err));
+    else{
+        const id = req.params.copyID;
+        const body = { 
+            status: "Inactive" 
+        };
+
+        copies.update(body, {
+            where:{ 
+                copyID: id 
+            }
+        })
+        .then((result) => {
+        console.log(result);
+        if (result) {
+            // success update
+            copies.findByPk(id)
+            .then((data) => {
+                res.send({
+                    error: false,
+                    data: data,
+                    message: [process.env.STATUS_UPDATE],
+                });
+            });
+        } else {
+            // error in updating
+            res.status(500).send({
+            error: true,
+            data: [],
+            message: ["Error in deleting a record"],
+            });
+        }
+        })
+        .catch((err)  => errResponse(res, err));
+    }
 };
 

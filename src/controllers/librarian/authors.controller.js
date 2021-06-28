@@ -20,132 +20,115 @@ exports.add_authors = async (req, res) => {
 
 // Retrieve all authors
 exports.view_all_authors = (req, res) => {
-    authors.findAll({
-        where:{ 
-            status: "Active" 
-        },
-        include:[
-            {
-                model: db.author_material,
-                as: 'author_materials'
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        authors.findAll({
+            where:{ 
+                status: "Active" 
             }
-        ] 
-    })
-    .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
-    .catch((err) => errResponse(res, err));
+        })
+        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+        .catch((err) => errResponse(res, err));
+    }
 };
 
 // Find specific author
 exports.find_author = (req, res) => {
-    const id = req.params.authorID; 
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        const id = req.params.authorID; 
     
-    authors.findByPk(id,{
-        where:{ 
-            status: "Active" 
-        },
-        include:[
-            {
-                model: db.author_material,
-                as: 'author_materials'
+        authors.findByPk(id,{
+            where:{ 
+                status: "Active" 
             }
-        ] 
-    })
+        })
     .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
     .catch((err) => errResponse(res, err));
+    }
 };
 
 // Update an author record
 exports.update_author = async (req, res) => {
-    const id = req.params.authorID;
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        const id = req.params.authorID;
 
-    authors.update(req.body, {
-        where:{ 
-            authorID: id 
-        }
-    })
-    .then((result) => {
-        console.log(result);
-        if (result) {
-            // success update
-            authors.findByPk(id,{
-                where:{ 
-                    status: "Active" 
-                },
-                include:[
-                    {
-                        model: db.author_material,
-                        as: 'author_materials'
-                    }
-                ] 
-            })
-            .then((data) => {
-                res.send({
-                    error: false,
-                    data: data,
-                    message: [process.env.SUCCESS_UPDATE],
+        authors.update(req.body, {
+            where:{ 
+                authorID: id 
+            }
+        })
+        .then((result) => {
+            console.log(result);
+            if (result) {
+                // success update
+                authors.findByPk(id)
+                .then((data) => {
+                    res.send({
+                        error: false,
+                        data: data,
+                        message: [process.env.SUCCESS_UPDATE],
+                    });
                 });
-            });
-        } else {
-            // error in updating
-            res.status(500).send({
-            error: true,
-            data: [],
-            message: ["Error in updating a record"],
-            });
-        }
-    })
-    .catch((err) => errResponse(res, err));
+            } else {
+                // error in updating
+                res.status(500).send({
+                error: true,
+                data: [],
+                message: ["Error in updating a record"],
+                });
+            }
+        })
+        .catch((err) => errResponse(res, err));
+    }
 };
 
 
 // Change status of author
 exports.change_author_status = (req, res) => {
-    const id = req.params.authorID;
-    const body = {
-        status: "Inactive"
-    };
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        const id = req.params.authorID;
+        const body = {
+            status: "Inactive"
+        };
 
-    authors.update(body, {
-        where:{ 
-            authorID: id 
-        }
-    })
-    .then((result) => {
-        console.log(result);
-        if (result) {
-            // success update
-            authors.findByPk(id,{
-                attributes:{
-                    exclude:[
-                        'materialID'
-                    ]
-                },
-                where:{ 
-                    status: "Active" 
-                },
-                include:[
-                    {
-                        model: db.author_material,
-                        as: 'author_materials'
-                    }
-                ] 
-            })
-            .then((data) => {
-                res.send({
-                    error: false,
-                    data: data,
-                    message: [process.env.STATUS_UPDATE],
+        authors.update(body, {
+            where:{ 
+                authorID: id 
+            }
+        })
+        .then((result) => {
+            console.log(result);
+            if (result) {
+                // success update
+                authors.findByPk(id)
+                .then((data) => {
+                    res.send({
+                        error: false,
+                        data: data,
+                        message: [process.env.STATUS_UPDATE],
+                    });
                 });
-            });
-        } else {
-            // error in updating
-            res.status(500).send({
-            error: true,
-            data: [],
-            message: ["Error in deleting a record"],
-            });
-        }
-    })
-    .catch((err) => errResponse(res, err));
+            } else {
+                // error in updating
+                res.status(500).send({
+                error: true,
+                data: [],
+                message: ["Error in deleting a record"],
+                });
+            }
+        })
+        .catch((err) => errResponse(res, err));
+    }
 };
 
