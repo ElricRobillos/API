@@ -25,7 +25,7 @@ router.post("/buildings", buildingsController.add_building);
 router.put("/buildings/:buildingID", buildingsController.update_building);
 router.get("/buildings/", buildingsController.view_all_buildings);
 router.get("/buildings/:buildingID", buildingsController.find_building);
-router.delete("/buildings/:buildingID", buildingsController.change_building_status);
+router.delete("/buildings/:buildingID", buildingsController.delete_building);
 
 // Copies Route
 const copiesController = require("../controllers/librarian/copies.controller");

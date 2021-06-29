@@ -38,11 +38,7 @@ exports.view_all_buildings = (req, res) => {
         res.sendStatus(403);
     }
     else{
-        buildings.findAll({ 
-            where:{ 
-                status: "Active"
-            }
-        })
+        buildings.findAll()
         .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
         .catch((err) => errResponse(res, err));
     }
@@ -100,36 +96,33 @@ exports.update_building = async (req, res) => {
     }
 };
 
-// Change status of building
-exports.change_building_status = (req, res) => {
+// Deleting building record
+exports.delete_building = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
     }
     else{
         const id = req.params.buildingID;
-        const body = { 
-            status: "Inactive" 
-        };
 
-        buildings.update(body, {
+        buildings.destroy({
             where:{ 
                 buildingID: id 
             }
         })
         .then((result) => {
             console.log(result);
-            // success update
+            // success delete
             if (result) {
                 buildings.findByPk(id)
                 .then((data) => {
                     res.send({
                         error: false,
                         data: data,
-                        message: [process.env.STATUS_UPDATE],
+                        message: [process.env.SUCCES_DELETE],
                     });
                 });
             } else {
-                // error in updating
+                // error in deleting
                 res.status(500).send({
                 error: true,
                 data: [],
