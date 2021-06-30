@@ -24,11 +24,7 @@ exports.view_all_languages = (req, res) => {
     res.sendStatus(403);
   }
   else{
-    languages.findAll({
-      where:{ 
-          status: "Active" 
-      }
-    })
+    languages.findAll()
     .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
     .catch((err)  => errResponse(res, err));
   }

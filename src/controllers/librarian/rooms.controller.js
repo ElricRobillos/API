@@ -30,9 +30,6 @@ exports.view_all_rooms = (req, res) => {
                     'buildingID'
                 ]
             },
-            where:{ 
-                status: "Active" 
-            },
             include:[
                 {
                     model: db.buildings,
@@ -58,9 +55,6 @@ exports.find_room = (req, res) => {
                 exclude: [
                     'buildingID'
                 ]
-            },
-            where:{ 
-                status: "Active" 
             },
             include:[
                 {

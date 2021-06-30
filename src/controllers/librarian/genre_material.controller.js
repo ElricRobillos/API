@@ -11,9 +11,6 @@ exports.view_genre_materials = (req, res) => {
         const id = req.params.genreMaterialID; 
 
         genre_material.findByPk(id,{
-            where: { 
-                status: "Active"
-            },
             attributes:{
                 exclude:[
                     'materialID',

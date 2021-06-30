@@ -55,18 +55,17 @@ module.exports = (sequelize, DataTypes) => {
     copyNumber: {
       type: DataTypes.UUID,
       allowNull: false,
+      unique: { msg: "Copy Number already exists." },
       validate: {
         notNull: { msg : 'copy number should not be null'},
         notEmpty: { msg : 'copy number should not be empty'},
-      },
-      unique: {msg: "Unique - copyNumber already exists"},
-      defaultValue: DataTypes.UUIDV4
+      }
     },
 
     status :{
       type: DataTypes.STRING,
       validate : {
-        isIn:[["Active", "Inactive", "Weeding"]] 
+        isIn:[["Available", "Unavailable", "Weeded"]] 
       },
     },
 

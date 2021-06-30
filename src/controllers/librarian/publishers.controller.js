@@ -24,11 +24,7 @@ exports.view_all_publishers = (req, res) => {
         res.sendStatus(403);
     }
     else{
-        publishers.findAll({ 
-            where:{ 
-                status: "Active" 
-            }
-        })
+        publishers.findAll()
         .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
         .catch((err) => errResponse(res, err));
     }
@@ -42,11 +38,7 @@ exports.find_publisher = (req, res) => {
     else{
         const id = req.params.publisherID; 
 
-        publishers.findByPk(id,{
-            where:{ 
-                status: "Active" 
-            }
-        })
+        publishers.findByPk(id)
         .then((data) => {
             res.send({
                 error: false,

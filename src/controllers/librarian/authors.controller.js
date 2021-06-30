@@ -24,11 +24,7 @@ exports.view_all_authors = (req, res) => {
         res.sendStatus(403);
     }
     else{
-        authors.findAll({
-            where:{ 
-                status: "Active" 
-            }
-        })
+        authors.findAll()
         .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
         .catch((err) => errResponse(res, err));
     }
@@ -42,13 +38,9 @@ exports.find_author = (req, res) => {
     else{
         const id = req.params.authorID; 
     
-        authors.findByPk(id,{
-            where:{ 
-                status: "Active" 
-            }
-        })
-    .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
-    .catch((err) => errResponse(res, err));
+        authors.findByPk(id)
+        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+        .catch((err) => errResponse(res, err));
     }
 };
 
@@ -91,36 +83,33 @@ exports.update_author = async (req, res) => {
 };
 
 
-// Change status of author
-exports.change_author_status = (req, res) => {
+// Deleting authors record
+exports.delete_author = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
     }
     else{
         const id = req.params.authorID;
-        const body = {
-            status: "Inactive"
-        };
 
-        authors.update(body, {
+        authors.destroy({
             where:{ 
                 authorID: id 
             }
         })
         .then((result) => {
             console.log(result);
+            // success delete
             if (result) {
-                // success update
                 authors.findByPk(id)
                 .then((data) => {
                     res.send({
                         error: false,
                         data: data,
-                        message: [process.env.STATUS_UPDATE],
+                        message: [process.env.SUCCESS_DELETE],
                     });
                 });
             } else {
-                // error in updating
+                // error in deleting
                 res.status(500).send({
                 error: true,
                 data: [],

@@ -15,9 +15,6 @@ exports.view_all_materials_borrow_records = (req, res) => {
                     'transactionID'
                 ]
             },
-            where:{ 
-                status: "Active" 
-            },
             include:[
                 {
                     model: db.copies,
@@ -48,9 +45,6 @@ exports.find_materials_borrow_record = (req, res) => {
                     'copyID',
                     'transactionID'
                 ]
-            },
-            where:{ 
-                status: "Active" 
             },
             include:[
                 {

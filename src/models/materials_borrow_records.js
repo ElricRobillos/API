@@ -70,8 +70,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull : false
     },
     returnDate: {
-      type : DataTypes.DATE,
-      allowNull : false
+      type : DataTypes.DATE
     },
     returnProcessBy : {
       type: DataTypes.STRING

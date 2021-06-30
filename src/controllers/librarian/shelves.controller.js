@@ -30,9 +30,6 @@ exports.view_all_shelves = (req, res) => {
                     'roomID'
                 ]
             },
-            where:{ 
-                status: "Active" 
-            },
             include:[
                 {
                     model: db.rooms,
@@ -58,9 +55,6 @@ exports.find_shelf = (req, res) => {
                 exclude: [
                     'roomID'
                 ]
-            },
-            where:{ 
-                status: "Active" 
             },
             include:[
                 {

@@ -37,16 +37,6 @@ Content-Type: application/json
 
 
 
-### FOR GET    |don't forget to change the path before send request|
-### Check the path at routes folder
-### login first to get the token then paste and replace the sample token
-### change the example column and value depends on the what you want to create
-
-GET http://localhost:3600/api/v1/librarian/genres
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJjMGM1MTBhMi05OWM0LTRmMTctYjg4Ni1hOGIwOGNjZTdhZjMiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDg1NDU3NywiZXhwIjoxNjI0ODY1Mzc3fQ.MKwrO9BWw7CIiPosZcG3wKfHovwcuhI2vdxlYfMQaBE
-
-
-
 ### Find specific record
 GET http://localhost:3600/api/v1/librarian/materials/593fc725-9fbc-4f5c-a6f1-7d8b6ca37d17
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIyZDlmNmU4MS1iMGI3LTQzNzYtODgxMC1iZmNmNjMyNjU3NDUiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDkwMzE4MCwiZXhwIjoxNjI0OTEzOTgwfQ.ciwLgZxTiu7J9RmK1arfGwP5qSl9ouyQdGg05x0h36s
@@ -105,12 +95,12 @@ Content-Type: application/json
 ### login first to get the token then paste and replace the sample token
 ### id of the record you want to update is required   |ID located at the end of path|
 
-PUT http://localhost:3600/api/v1/librarian/publishers/f6ad93b1-fcbb-4112-b1ea-9ffc2205ae9f
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI4Nzc1Y2FkMi05NzhjLTQ2MmEtYjgwMi04ZWY2MGY1Zjg5MmQiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDkwMDkwMywiZXhwIjoxNjI0OTExNzAzfQ.Ff-36GN1g8o6jXrDUzG4kx2tg3woYVidyNi2Fo3zUpQ
+PUT http://localhost:3600/api/v1/librarian/rooms/e733c99c-fd11-45fa-bdaf-5292d0fdb8e6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIyZDlmNmU4MS1iMGI3LTQzNzYtODgxMC1iZmNmNjMyNjU3NDUiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNTA2NTkzOSwiZXhwIjoxNjI1MDc2NzM5fQ.oJ8aTK1zMCxcdq9l9pji0uH1ygOCk3qlUxFYDi3M9P8
 Content-Type: application/json
 
 {
-    "publisherName":"HarperCollins"
+    "status":"Inactive"
 }
 
 
@@ -122,11 +112,39 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJmZmU2Z
 
 
 ###test
-POST http://localhost:3600/api/v1/librarian/genres
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIyZDlmNmU4MS1iMGI3LTQzNzYtODgxMC1iZmNmNjMyNjU3NDUiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNDkwMzE4MCwiZXhwIjoxNjI0OTEzOTgwfQ.ciwLgZxTiu7J9RmK1arfGwP5qSl9ouyQdGg05x0h36s
+POST http://localhost:3600/api/v1/librarian/copies
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIyZDlmNmU4MS1iMGI3LTQzNzYtODgxMC1iZmNmNjMyNjU3NDUiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNTA2NTkzOSwiZXhwIjoxNjI1MDc2NzM5fQ.oJ8aTK1zMCxcdq9l9pji0uH1ygOCk3qlUxFYDi3M9P8
 Content-Type: application/json
 
 {
-    "genre":"Biographical Fiction",
-    "status":"Active"
+    "copyNumber":"COPYID-04",
+    "status":"Available",
+    "materialID": "593fc725-9fbc-4f5c-a6f1-7d8b6ca37d17"
 }
+
+###
+
+POST http://localhost:3600/api/v1/librarian/transactions
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIyZDlmNmU4MS1iMGI3LTQzNzYtODgxMC1iZmNmNjMyNjU3NDUiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNTA2NTkzOSwiZXhwIjoxNjI1MDc2NzM5fQ.oJ8aTK1zMCxcdq9l9pji0uH1ygOCk3qlUxFYDi3M9P8
+Content-Type: application/json
+
+{
+    "borrowDate":"2021-07-20",
+    "userID": "b6002375-7476-4b52-a692-c606e0887bf8",
+    "material_borrow_records":[
+        {
+            "dueDate": "2021-07-30",
+            "status": "Unreturned",
+            "copyID": "5920058d-e92c-4971-95f6-cace78e82ee9"
+        }
+    ]
+}
+
+
+### FOR GET    |don't forget to change the path before send request|
+### Check the path at routes folder
+### login first to get the token then paste and replace the sample token
+### change the example column and value depends on the what you want to create
+
+GET http://localhost:3600/api/v1/librarian/authors
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIyZDlmNmU4MS1iMGI3LTQzNzYtODgxMC1iZmNmNjMyNjU3NDUiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNTA3MTc3NiwiZXhwIjoxNjI1MDgyNTc2fQ.YnMiwbEpNT1XrBEcoQMVsTSSc6T-e98HuZxZLaMWSKc

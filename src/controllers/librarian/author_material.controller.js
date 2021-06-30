@@ -11,9 +11,6 @@ exports.view_author_materials = (req, res) => {
         const id = req.params.authorMaterialID; 
 
         author_material.findByPk(id,{
-            where: { 
-                status: "Active"
-            },
             attributes:{
                 exclude:[
                     'materialID',

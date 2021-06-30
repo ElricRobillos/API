@@ -25,11 +25,7 @@ exports.view_all_publication_countries = (req, res) => {
   }
   else{
   publication_countries
-    .findAll({ 
-      where:{ 
-          status: "Active" 
-      } 
-    })
+    .findAll()
     .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
     .catch((err)  => errResponse(res, err));
   }
@@ -44,11 +40,7 @@ exports.find_publication_country = (req, res) => {
     const id = req.params.pubCountryID;
 
     publication_countries
-      .findByPk(id,{
-        where:{ 
-            status: "Active" 
-        }
-      })
+      .findByPk(id)
       .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
       .catch((err)  => errResponse(res, err));
   }

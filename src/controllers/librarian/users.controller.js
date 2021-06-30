@@ -33,11 +33,7 @@ exports.view_all_users = (req, res) => {
         res.sendStatus(403);
     }
     else{
-        users.findAll({ 
-            where:{ 
-                status: "Active" 
-            }
-        })
+        users.findAll()
         .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
         .catch((err) => errResponse(res, err));
     }

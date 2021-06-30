@@ -118,7 +118,7 @@ exports.delete_building = (req, res) => {
                     res.send({
                         error: false,
                         data: data,
-                        message: [process.env.SUCCES_DELETE],
+                        message: [process.env.SUCCESS_DELETE],
                     });
                 });
             } else {

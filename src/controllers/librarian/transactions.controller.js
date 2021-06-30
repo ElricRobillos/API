@@ -15,7 +15,7 @@ exports.add_transaction = async (req, res) => {
         transactions.create(req.body,{
             include: [
                 {
-                    model: materials_borrow_records,
+                    model: db.materials_borrow_records,
                     as: "material_borrow_records"
                 }
             ]
@@ -37,13 +37,21 @@ exports.view_all_transactions = (req, res) => {
                     'borrowID'
                 ]
             },
-            where:{ 
-                status: "Active" 
-            },
             include:[
                 {
                     model: db.materials_borrow_records,
-                    as: 'material_borrow_records'
+                    as: 'material_borrow_records',
+                    attributes:{
+                        exclude: [
+                            'copyID'
+                        ]
+                    },
+                    include:[
+                        {
+                            model: db.copies,
+                            as: 'copy'
+                        }
+                    ]
                 }
             ] 
         })
@@ -66,13 +74,21 @@ exports.find_transaction = (req, res) => {
                     'borrowID'
                 ]
             },
-            where:{ 
-                status: "Active" 
-            },
             include:[
                 {
                     model: db.materials_borrow_records,
-                    as: 'material_borrow_records'
+                    as: 'material_borrow_records',
+                    attributes:{
+                        exclude: [
+                            'copyID'
+                        ]
+                    },
+                    include:[
+                        {
+                            model: db.copies,
+                            as: 'copy'
+                        }
+                    ]
                 }
             ]
         }) 

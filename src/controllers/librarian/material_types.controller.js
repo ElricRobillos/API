@@ -24,11 +24,7 @@ exports.view_all_material_types = (req, res) => {
         res.sendStatus(403);
     }
     else{
-        material_types.findAll({ 
-            where:{ 
-                status: "Active" 
-            }
-        })
+        material_types.findAll()
         .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
         .catch((err) => errResponse(res, err));
     }
@@ -42,11 +38,7 @@ exports.find_material_type = (req, res) => {
     else{
         const id = req.params.typeID; 
 
-        material_types.findByPk(id,{
-            where:{ 
-                status: "Active" 
-            }
-        })
+        material_types.findByPk(id)
         .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
         .catch((err) => errResponse(res, err));
     }

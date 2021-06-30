@@ -13,7 +13,7 @@ router.post("/authors", authorsController.add_authors);
 router.put("/authors/:authorID", authorsController.update_author);
 router.get("/authors", authorsController.view_all_authors);
 router.get("/authors/:authorID", authorsController.find_author);
-router.delete("/authors/:authorID", authorsController.change_author_status);
+router.delete("/authors/:authorID", authorsController.delete_author);
 
 //Author Material
 const author_materialController = require("../controllers/librarian/author_material.controller");

@@ -179,9 +179,6 @@ exports.view_all_materials = (req, res) => {
     }
     else{
         materials.findAll({
-            where: { 
-                status: "Active"
-            },
             attributes:{
                 exclude:[
                     'shelfID',
@@ -334,9 +331,6 @@ exports.find_material = (req, res) => {
         const id = req.params.materialID; 
 
         materials.findByPk(id,{
-            where: { 
-                status: "Active"
-            },
             attributes:{
                 exclude:[
                     'shelfID',
