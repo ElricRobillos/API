@@ -84,43 +84,40 @@ exports.update_publication_country = async (req, res) => {
   }
 };
 
-// Change status of publication_country
-exports.change_publication_country_status = (req, res) => {
+// Deleting publication country record
+exports.delete_publication_country = (req, res) => {
   if (req.user == null || req.user.userType != 'Librarian'){
-    res.sendStatus(403);
+      res.sendStatus(403);
   }
   else{
-    const id = req.params.pubCountryID;
-    const body = { 
-      status: "Inactive" 
-    };
-    
-    publication_countries.update(body, {
-      where:{ 
-        pubCountryID: id 
-      }
-    })
-    .then((result) => {
-      console.log(result);
-      if (result) {
-        // success update
-        publication_countries.findByPk(id)
-        .then((data) => {
-          res.send({
-            error: false,
-            data: data,
-            message: [process.env.STATUS_UPDATE],
-          });
-        });
-      } else {
-        // error in updating
-        res.status(500).send({
-          error: true,
-          data: [],
-          message: ["Error in deleting a record"],
-        });
-      }
-    })
-    .catch((err)  => errResponse(res, err));
+      const id = req.params.publicationCountryID;
+
+      publication_countries.destroy({
+          where:{ 
+              publicationCountryID: id 
+          }
+      })
+      .then((result) => {
+          console.log(result);
+          // success delete
+          if (result) {
+              publication_countries.findByPk(id)
+              .then((data) => {
+                  res.send({
+                      error: false,
+                      data: data,
+                      message: [process.env.SUCCESS_DELETE],
+                  });
+              });
+          } else {
+              // error in deleting
+              res.status(500).send({
+              error: true,
+              data: [],
+              message: ["Error in deleting a record"],
+              });
+          }
+      })
+      .catch((err) => errResponse(res, err));
   }
 };

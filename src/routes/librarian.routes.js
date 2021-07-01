@@ -53,7 +53,7 @@ router.post("/languages", languagesController.add_language);
 router.put("/languages/:languageID", languagesController.update_language);
 router.get("/languages", languagesController.view_all_languages);
 router.get("/languages/:languageID", languagesController.find_language);
-router.delete("/languages/:languageID", languagesController.change_language_status);
+router.delete("/languages/:languageID", languagesController.delete_language);
 
 // Material Types Route
 const material_typesController = require("../controllers/librarian/material_types.controller");
@@ -83,7 +83,7 @@ router.post("/publication_countries", publication_countriesController.add_public
 router.put("/publication_countries/:pubCountryID", publication_countriesController.update_publication_country);
 router.get("/publication_countries", publication_countriesController.view_all_publication_countries);
 router.get("/publication_countries/:pubCountryID", publication_countriesController.find_publication_country);
-router.delete("/publication_countries/:pubCountryID", publication_countriesController.change_publication_country_status);
+router.delete("/publication_countries/:pubCountryID", publication_countriesController.delete_publication_country);
 
 // Publishers Route
 const publishersController = require("../controllers/librarian/publishers.controller");
