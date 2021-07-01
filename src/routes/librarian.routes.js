@@ -33,7 +33,7 @@ router.post("/copies", copiesController.add_copy);
 router.put("/copies/:copyID", copiesController.update_copy);
 router.get("/copies", copiesController.view_all_copies);
 router.get("/copies/:copyID", copiesController.find_copy);
-router.delete("/copies/:copyID", copiesController.change_copy_status);
+router.delete("/copies/:copyID", copiesController.delete_copy);
 
 // Genres Route
 const genresController = require("../controllers/librarian/genres.controller");

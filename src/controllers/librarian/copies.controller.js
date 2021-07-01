@@ -88,44 +88,40 @@ exports.update_copy = async (req, res) => {
     }
 };
 
-// Change status of copy
-exports.change_copy_status = (req, res) => {
+// Deleting Copies record
+exports.delete_copy = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
     }
     else{
         const id = req.params.copyID;
-        const body = { 
-            status: "Inactive" 
-        };
 
-        copies.update(body, {
+        copies.destroy({
             where:{ 
                 copyID: id 
             }
         })
         .then((result) => {
-        console.log(result);
-        if (result) {
-            // success update
-            copies.findByPk(id)
-            .then((data) => {
-                res.send({
-                    error: false,
-                    data: data,
-                    message: [process.env.STATUS_UPDATE],
+            console.log(result);
+            // success delete
+            if (result) {
+                copies.findByPk(id)
+                .then((data) => {
+                    res.send({
+                        error: false,
+                        data: data,
+                        message: [process.env.SUCCESS_DELETE],
+                    });
                 });
-            });
-        } else {
-            // error in updating
-            res.status(500).send({
-            error: true,
-            data: [],
-            message: ["Error in deleting a record"],
-            });
-        }
+            } else {
+                // error in deleting
+                res.status(500).send({
+                error: true,
+                data: [],
+                message: ["Error in deleting a record"],
+                });
+            }
         })
-        .catch((err)  => errResponse(res, err));
+        .catch((err) => errResponse(res, err));
     }
 };
-
