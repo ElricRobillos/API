@@ -121,7 +121,7 @@ const weedingsController = require("../controllers/librarian/weedings.controller
 router.put("/weedings/:weedID", weedingsController.update_weeding);
 router.get("/weedings", weedingsController.view_all_weedings);
 router.get("/weedings/:weedID", weedingsController.find_weeding);
-
+router.delete("/weedings/:weedingID", weedingsController.delete_weeding);
 
 
 module.exports = router;
