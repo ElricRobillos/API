@@ -146,5 +146,5 @@ Content-Type: application/json
 ### login first to get the token then paste and replace the sample token
 ### change the example column and value depends on the what you want to create
 
-GET http://localhost:3600/api/v1/librarian/copies
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIyZDlmNmU4MS1iMGI3LTQzNzYtODgxMC1iZmNmNjMyNjU3NDUiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNTE0MjkwMywiZXhwIjoxNjI1MTUzNzAzfQ.w37Nej3jmz-rYsAXvmXNVvWC4o6fVOWvX4C1PrWNMIo
+GET http://localhost:3600/api/v1/librarian/publishers
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIyZDlmNmU4MS1iMGI3LTQzNzYtODgxMC1iZmNmNjMyNjU3NDUiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNTE5NjExMywiZXhwIjoxNjI1MjA2OTEzfQ.hJUm7JAk1LGp-1tqzBdPiXbXRV1Nb0Gcr8aRLva9eeQ

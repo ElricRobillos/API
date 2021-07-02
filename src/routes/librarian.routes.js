@@ -91,7 +91,7 @@ router.post("/publishers", publishersController.add_publisher);
 router.put("/publishers/:publisherID", publishersController.update_publisher);
 router.get("/publishers", publishersController.view_all_publishers);
 router.get("/publishers/:publisherID", publishersController.find_publisher);
-router.delete("/publishers/:publisherID", publishersController.change_publisher_status);
+router.delete("/publishers/:publisherID", publishersController.delete_publisher);
 
 // Rooms Route
 const roomsController = require("../controllers/librarian/rooms.controller");
