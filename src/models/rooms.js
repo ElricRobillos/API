@@ -1,7 +1,6 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class rooms extends Model {
     /**
@@ -25,12 +24,14 @@ module.exports = (sequelize, DataTypes) => {
         as: 'updated_by_librarian',
         onDelete: 'RESTRICT'
       })
+
       // buildingID FK
       this.belongsTo(models.buildings, {
         foreignKey: 'buildingID',
         as: 'building',
         onDelete: 'RESTRICT'
       })
+      
       //From shelves table
       this.hasMany(models.shelves, {
         foreignKey: 'roomID',
@@ -40,13 +41,14 @@ module.exports = (sequelize, DataTypes) => {
 
     }
   };
-  rooms.init(
-    {
+  rooms.init({
+
     roomID: {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     }, 
+
     roomName: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -56,6 +58,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       unique: {msg: "The Room Name is already existed."},
     },
+
     status: {
       type: DataTypes.STRING,
       defaultValue: "Active",

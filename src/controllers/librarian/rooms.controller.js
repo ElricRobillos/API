@@ -1,6 +1,8 @@
-const {errResponse, dataResponse} = require("../../helpers/controller.helper")
+const {errResponse, dataResponse, emptyDataResponse} = require("../../helpers/controller.helper")
+const { Op } = require("sequelize");
 const db = require("../../models");
 const rooms = db.rooms;
+const shelves = db.shelves;
 
 // Add new room
 exports.add_room = async (req, res) => {
@@ -9,7 +11,6 @@ exports.add_room = async (req, res) => {
     }
     else{
         req.body.addedBy = req.user.userID
-
         req.body.updatedBy = req.user.userID
         
         rooms.create(req.body)
@@ -74,35 +75,34 @@ exports.update_room = async (req, res) => {
         res.sendStatus(403);
     }
     else{
-        const id = req.params.roomID;
+        const id =  req.params.roomID;
 
-        rooms.update(req.body, {
-            where:{ 
-                roomID: id 
-            }
-        })
-        .then((result) => {
-        console.log(result);
-        if (result) {
-            // success update
-            rooms.findByPk(id)
-            .then((data) => {
-                res.send({
-                    error: false,
-                    data: data,
-                    message: [process.env.SUCCESS_UPDATE],
-                });
-            });
-        } else {
-            // error in updating
-            res.status(500).send({
-            error: true,
-            data: [],
-            message: ["Error in updating a record"],
-            });
-        }
-        })
-        .catch((err) => errResponse(res, err));
+        // Attach the ID for updatedBy
+        req.body.updatedBy = req.params.userID;
+        
+        rooms
+            .update(req.body, {where:{ roomID: id }})
+            .then((result) => {
+                if (result) {
+                    rooms
+                        .findByPk(id)
+                        .then((data) => {
+                            res.send({
+                                error: false,
+                                data: data,
+                                message: [process.env.SUCCESS_UPDATE],
+                            });
+                        });
+                } else {
+                    // error in updating
+                    res.status(500).send({
+                        error: true,
+                        data: [],
+                        message: ["Error in updating a record"],
+                    });
+                }
+            })
+            .catch((err) => errResponse(res, err));
     }
 };
 
@@ -117,33 +117,79 @@ exports.change_room_status = (req, res) => {
             status: "Inactive" 
         };
         
-        rooms.update(body, {
-            where:{ 
-                roomID: id 
-            }
-        })
-        .then((result) => {
-        console.log(result);
-        if (result) {
-            // success update
-            rooms.findByPk(id)
-            .then((data) => {
-                res.send({
-                    error: false,
-                    data: data,
-                    message: [process.env.STATUS_UPDATE],
-                });
-            });
-        } else {
-            // error in updating
-            res.status(500).send({
-            error: true,
-            data: [],
-            message: ["Error in deleting a record"],
-            });
-        }
-        })
-        .catch((err) => errResponse(res, err));
+        rooms
+            .update(body, {
+                where:{ 
+                    roomID: id 
+                }
+            })
+            .then((result) => {
+                console.log(result);
+                if (result) {
+                    // success update
+                    rooms.findByPk(id)
+                    .then((data) => {
+                        res.send({
+                            error: false,
+                            data: data,
+                            message: [process.env.STATUS_UPDATE],
+                        });
+                    });
+                } else {
+                    // error in updating
+                    res.status(500).send({
+                    error: true,
+                    data: [],
+                    message: ["Error in deleting a record"],
+                    });
+                }
+            })
+            .catch((err) => errResponse(res, err));
     }
 };
 
+// Room Count
+exports.room_count = (req, res) => {
+    rooms
+        .count({
+            col: 'status',
+            group: ['status']
+        })
+        .then((result) => {
+            count = {
+                total: 0,
+                active: 0,
+                inactive: 0
+            }
+
+            result.forEach(r => {
+                
+                // Get total count
+                count.total += r.count
+
+                // Get all active count
+                if(r.status === 'Active')   count.active   += r.count
+                if(r.status === 'Inactive') count.inactive += r.count
+
+            });
+
+            // Respond roomd count
+            res.send({ count: count });
+        })
+        .catch((err) => errResponse(res, err));
+}
+
+// Get room with shelves by building
+exports.get_all_rooms_with_shelves = (req, res) => {
+    rooms
+        .findAll({
+            where: { buildingID: req.params.buildingID },
+            include: {
+                model: shelves,
+                as: 'shelves',
+                where: { shelfID: { [Op.not]: null }}
+            }
+        })
+        .then((data) => dataResponse(res, data, 'Rooms with shelves retrieved successfully', 'No rooms with shelves has been retrieved'))
+        .catch((err) => errResponse(res, err));
+}

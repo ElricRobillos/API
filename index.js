@@ -1,62 +1,42 @@
-//import modules/packages
+/**
+ * ====================================================================
+ * * MODULES & PACKAGES
+ * ====================================================================
+ */
 const express = require("express");
-const dotenv = require("dotenv");
-const db = require("./src/models");
-const jwt = require("jsonwebtoken"); 
-const cors = require('cors');
+const dotenv  = require("dotenv");
+const db      = require("./src/models");
+const jwt     = require("jsonwebtoken"); 
+const cors    = require('cors');
 
-//routes
-const librarianRoute = require("./src/routes/librarian.routes");
-const borrowersRoute = require("./src/routes/borrowers.routes");
-const homeRoute = require("./src/routes/home.routes");
+/**
+ * ====================================================================
+ * * APP INITIALIZATION AND CONFIGURATIONS
+ * ====================================================================
+ */
 
-const testRoute = require("./src/routes/test.routes");
-
-//initialize app
+// Initialize app
 var app = express();
 
-//parse requests of content-type - application/json
+// Parse requests of content-type - application/json
 app.use(express.json());
 
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(
-  express.urlencoded({
-    extended: true,
-  })
-);
+// Parse requests of content-type - application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true }));
 
-// connection to web
+// Use cors to connect to the web
 app.use(cors());
 
 //console.log(require("crypto").randomBytes(64).toString("hex"));
 
-//get config variables
+// Initialize dotenv coniguration
 dotenv.config();
 
-//authenticate for db connection
-db.sequelize
-  .authenticate()
-  .then(() => {
-    console.log("Connection has been established successfully.");
-  })
-  .catch((err) => {
-    console.error("Unable to connect to the database:", err);
-  });
-
-//sync for db models
-if (process.env.ALLOW_SYNC === "true") {
-  db.sequelize
-    .sync({ force: false})
-    .then(() =>
-      console.log("Done adding/updating the database on the models.")
-    );
-}
-
-// all request will go here first (MIDDLEWARE)
+// All requests will go here first (MIDDLEWARE)
 app.use((req, res, next) => {
-  console.log(req.url);
-  //you can check session here
-  console.log("Request has been sent to" + req.url);
+
+  // Log request
+  if(process.env.ENABLE_REQUEST_LOGS === 'true') console.log("Request has been sent to" + req.url);
   next();
 });
 
@@ -67,13 +47,20 @@ app.get("/", (req, res) => {
   });
 });
 
+
+/**
+ * ====================================================================
+ * * TOKEN AUTHENTICATION
+ * ====================================================================
+ */
+
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
   if (token == null) return res.sendStatus(401);
 
-  // verify if valid ung token 
+  // Verify if token is valid
   jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
       if (err) return res.sendStatus(403);
       req.user = user;
@@ -81,23 +68,79 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-// ROUTE
 
-//FOR TEST
+/**
+ * ====================================================================
+ * * ROUTES
+ * ====================================================================
+ */
+
+// Import routes
+const librarianRoute = require("./src/routes/librarian.routes");
+const borrowersRoute = require("./src/routes/borrowers.routes");
+const homeRoute      = require("./src/routes/home.routes");
+const testRoute      = require("./src/routes/test.routes");
+
+// Test route
 app.use(`${process.env.API_VERSION}/test`,  testRoute);
 
-// Doesn't need token
+// Home Route
 app.use(`${process.env.API_VERSION}/home`, homeRoute);
 
-// Needs token
+// Authorized Routes
 app.use(`${process.env.API_VERSION}/librarian`, authenticateToken, librarianRoute);
 app.use(`${process.env.API_VERSION}/borrowers`, authenticateToken, borrowersRoute);
 
 
 
-//PORT
+/**
+ * ====================================================================
+ * * DATABASE CONFIGURATION
+ * ====================================================================
+ */
+
+// Port
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-});
+const DB_CONN_SUCCESS_MSG = `
+======================================================================
+[LMS-API] Database Connection has been established successfully!  
+[LMS-API] Waiting to sync models...
+======================================================================                        
+`;
+
+const DB_CONN_FAILED_MSG = (err) => { 
+  return `
+======================================================================
+[LMS-API] Oops! There was an error while trying to connect to the 
+          database.
+----------------------------------------------------------------------                      
+${err}
+======================================================================
+`;
+}
+
+const SYNC_SUCCESS_MSG = `
+======================================================================
+[LMS-API] Execution is successful!
+[LMS-API] Server is running on port ${PORT}.
+======================================================================
+`
+
+// Authenticate Database Connection
+db.sequelize
+  .authenticate()
+  .then(() => {
+    if(process.env.ENABLE_DB_LOGS === 'true') console.log(`\x1b[36m%s\x1b[0m`, DB_CONN_SUCCESS_MSG);
+    
+    // Sync Database Models
+    db.sequelize
+      .sync({
+        force: process.env.SEQUELIZE_FORCE_SYNC === 'true' || false,
+        alter: process.env.SEQUELIZE_ALTER_SYNC === 'true' || false,
+        sync:  process.env.SEQUELIZE_ALLOW_SYNC === 'true' || false,
+      })
+      .then(() => app.listen(PORT, () => console.log(`\x1b[32m%s\x1b[0m`, SYNC_SUCCESS_MSG)))
+      .catch((err) => console.error(`\x1b[31m%s\x1b[0m`, DB_CONN_FAILED_MSG(err)));
+  })
+  .catch((err) => console.error(`\x1b[31m%s\x1b[0m`, DB_CONN_FAILED_MSG(err)));

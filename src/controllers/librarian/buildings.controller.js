@@ -1,6 +1,9 @@
 const {errResponse, dataResponse} = require("../../helpers/controller.helper")
 const db = require("../../models");
+const { Op } = require('sequelize');
 const buildings = db.buildings;
+const rooms     = db.rooms;
+const shelves   = db.shelves;
 
 // Add new building
 exports.add_building = (req, res) => {
@@ -134,3 +137,60 @@ exports.delete_building = (req, res) => {
     }
 };
 
+// Buildings Count
+exports.buildings_count = (req, res) => {
+    buildings
+        .count({
+            col: 'status',
+            group: ['status']
+        })
+        .then((result) => {
+            count = {
+                total: 0,
+                active: 0,
+                inactive: 0
+            }
+
+            result.forEach(r => {
+                
+                // Get total count
+                count.total += r.count
+
+                // Get all active count
+                if(r.status === 'Active')   count.active   += r.count
+                if(r.status === 'Inactive') count.inactive += r.count
+
+            });
+
+            // Respond roomd count
+            res.send({ count: count });
+        })
+        .catch((err) => errResponse(res, err));
+}
+
+// Find all building rooms
+exports.view_all_building_rooms = (req, res) => {
+    rooms
+        .findAll({ where: { buildingID: req.params.buildingID }})
+        .then((data) => dataResponse(res, data, 'Rooms of specific building are retrieved successfully', 'No rooms of specific building has been retrieved'))
+        .catch((err) => errResponse(res, err));
+}
+
+// Get all buildings with rooms and shelves
+exports.get_all_buildings_with_rooms_and_shelves = (req, res) => {
+    buildings
+        .findAll({
+            include: {
+                model: rooms,
+                as: 'rooms',
+                where: { roomID: { [Op.not]: null }},
+                include: {
+                    model: shelves,
+                    as: 'shelves',
+                    where: { shelfID: { [Op.not]: null}}
+                }
+            }
+        })
+        .then((data) => dataResponse(res, data, 'Buildings with rooms and shelves retrieved successfully', 'No buildings with rooms and shelves has been retrived'))
+        .catch((err) => errResponse(res, err));
+}

@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const generateToken = (data) => {
-    return jwt.sign(data, process.env.TOKEN_SECRET, { expiresIn: "3h" });
+    return jwt.sign(data, process.env.TOKEN_SECRET, { expiresIn: "12h" });
     };
 
 exports.login = (req, res) => {

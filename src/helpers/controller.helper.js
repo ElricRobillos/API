@@ -8,6 +8,8 @@
  * @returns 
  */
 exports.errResponse = (res, err) => {
+    console.log(`\x1b[31m%s\x1b[0m`, err);
+
     return res.status(500).send({
         error: true,
         message: `${err}`
@@ -28,6 +30,7 @@ exports.dataResponse = (res, data, withDataMsg, nullDataMsg) => {
     // If no data return empty response
     if (data.length === 0) return res.send({
         error: false,
+        data: [],
         message: nullDataMsg
     });
 
@@ -36,6 +39,25 @@ exports.dataResponse = (res, data, withDataMsg, nullDataMsg) => {
         error: false,
         data: data,
         message: withDataMsg
+    });
+}
+
+/**
+ * This will return an OK (200) response regardless if doesn't have data.
+ * 
+ * @param {*} res - throw the response parameter here
+ * @param {*} data - set the data object here
+ * @param {*} withDataMsg - set a custom message here if has data
+ * @param {*} nullDataMsg - set a custom message here if no data
+ * @returns 
+ */
+exports.emptyDataResponse = (res, nullDataMsg) => {
+    
+    // If no data return empty response
+    return res.send({
+        error: false,
+        data: [],
+        message: nullDataMsg
     });
 }
 

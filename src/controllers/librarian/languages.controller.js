@@ -119,3 +119,34 @@ exports.delete_language = (req, res) => {
       .catch((err) => errResponse(res, err));
   }
 };
+
+// Languages Count
+exports.languages_count = (req, res) => {
+  languages
+      .count({
+          col: 'status',
+          group: ['status']
+      })
+      .then((result) => {
+          count = {
+              total: 0,
+              active: 0,
+              inactive: 0
+          }
+
+          result.forEach(r => {
+              
+              // Get total count
+              count.total += r.count
+
+              // Get all active count
+              if(r.status === 'Active')   count.active   += r.count
+              if(r.status === 'Inactive') count.inactive += r.count
+
+          });
+
+          // Respond roomd count
+          res.send({ count: count });
+      })
+      .catch((err) => errResponse(res, err));
+}
