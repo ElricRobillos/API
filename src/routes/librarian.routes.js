@@ -115,7 +115,7 @@ router.post  ("/shelves"              , shelvesController.add_shelf);
 router.get   ("/shelves/count"        , shelvesController.shelves_count);
 router.put   ("/shelves/:shelfID"     , shelvesController.update_shelf);
 router.get   ("/shelves/:shelfID"     , shelvesController.find_shelf);
-router.delete("/shelves/:shelfID"     , shelvesController.change_shelf_status);
+router.delete("/shelves/:shelfID"     , shelvesController.delete_shelf);
 router.get   ("/room-shelves/:roomID" , shelvesController.get_all_shelves_of_room);
 
 // Transactions Route
