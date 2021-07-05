@@ -15,14 +15,14 @@ module.exports = (sequelize, DataTypes) => {
       // authorID FK
       this.belongsTo(models.authors, {
         foreignKey: 'authorID',
-        as: 'authors',
+        as: 'author_details',
         onDelete: 'RESTRICT'
       })
 
       // materialID FK
       this.belongsTo(models.materials, {
         foreignKey: 'materialID',
-        as: 'materials',
+        as: 'material_details',
         onDelete: 'RESTRICT'
       })
     }
@@ -38,10 +38,22 @@ module.exports = (sequelize, DataTypes) => {
     authorID: {
       type: DataTypes.UUID,
       allowNull: false,
+      references: {
+        model: {
+          tableName: 'authors'
+        },
+        key: 'authorID'
+      },
     },
     materialID: {
       type: DataTypes.UUID,
       allowNull: false,
+      references: {
+        model: {
+          tableName: 'materials'
+        },
+        key: 'materialID'
+      },
     }
 
   }, 

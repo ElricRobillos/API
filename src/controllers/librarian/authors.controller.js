@@ -34,18 +34,18 @@ exports.view_all_authors = (req, res) => {
 exports.find_author = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
-    }
-    else{
+    } else {
         const id = req.params.authorID; 
     
-        authors.findByPk(id)
-        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
-        .catch((err) => errResponse(res, err));
+        authors
+            .findByPk(id)
+            .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+            .catch((err) => errResponse(res, err));
     }
 };
 
 // Update an author record
-exports.update_author = async (req, res) => {
+exports.update_author = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
     }
@@ -81,7 +81,6 @@ exports.update_author = async (req, res) => {
         .catch((err) => errResponse(res, err));
     }
 };
-
 
 // Deleting authors record
 exports.delete_author = (req, res) => {
@@ -121,3 +120,33 @@ exports.delete_author = (req, res) => {
     }
 };
 
+// Authors Count
+exports.authors_count = (req, res) => {
+    authors
+        .count({
+            col: 'status',
+            group: ['status']
+        })
+        .then((result) => {
+            count = {
+                total: 0,
+                active: 0,
+                inactive: 0
+            }
+
+            result.forEach(r => {
+                
+                // Get total count
+                count.total += r.count
+
+                // Get all active count
+                if(r.status === 'Active')   count.active   += r.count
+                if(r.status === 'Inactive') count.inactive += r.count
+
+            });
+
+            // Respond roomd count
+            res.send({ count: count });
+        })
+        .catch((err) => errResponse(res, err));
+}

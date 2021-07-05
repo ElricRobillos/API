@@ -123,3 +123,34 @@ exports.change_material_type_status = (req, res) => {
     }
 };
 
+// Material Types Count
+exports.material_types_count = (req, res) => {
+    material_types
+        .count({
+            col: 'status',
+            group: ['status']
+        })
+        .then((result) => {
+            count = {
+                total: 0,
+                active: 0,
+                inactive: 0
+            }
+
+            result.forEach(r => {
+                
+                // Get total count
+                count.total += r.count
+
+                // Get all active count
+                if(r.status === 'Active')   count.active   += r.count
+                if(r.status === 'Inactive') count.inactive += r.count
+
+            });
+
+            // Respond roomd count
+            res.send({ count: count });
+        })
+        .catch((err) => errResponse(res, err));
+}
+

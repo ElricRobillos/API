@@ -3,11 +3,12 @@
  * * MODULES & PACKAGES
  * ====================================================================
  */
-const express = require("express");
-const dotenv  = require("dotenv");
-const db      = require("./src/models");
-const jwt     = require("jsonwebtoken"); 
+const express = require('express');
+const dotenv  = require('dotenv');
+const jwt     = require('jsonwebtoken'); 
 const cors    = require('cors');
+const path    = require('path')
+const db      = require('./src/models');
 
 /**
  * ====================================================================
@@ -39,6 +40,9 @@ app.use((req, res, next) => {
   if(process.env.ENABLE_REQUEST_LOGS === 'true') console.log("Request has been sent to" + req.url);
   next();
 });
+
+// Get all material images
+app.use('/public/images/materials', express.static(path.join(__dirname + '/public/images/materials')))
 
 //request, response
 app.get("/", (req, res) => {
@@ -125,7 +129,7 @@ const SYNC_SUCCESS_MSG = `
 [LMS-API] Execution is successful!
 [LMS-API] Server is running on port ${PORT}.
 ======================================================================
-`
+`;
 
 // Authenticate Database Connection
 db.sequelize

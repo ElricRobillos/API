@@ -1,4 +1,27 @@
-var router = require("express").Router();
+const multer          = require('multer');
+const path            = require('path'); 
+const router          = require('express').Router();
+const { imageFilter } = require('../helpers/image.helper');
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => cb(null, path.join(__dirname, "../../public/images/materials/")),
+    filename: (res, file, cb) => cb(null, "material-" + Date.now() + path.extname(file.originalname))
+});
+
+const uploadImage = (req, res, next) => {
+    let upload = multer({ storage: storage, fileFilter: imageFilter }).single('image');
+
+    upload(req, res, (err) => {
+        if(req.fileValidationError) 
+            return errResponse(res, req.fileValidationError)
+        else if(!req.file) 
+            return errResponse(res, 'Please select an image to upload')
+        else if(err instanceof multer.MulterError || err) 
+            return errResponse(res, err)
+
+        next();
+    });
+}
 
 // User Route 
 const usersController = require("../controllers/librarian/users.controller");
@@ -9,10 +32,11 @@ router.delete("/users/:userID" , usersController.change_user_status);
 
 // Authors
 const authorsController = require("../controllers/librarian/authors.controller");
-router.post  ("/authors"           , authorsController.add_authors);
-router.put   ("/authors/:authorID" , authorsController.update_author);
 router.get   ("/authors"           , authorsController.view_all_authors);
+router.post  ("/authors"           , authorsController.add_authors);
+router.get   ("/authors/count"     , authorsController.authors_count);
 router.get   ("/authors/:authorID" , authorsController.find_author);
+router.put   ("/authors/:authorID" , authorsController.update_author);
 router.delete("/authors/:authorID" , authorsController.delete_author);
 
 // Author Material
@@ -40,10 +64,11 @@ router.delete("/copies/:copyID", copiesController.delete_copy);
 
 // Genres Route
 const genresController = require("../controllers/librarian/genres.controller");
-router.post  ("/genres"          , genresController.add_genre);
-router.put   ("/genres/:genreID" , genresController.update_genre);
 router.get   ("/genres"          , genresController.view_all_genres);
+router.post  ("/genres"          , genresController.add_genre);
+router.get   ("/genres/count"    , genresController.genres_count);
 router.get   ("/genres/:genreID" , genresController.find_genre);
+router.put   ("/genres/:genreID" , genresController.update_genre);
 router.delete("/genres/:genreID" , genresController.change_genre_status);
 
 // Genre Material
@@ -63,6 +88,7 @@ router.delete("/languages/:languageID" , languagesController.delete_language);
 const material_typesController = require("../controllers/librarian/material_types.controller");
 router.get   ("/material_types"         , material_typesController.view_all_material_types);
 router.post  ("/material_types"         , material_typesController.add_material_type);
+router.get   ("/material_types/count"   , material_typesController.material_types_count); 
 router.get   ("/material_types/:typeID" , material_typesController.find_material_type);
 router.put   ("/material_types/:typeID" , material_typesController.update_material_type);
 router.delete("/material_types/:typeID" , material_typesController.change_material_type_status);
@@ -75,16 +101,17 @@ router.get("/materials_borrow_records/:borrowID" , materials_borrow_recordsContr
 
 // Materials Route
 const materialsController = require("../controllers/librarian/materials.controller");
-router.get   ("/materials"             , materialsController.view_all_materials);
-router.post  ("/materials"             , materialsController.add_material);
-router.get   ("/materials/:materialID" , materialsController.find_material);
-router.put   ("/materials/:materialID" , materialsController.update_material);
-router.delete("/materials/:materialID" , materialsController.change_material_status);
+router.get   ("/materials"              , materialsController.view_all_materials);
+router.post  ("/materials", uploadImage , materialsController.add_material);
+router.get   ("/materials/:materialID"  , materialsController.find_material);
+router.put   ("/materials/:materialID"  , materialsController.update_material);
+router.delete("/materials/:materialID"  , materialsController.change_material_status);
 
 // Publication Countries Route
 const publication_countriesController = require("../controllers/librarian/publication_countries.controller");
 router.get   ("/publication_countries"               , publication_countriesController.view_all_publication_countries);
 router.post  ("/publication_countries"               , publication_countriesController.add_publication_country);
+router.get   ("/publication_countries/count"         , publication_countriesController.publication_countries_count);
 router.get   ("/publication_countries/:pubCountryID" , publication_countriesController.find_publication_country);
 router.put   ("/publication_countries/:pubCountryID" , publication_countriesController.update_publication_country);
 router.delete("/publication_countries/:pubCountryID" , publication_countriesController.delete_publication_country);
@@ -127,6 +154,8 @@ router.get ("/transactions/:transactionID" , transactionsController.find_transac
 
 // Weedings Route
 const weedingsController = require("../controllers/librarian/weedings.controller");
+const { createGunzip } = require('zlib');
+const { errResponse } = require('../helpers/controller.helper');
 router.get   ("/weedings"            , weedingsController.view_all_weedings);
 router.get   ("/weedings/:weedID"    , weedingsController.find_weeding);
 router.put   ("/weedings/:weedID"    , weedingsController.update_weeding);
