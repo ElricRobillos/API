@@ -90,11 +90,11 @@ exports.delete_publication_country = (req, res) => {
       res.sendStatus(403);
   }
   else{
-      const id = req.params.publicationCountryID;
+      const id = req.params.pubCountryID;
 
       publication_countries.destroy({
           where:{ 
-              publicationCountryID: id 
+              pubCountryID: id 
           }
       })
       .then((result) => {
