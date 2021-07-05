@@ -82,40 +82,37 @@ exports.update_material_type = async (req, res) => {
     }
 };
 
-// Change status of material_type
-exports.change_material_type_status = (req, res) => {
+// Deleting material types record
+exports.delete_material_type = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
     }
     else{
         const id = req.params.typeID;
-        const body = { 
-            status: "Inactive" 
-        };
 
-        material_types.update(body, {
+        material_types.destroy({
             where:{ 
                 typeID: id 
             }
         })
         .then((result) => {
             console.log(result);
+            // success delete
             if (result) {
-                // success update
                 material_types.findByPk(id)
                 .then((data) => {
                     res.send({
                         error: false,
                         data: data,
-                        message: [process.env.STATUS_UPDATE],
+                        message: [process.env.SUCCESS_DELETE],
                     });
                 });
             } else {
-                // error in updating
+                // error in deleting
                 res.status(500).send({
                 error: true,
                 data: [],
-                message: ["Error in deleting a record"],
+                message: ["Error in deleting a material type"],
                 });
             }
         })

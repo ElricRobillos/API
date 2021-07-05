@@ -91,7 +91,7 @@ router.post  ("/material_types"         , material_typesController.add_material_
 router.get   ("/material_types/count"   , material_typesController.material_types_count); 
 router.get   ("/material_types/:typeID" , material_typesController.find_material_type);
 router.put   ("/material_types/:typeID" , material_typesController.update_material_type);
-router.delete("/material_types/:typeID" , material_typesController.change_material_type_status);
+router.delete("/material_types/:typeID" , material_typesController.delete_material_type);
 
 // Material Borrow Records Route
 const materials_borrow_recordsController = require("../controllers/librarian/materials_borrow_records.controller");
@@ -132,7 +132,7 @@ router.post  ("/rooms"                          , roomsController.add_room);
 router.get   ("/rooms/count"                    , roomsController.room_count);
 router.get   ("/rooms/:roomID"                  , roomsController.find_room);
 router.put   ("/rooms/:roomID"                  , roomsController.update_room);
-router.delete("/rooms/:roomID"                  , roomsController.change_room_status);
+router.delete("/rooms/:roomID"                  , roomsController.delete_room);
 router.get   ("/rooms-with-shelves/:buildingID" , roomsController.get_all_rooms_with_shelves);
 
 // Shelves Route
