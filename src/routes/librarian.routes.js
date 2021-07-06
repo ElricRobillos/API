@@ -2,6 +2,7 @@ const multer          = require('multer');
 const path            = require('path'); 
 const router          = require('express').Router();
 const { imageFilter } = require('../helpers/image.helper');
+const { errResponse } = require('../helpers/controller.helper');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, path.join(__dirname, "../../public/images/materials/")),
@@ -56,11 +57,11 @@ router.get   ("/buildings-with-rooms-and-shelves" , buildingsController.get_all_
 
 // Copies Route
 const copiesController = require("../controllers/librarian/copies.controller");
-router.get   ("/copies"        , copiesController.view_all_copies);
-router.post  ("/copies"        , copiesController.add_copy);
-router.get   ("/copies/:copyID", copiesController.find_copy);
-router.put   ("/copies/:copyID", copiesController.update_copy);
-router.delete("/copies/:copyID", copiesController.delete_copy);
+router.get   ("/copies"         , copiesController.view_all_copies);
+router.post  ("/copies"         , copiesController.add_copy);
+router.get   ("/copies/:copyID" , copiesController.find_copy);
+router.put   ("/copies/:copyID" , copiesController.update_copy);
+router.delete("/copies/:copyID" , copiesController.delete_copy);
 
 // Genres Route
 const genresController = require("../controllers/librarian/genres.controller");
@@ -154,8 +155,6 @@ router.get ("/transactions/:transactionID" , transactionsController.find_transac
 
 // Weedings Route
 const weedingsController = require("../controllers/librarian/weedings.controller");
-const { createGunzip } = require('zlib');
-const { errResponse } = require('../helpers/controller.helper');
 router.get   ("/weedings"            , weedingsController.view_all_weedings);
 router.get   ("/weedings/:weedID"    , weedingsController.find_weeding);
 router.put   ("/weedings/:weedID"    , weedingsController.update_weeding);
