@@ -90,11 +90,11 @@ exports.delete_publication_country = (req, res) => {
       res.sendStatus(403);
   }
   else{
-      const id = req.params.publicationCountryID;
+      const id = req.params.pubCountryID;
 
       publication_countries.destroy({
           where:{ 
-              publicationCountryID: id 
+              pubCountryID: id 
           }
       })
       .then((result) => {
@@ -121,3 +121,34 @@ exports.delete_publication_country = (req, res) => {
       .catch((err) => errResponse(res, err));
   }
 };
+
+// Publication Countries Count
+exports.publication_countries_count = (req, res) => {
+  publication_countries
+      .count({
+          col: 'status',
+          group: ['status']
+      })
+      .then((result) => {
+          count = {
+              total: 0,
+              active: 0,
+              inactive: 0
+          }
+
+          result.forEach(r => {
+              
+              // Get total count
+              count.total += r.count
+
+              // Get all active count
+              if(r.status === 'Active')   count.active   += r.count
+              if(r.status === 'Inactive') count.inactive += r.count
+
+          });
+
+          // Respond roomd count
+          res.send({ count: count });
+      })
+      .catch((err) => errResponse(res, err));
+}

@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   genre_material.init({
+
     genreMaterialID: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -38,10 +39,23 @@ module.exports = (sequelize, DataTypes) => {
     genreID: {
       type: DataTypes.UUID,
       allowNull: false,
+      references: {
+        model: {
+          tableName: 'genres'
+        },
+        key: 'genreID'
+      },
     },
+
     materialID: {
       type: DataTypes.UUID,
       allowNull: false,
+      references: {
+        model: {
+          tableName: 'materials'
+        },
+        key: 'materialID'
+      },
     }
 
   }, 

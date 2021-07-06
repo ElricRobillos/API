@@ -27,13 +27,15 @@ module.exports = (sequelize, DataTypes) => {
       })
 
       // From author_material table
-      this.hasMany(models.author_material, {
+      this.belongsToMany(models.materials, {
+        through: 'author_material',
+        as: 'written_materials',
         foreignKey: 'authorID',
-        as: 'author_materials',
-        onDelete: 'RESTRICT'
+        otherKey: 'materialID',
       })
     }
   };
+  
   authors.init({
     authorID: {
       type: DataTypes.UUID,

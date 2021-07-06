@@ -106,47 +106,44 @@ exports.update_room = async (req, res) => {
     }
 };
 
-// Change status of room
-exports.change_room_status = (req, res) => {
+// Deleting rooms record
+exports.delete_room = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
     }
     else{
         const id = req.params.roomID;
-        const body = { 
-            status: "Inactive" 
-        };
-        
-        rooms
-            .update(body, {
-                where:{ 
-                    roomID: id 
-                }
-            })
-            .then((result) => {
-                console.log(result);
-                if (result) {
-                    // success update
-                    rooms.findByPk(id)
-                    .then((data) => {
-                        res.send({
-                            error: false,
-                            data: data,
-                            message: [process.env.STATUS_UPDATE],
-                        });
+
+        rooms.destroy({
+            where:{ 
+                roomID: id 
+            }
+        })
+        .then((result) => {
+            console.log(result);
+            // success delete
+            if (result) {
+                rooms.findByPk(id)
+                .then((data) => {
+                    res.send({
+                        error: false,
+                        data: data,
+                        message: [process.env.SUCCESS_DELETE],
                     });
-                } else {
-                    // error in updating
-                    res.status(500).send({
-                    error: true,
-                    data: [],
-                    message: ["Error in deleting a record"],
-                    });
-                }
-            })
-            .catch((err) => errResponse(res, err));
+                });
+            } else {
+                // error in deleting
+                res.status(500).send({
+                error: true,
+                data: [],
+                message: ["Error in deleting a room"],
+                });
+            }
+        })
+        .catch((err) => errResponse(res, err));
     }
 };
+
 
 // Room Count
 exports.room_count = (req, res) => {

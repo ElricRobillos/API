@@ -24,11 +24,12 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'RESTRICT'
       })
 
-      // From genre_material table
-      this.hasMany(models.genre_material, {
+      // From material table
+      this.belongsToMany(models.materials, {
+        through: 'genre_materials',
+        as: 'genres',
         foreignKey: 'genreID',
-        as: 'genre_materials',
-        onDelete: 'RESTRICT'
+        otherKey: 'materialID',
       })
     }
   }

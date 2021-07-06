@@ -82,44 +82,72 @@ exports.update_material_type = async (req, res) => {
     }
 };
 
-// Change status of material_type
-exports.change_material_type_status = (req, res) => {
+// Deleting material types record
+exports.delete_material_type = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
     }
     else{
         const id = req.params.typeID;
-        const body = { 
-            status: "Inactive" 
-        };
 
-        material_types.update(body, {
+        material_types.destroy({
             where:{ 
                 typeID: id 
             }
         })
         .then((result) => {
             console.log(result);
+            // success delete
             if (result) {
-                // success update
                 material_types.findByPk(id)
                 .then((data) => {
                     res.send({
                         error: false,
                         data: data,
-                        message: [process.env.STATUS_UPDATE],
+                        message: [process.env.SUCCESS_DELETE],
                     });
                 });
             } else {
-                // error in updating
+                // error in deleting
                 res.status(500).send({
                 error: true,
                 data: [],
-                message: ["Error in deleting a record"],
+                message: ["Error in deleting a material type"],
                 });
             }
         })
         .catch((err) => errResponse(res, err));
     }
 };
+
+// Material Types Count
+exports.material_types_count = (req, res) => {
+    material_types
+        .count({
+            col: 'status',
+            group: ['status']
+        })
+        .then((result) => {
+            count = {
+                total: 0,
+                active: 0,
+                inactive: 0
+            }
+
+            result.forEach(r => {
+                
+                // Get total count
+                count.total += r.count
+
+                // Get all active count
+                if(r.status === 'Active')   count.active   += r.count
+                if(r.status === 'Inactive') count.inactive += r.count
+
+            });
+
+            // Respond roomd count
+            res.send({ count: count });
+        })
+        .catch((err) => errResponse(res, err));
+}
 

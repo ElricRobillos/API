@@ -63,19 +63,21 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'RESTRICT'
       })
 
-      // From author_material table
-      this.hasMany(models.author_material, {
+      // From authors table
+      this.belongsToMany(models.authors, {
+        through: 'author_material',
+        as: 'authors',
         foreignKey: 'materialID',
-        as: 'author_materials',
-        onDelete: 'RESTRICT'
-      })
+        otherKey: 'authorID',
+      });
 
       // From genre_material table
-      this.hasMany(models.genre_material, {
+      this.belongsToMany(models.genres, {
+        through: 'genre_material',
+        as: 'genres',
         foreignKey: 'materialID',
-        as: 'genre_materials',
-        onDelete: 'RESTRICT'
-      })
+        otherKey: 'genreID',
+      });
 
       //From favorites table
       this.hasMany(models.favorites, {
@@ -85,12 +87,15 @@ module.exports = (sequelize, DataTypes) => {
       })
     }
   };
+
   materials.init({
+
     materialID : {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },
+
     standardType:{
       type: DataTypes.STRING,
       allowNull: true,
@@ -101,11 +106,13 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
     },
+
     standardNumber: {
       type: DataTypes.STRING,
       allowNull: true,
       unique: {msg: "Standard Number already existed"},
     },
+
     title: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -114,6 +121,7 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg : 'Title should not be empty'},
       },
     },
+
     format: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -122,6 +130,7 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg : 'Format should not be empty'},
       },
     },
+
     pageNo: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -130,18 +139,23 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg : 'Page number should not be empty'},
       },
     },
+
     volumeNo: {
       type: DataTypes.INTEGER,
     },
+
     edition: {
       type : DataTypes.STRING,
     },
+
     editionYear: {
       type : DataTypes.DATEONLY,
     },
+
     seriesYear: {
       type : DataTypes.DATEONLY,
     },
+
     dateOfPublication: {
       type : DataTypes.DATEONLY,
       allowNull: false,
@@ -150,13 +164,16 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg : 'Date of publication not be empty'},
       },
     },
+
     image: {
       type : DataTypes.STRING
     },
+
     description: {
       type : DataTypes.STRING,
       allowNull: false
     },
+
     status: {
       type: DataTypes.STRING,
       defaultValue: "Active",
@@ -167,31 +184,38 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
     },
+
     // Foreign Keys
     shelfID: { 
       type: DataTypes.UUID,
       allowNull: false,
     },
+
     languageID: {
       type: DataTypes.UUID,
       allowNull: false,
     },
+
     typeID: { 
       type: DataTypes.UUID,
       allowNull: false,
     },
+
     publisherID: { 
       type: DataTypes.UUID,
       allowNull: false,
     },
+
     pubCountryID: { 
       type: DataTypes.UUID,
       allowNull: false,
     },
+    
     addedBy: { 
       type: DataTypes.UUID,
       allowNull: true,
     },
+
     updatedBy: {
       type: DataTypes.UUID,
       allowNull: true,
