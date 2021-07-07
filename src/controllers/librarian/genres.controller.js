@@ -11,10 +11,23 @@ exports.add_genre = async (req, res) => {
         req.body.addedBy = req.user.userID
 
         req.body.updatedBy = req.user.userID
-        
-        genres.create(req.body)
-        .then((data) => dataResponse(res, data, 'A genre is added successfully!', 'Failed to add genre'))
-        .catch((err)  => errResponse(res, err));
+
+        genres.findOne({
+            where: {
+                genre: req.body.genre
+            }
+        })
+        .then(result => {
+            if (result){
+                errResponse(res,'Genre Already Existed')
+            }
+            else{
+                genres.create(req.body)
+                .then((data) => dataResponse(res, data, 'A genre is added successfully!', 'Failed to add genre'))
+                .catch((err)  => errResponse(res, err));
+            }
+        })
+        .catch((err) => errResponse(res, err));
     }
 };
 

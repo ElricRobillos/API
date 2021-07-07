@@ -11,10 +11,23 @@ exports.add_publication_country = async (req, res) => {
       req.body.addedBy = req.user.userID
 
       req.body.updatedBy = req.user.userID
-      
-      publication_countries.create(req.body)
-      .then((data) => dataResponse(res, data, 'A publication country is added successfully!', 'Failed to add publication country'))
-      .catch((err)  => errResponse(res, err));
+
+      publication_countries.findOne({
+        where: {
+            country: req.body.country
+        }
+      })
+      .then(result => {
+        if (result){
+            errResponse(res,'Country Already Existed')
+        }
+        else{
+          publication_countries.create(req.body)
+          .then((data) => dataResponse(res, data, 'A publication country is added successfully!', 'Failed to add publication country'))
+          .catch((err)  => errResponse(res, err));
+        }
+      })
+      .catch((err) => errResponse(res, err));
   }
 };
 

@@ -11,9 +11,22 @@ exports.add_material_type = async (req, res) => {
         req.body.addedBy = req.user.userID
 
         req.body.updatedBy = req.user.userID
-        
-        material_types.create(req.body)
-        .then((data) => dataResponse(res, data, 'A material type is added successfully!', 'Failed to add material type'))
+
+        material_types.findOne({
+            where: {
+                typeName: req.body.typeName
+            }
+        })
+        .then(result => {
+            if (result){
+                errResponse(res,'Material Type Already Existed')
+            }
+            else{
+                material_types.create(req.body)
+                .then((data) => dataResponse(res, data, 'A material type is added successfully!', 'Failed to add material type'))
+                .catch((err) => errResponse(res, err));
+            }
+        })
         .catch((err) => errResponse(res, err));
     }
 };

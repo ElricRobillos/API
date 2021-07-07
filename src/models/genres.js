@@ -48,6 +48,7 @@ module.exports = (sequelize, DataTypes) => {
           notNull: { msg: "Genre should not be null" },
           notEmpty: { msg: "Genre should not be empty" },
         },
+        unique: {msg: "Genre already existed"},
       },
       status: {
         type: DataTypes.STRING,

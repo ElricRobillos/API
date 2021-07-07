@@ -12,9 +12,22 @@ exports.add_language = async (req, res) => {
 
       req.body.updatedBy = req.user.userID
       
-      languages.create(req.body)
-      .then((data) => dataResponse(res, data, 'A language is added successfully!', 'Failed to add language'))
-      .catch((err)  => errResponse(res, err));
+      languages.findOne({
+        where: {
+          language: req.body.language
+        }
+      })
+      .then(result => {
+        if (result){
+            errResponse(res,'Language Already Existed')
+        }
+        else{
+          languages.create(req.body)
+          .then((data) => dataResponse(res, data, 'A language is added successfully!', 'Failed to add language'))
+          .catch((err)  => errResponse(res, err));
+        }
+      })
+      .catch((err) => errResponse(res, err));
   }
 };
 
