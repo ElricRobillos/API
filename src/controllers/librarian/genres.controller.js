@@ -95,44 +95,41 @@ exports.update_genre = async (req, res) => {
     }
 };
 
-// Change status of genre
-exports.change_genre_status = (req, res) => {
+// Deleting genre record
+exports.delete_genre = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
     }
     else{
         const id = req.params.genreID;
-        const body = { 
-        status: "Inactive" 
-        };
 
-        genres.update(body, {
+        genres.destroy({
             where:{ 
                 genreID: id 
             }
-            })
-        .then((result) => {
-        console.log(result);
-        if (result) {
-        // success update
-            genres.findByPk(id)
-            .then((data) => {
-                res.send({
-                    error: false,
-                    data: data,
-                    message: [process.env.STATUS_UPDATE],
-                });
-            });
-        } else {
-            // error in updating
-            res.status(500).send({
-            error: true,
-            data: [],
-            message: ["Error in deleting a record"],
-            });
-        }
         })
-        .catch((err)  => errResponse(res, err));
+        .then((result) => {
+            console.log(result);
+            // success delete
+            if (result) {
+                genres.findByPk(id)
+                .then((data) => {
+                    res.send({
+                        error: false,
+                        data: data,
+                        message: [process.env.SUCCESS_DELETE],
+                    });
+                });
+            } else {
+                // error in deleting
+                res.status(500).send({
+                error: true,
+                data: [],
+                message: ["Error in deleting a genre"],
+                });
+            }
+        })
+        .catch((err) => errResponse(res, err));
     }
 };
 

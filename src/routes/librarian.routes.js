@@ -72,7 +72,7 @@ router.post  ("/genres"          , genresController.add_genre);
 router.get   ("/genres/count"    , genresController.genres_count);
 router.get   ("/genres/:genreID" , genresController.find_genre);
 router.put   ("/genres/:genreID" , genresController.update_genre);
-router.delete("/genres/:genreID" , genresController.change_genre_status);
+router.delete("/genres/:genreID" , genresController.delete_genre);
 
 // Genre Material
 const genre_materialController = require("../controllers/librarian/genre_material.controller");
