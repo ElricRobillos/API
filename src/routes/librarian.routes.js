@@ -4,19 +4,21 @@ const router          = require('express').Router();
 const { imageFilter } = require('../helpers/image.helper');
 const { errResponse } = require('../helpers/controller.helper');
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, path.join(__dirname, "../../public/images/materials/")),
-    filename: (res, file, cb) => cb(null, "material-" + Date.now() + path.extname(file.originalname))
-});
 
+// Upload Image Middleware
 const uploadImage = (req, res, next) => {
+    
+    // Storage for uploaded images
+    const storage = multer.diskStorage({
+        destination: (req, file, cb) => cb(null, path.join(__dirname, "../../public/images/materials/")),
+        filename: (res, file, cb) => cb(null, "material-" + Date.now() + path.extname(file.originalname))
+    });
+    
     let upload = multer({ storage: storage, fileFilter: imageFilter }).single('image');
 
     upload(req, res, (err) => {
         if(req.fileValidationError) 
             return errResponse(res, req.fileValidationError)
-        else if(!req.file) 
-            return errResponse(res, 'Please select an image to upload')
         else if(err instanceof multer.MulterError || err) 
             return errResponse(res, err)
 

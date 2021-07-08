@@ -4,175 +4,48 @@ const materials = db.materials;
 
 // Add new material
 exports.add_material = async (req, res) => {
-    console.log(req.file.filename);
-    req.body.image = req.file != undefined ? req.file.filename : '';
 
-    // if (req.user == null || req.user.userType != 'Librarian'){
-    //     res.sendStatus(403);
-    // }
-    // else{
-    //     req.body.addedBy = req.user.userID
+    // Get image name
+    req.body.image = req.file != undefined ? req.file.filename : null;
 
-    //     req.body.updatedBy = req.user.userID
+    // Get authors
+    var authors = [];
+    authorIDs = req.body.authors;
+    if(authorIDs) {
+        if(Array.isArray(authorIDs)) {
+            authorIDs.forEach(authorID => authors.push({ authorID: authorID}));
+        } else if(Object.prototype.toString.call(authorIDs)) {
+            authors.push({ authorID: authorIDs})
+        }
+    }
 
-    //     materials.create(req.body,{
-    //         include: [
-    //             {
-    //                 model: db.author_material,
-    //                 as: 'author_materials'
-    //             },
-    //             {
-    //                 model: db.genre_material,
-    //                 as: 'genre_materials'
-    //             }
-    //         ]
-    //         })
-    //     .then((result) => {
-    //         materials
-    //             .findByPk(result.materialID,{
-    //                 attributes:{
-    //                     exclude:[
-    //                         'shelfID',
-    //                         'languageID',
-    //                         'typeID',
-    //                         'publisherID',
-    //                         'pubCountryID'
-    //                     ]
-    //                 },
-    //                 include:[
-    //                     {
-    //                         model: db.author_material,
-    //                         as: 'author_materials',
-    //                         attributes:{
-    //                             exclude:[
-    //                                 'materialID',
-    //                                 'authorID'
-    //                             ]
-    //                         },
-    //                         include: [
-    //                             {
-    //                                 model: db.authors,
-    //                                 as: 'authors',
-    //                             }
-    //                         ]
-    //                     },
-    //                     {
-    //                         model: db.genre_material,
-    //                         as: 'genre_materials',
-    //                         attributes:{
-    //                             exclude:[
-    //                                 'materialID',
-    //                                 'genreID'
-    //                             ]
-    //                         },
-    //                         include: [
-    //                             {
-    //                                 model: db.genres,
-    //                                 as: 'genres',
-    //                             }
-    //                         ]
-    //                     },
-    //                     {
-    //                         model: db.shelves,
-    //                         as: 'shelf',
-    //                         attributes:{
-    //                             exclude: [
-    //                                 'addedBy',
-    //                                 'updatedBy',
-    //                                 'addedAt',
-    //                                 'updatedAt',
-    //                                 'roomID'
-    //                             ]
-    //                         },
-    //                         include: [
-    //                             {
-    //                                 model: db.rooms,
-    //                                 as: 'room',
-    //                                 attributes:{
-    //                                     exclude: [
-    //                                         'status',
-    //                                         'addedBy',
-    //                                         'updatedBy',
-    //                                         'addedAt',
-    //                                         'updatedAt',
-    //                                         'roomID'
-    //                                     ]
-    //                                 },
-    //                                 include: [
-    //                                     {
-    //                                         model: db.buildings,
-    //                                         as: 'building',
-    //                                         attributes:{
-    //                                             exclude: [
-    //                                                 'status',
-    //                                                 'addedBy',
-    //                                                 'updatedBy',
-    //                                                 'addedAt',
-    //                                                 'updatedAt',
-    //                                                 'roomID'
-    //                                             ]
-    //                                         },
-                                            
-    //                                     }
-    //                                 ]
-    //                             }
-    //                         ],
-    //                     },
-    //                     {
-    //                         model: db.languages,
-    //                         as: 'language',
-    //                         attributes:{
-    //                             exclude: [
-    //                                 'addedBy',
-    //                                 'updatedBy',
-    //                                 'addedAt',
-    //                                 'updatedAt'
-    //                             ]
-    //                         }
-    //                     },
-    //                     {
-    //                         model: db.material_types,
-    //                         as: 'material_type',
-    //                         attributes:{
-    //                             exclude: [
-    //                                 'addedBy',
-    //                                 'updatedBy',
-    //                                 'addedAt',
-    //                                 'updatedAt'
-    //                             ]
-    //                         }
-    //                     },
-    //                     {
-    //                         model: db.publishers,
-    //                         as: 'publisher',
-    //                         attributes:{
-    //                             exclude: [
-    //                                 'addedBy',
-    //                                 'updatedBy',
-    //                                 'addedAt',
-    //                                 'updatedAt'
-    //                             ]
-    //                         }
-    //                     },
-    //                     {
-    //                         model: db.publication_countries,
-    //                         as: 'publication_country',
-    //                         attributes:{
-    //                             exclude: [
-    //                                 'addedBy',
-    //                                 'updatedBy',
-    //                                 'addedAt',
-    //                                 'updatedAt'
-    //                             ]
-    //                         }
-    //                     },
-    //                 ]
-    //             })
-    //             .then((data) => dataResponse(res, data, 'A material is added successfully!', 'Failed to add material'))
-    //             .catch((err) => errResponse(res, err));
-    //     })
-    //     .catch((err) => errResponse(res, err));
-    // }
+    // Get genres
+    var genres = [];
+    genreIDs = req.body.genres;
+    if(genreIDs) {
+        if(Array.isArray(genreIDs)) {
+            genreIDs.forEach(genreID => genres.push({ genreID: genreID}));
+        } else if(Object.prototype.toString.call(genreIDs)) {
+            genres.push({ genreID: genreIDs})
+        }
+    }
+
+    // Get userID for added/updated by
+    req.body.added_by = req.user.userID;
+    req.body.updated_by = req.user.userID;
+
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    } else {
+        materials
+            .create(req.body)
+            .then((result) => {
+                authors.forEach(author => result.addAuthor(author.authorID));
+                genres.forEach(genre => result.addGenre(genre.genreID));
+                dataResponse(res, result, 'Material is successfully created', 'No material is created');
+            })
+            .catch((err) => errResponse(res, err));
+    }
 };
 
 // Material options

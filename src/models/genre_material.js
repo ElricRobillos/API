@@ -10,7 +10,6 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
 
       // genreID FK
       this.belongsTo(models.genres, {
@@ -27,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       })
     }
   };
+
   genre_material.init({
 
     genreMaterialID: {

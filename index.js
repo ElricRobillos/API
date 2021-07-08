@@ -33,6 +33,13 @@ app.use(cors());
 // Initialize dotenv coniguration
 dotenv.config();
 
+
+/**
+ * ====================================================================
+ * * MIDDLEWARES
+ * ====================================================================
+ */
+
 // All requests will go here first (MIDDLEWARE)
 app.use((req, res, next) => {
 
@@ -42,15 +49,7 @@ app.use((req, res, next) => {
 });
 
 // Get all material images
-app.use('/public/images/materials', express.static(path.join(__dirname + '/public/images/materials')))
-
-//request, response
-app.get("/", (req, res) => {
-  res.json({
-    message: "Welcome to Library Management System.",
-  });
-});
-
+app.use(`${process.env.API_VERSION}/materials`, express.static(path.join(__dirname + '/public/images/materials/')))
 
 /**
  * ====================================================================
@@ -78,6 +77,9 @@ const authenticateToken = (req, res, next) => {
  * * ROUTES
  * ====================================================================
  */
+
+// Connection Status
+app.get(`${process.env.API_VERSION}`, (req, res) => res.send({ status: 'Connected'}));
 
 // Import routes
 const librarianRoute = require("./src/routes/librarian.routes");

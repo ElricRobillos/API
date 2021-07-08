@@ -50,6 +50,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         unique: {msg: "Genre already existed"},
       },
+
       status: {
         type: DataTypes.STRING,
         defaultValue: "Active",
@@ -60,11 +61,13 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+
       //Foreign keys
       addedBy: { 
         type: DataTypes.UUID,
         allowNull: true,
       },
+      
       updatedBy: {
         type: DataTypes.UUID,
         allowNull: true,

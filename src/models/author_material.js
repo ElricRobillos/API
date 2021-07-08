@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       })
     }
   };
+  
   author_material.init({
     authorMaterialID: {
       type: DataTypes.UUID,
