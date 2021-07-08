@@ -30,6 +30,22 @@ exports.view_all_copies = (req, res) => {
     }
 };
 
+// Retrieve all copies of specific material
+exports.view_all_material_copies = (req, res) => {
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    }
+    else{
+        copies.findAll({
+            where: {
+                materialID: req.params.materialID
+            }
+        })
+        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+        .catch((err)  => errResponse(res, err));
+    }
+};
+
 // Find specific copy
 exports.find_copy = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){

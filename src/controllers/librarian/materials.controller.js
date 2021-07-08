@@ -543,3 +543,10 @@ exports.change_material_status = (req, res) => {
     }
 };
 
+// Material Types Count
+exports.materials_count = (req, res) => {
+    materials
+        .count()
+        .then((result) => res.send({ count: result }))
+        .catch((err) => errResponse(res, err));
+}

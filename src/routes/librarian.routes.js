@@ -59,11 +59,12 @@ router.get   ("/buildings-with-rooms-and-shelves" , buildingsController.get_all_
 
 // Copies Route
 const copiesController = require("../controllers/librarian/copies.controller");
-router.get   ("/copies"         , copiesController.view_all_copies);
-router.post  ("/copies"         , copiesController.add_copy);
-router.get   ("/copies/:copyID" , copiesController.find_copy);
-router.put   ("/copies/:copyID" , copiesController.update_copy);
-router.delete("/copies/:copyID" , copiesController.delete_copy);
+router.get   ("/copies"                       , copiesController.view_all_copies);
+router.post  ("/copies"                       , copiesController.add_copy);
+router.get   ("/copies/:copyID"               , copiesController.find_copy);
+router.put   ("/copies/:copyID"               , copiesController.update_copy);
+router.delete("/copies/:copyID"               , copiesController.delete_copy);
+router.get   ("/materials/:materialID/copies" , copiesController.view_all_material_copies);
 
 // Genres Route
 const genresController = require("../controllers/librarian/genres.controller");
@@ -106,6 +107,7 @@ router.get("/materials_borrow_records/:borrowID" , materials_borrow_recordsContr
 const materialsController = require("../controllers/librarian/materials.controller");
 router.get   ("/materials"              , materialsController.view_all_materials);
 router.post  ("/materials", uploadImage , materialsController.add_material);
+router.get   ("/materials/count"        , materialsController.materials_count);
 router.get   ("/materials/:materialID"  , materialsController.find_material);
 router.put   ("/materials/:materialID"  , materialsController.update_material);
 router.delete("/materials/:materialID"  , materialsController.change_material_status);
