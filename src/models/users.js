@@ -286,7 +286,13 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userID',
         as: 'staff_transactions',
         onDelete: 'RESTRICT'
-      })
+      });
+
+      this.hasMany(models.transactions, {
+        foreignKey: 'userID',
+        as: 'borrower_transactions',
+        onDelete: 'RESTRICT'
+      });
       
     }
   };

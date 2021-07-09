@@ -99,9 +99,9 @@ router.delete("/material_types/:typeID" , material_typesController.delete_materi
 
 // Material Borrow Records Route
 const materials_borrow_recordsController = require("../controllers/librarian/materials_borrow_records.controller");
-router.put("/materials_borrow_records/:borrowID" , materials_borrow_recordsController.update_materials_borrow_record);
-router.get("/materials_borrow_records"           , materials_borrow_recordsController.view_all_materials_borrow_records);
-router.get("/materials_borrow_records/:borrowID" , materials_borrow_recordsController.find_materials_borrow_record);
+router.get("/material_borrow_records"           , materials_borrow_recordsController.view_all_materials_borrow_records);
+router.get("/material_borrow_records/:borrowID" , materials_borrow_recordsController.find_materials_borrow_record);
+router.put("/material_borrow_records/:borrowID" , materials_borrow_recordsController.update_materials_borrow_record);
 
 // Materials Route
 const materialsController = require("../controllers/librarian/materials.controller");

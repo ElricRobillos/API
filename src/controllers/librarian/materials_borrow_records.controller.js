@@ -2,30 +2,77 @@ const {errResponse, dataResponse} = require("../../helpers/controller.helper")
 const db = require("../../models");
 const materials_borrow_records = db.materials_borrow_records;
 
+// Material Borrow Records Options
+dbMaterialsBorrowRecordsOp = {
+    attributes:{
+        exclude: [
+            'copyID',
+            'transactionID'
+        ]
+    },
+    include:[
+        {
+            model: db.copies,
+            as: 'copy',
+            attributes: {
+                exclude: [
+                    'materialID'
+                ]
+            },
+            include: [{
+                model: db.materials,
+                as: 'material',
+                attributes: {
+                    exclude: [
+                        'materialID',
+                        'languageID',
+                        'typeID'
+                    ]
+                },
+                include: [
+                    {
+                        model: db.material_types,
+                        as: 'material_type'
+                    }, {
+                        model: db.languages,
+                        as: 'language'
+                    }
+                ]
+            }]
+        },
+        {
+            model: db.transactions,
+            as: 'transaction',
+            attributes: {
+                exclude: [
+                    'userID',
+                ]
+            },
+            include: [{
+                model: db.users,
+                as: 'transaction_borrower',
+                attributes: {
+                    exclude: [
+                        'addedAt',
+                        'addedBy',
+                        'updatedAt',
+                        'updatedBy',
+                        'password',
+                    ]
+                }
+            }]
+        }
+    ],
+    order: [['createdAt', 'desc']]
+}
+
 // Retrieve all materials_borrow_records
 exports.view_all_materials_borrow_records = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
     }
     else{
-        materials_borrow_records.findAll({
-            attributes:{
-                exclude: [
-                    'copyID',
-                    'transactionID'
-                ]
-            },
-            include:[
-                {
-                    model: db.copies,
-                    as: 'copy'
-                },
-                {
-                    model: db.transactions,
-                    as: 'transaction'
-                }
-            ] 
-        })
+        materials_borrow_records.findAll(dbMaterialsBorrowRecordsOp)
         .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
         .catch((err)  => errResponse(res, err));
     }

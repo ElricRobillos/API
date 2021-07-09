@@ -17,26 +17,29 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'addedBy',
         as: 'added_by_librarian',
         onDelete: 'RESTRICT'
-      })
+      });
 
       // Updated
       this.belongsTo(models.users, {
         foreignKey: 'updatedBy',
         as: 'updated_by_librarian',
         onDelete: 'RESTRICT'
-      })
+      });
+
        // materialID FK
       this.belongsTo(models.materials, {
         foreignKey: 'materialID',
         as: 'material',
         onDelete: 'RESTRICT'
-      })
+      });
+
       // weedID FK
       this.belongsTo(models.weedings, {
         foreignKey: 'weedID',
         as: 'weeding',
         onDelete: 'RESTRICT'
-      })
+      });
+
        // From material borrow records table
       this.hasOne(models.materials_borrow_records, {
         foreignKey: 'copyID',

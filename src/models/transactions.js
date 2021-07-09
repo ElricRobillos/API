@@ -24,19 +24,26 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'updatedBy',
         as: 'updated_by_librarian',
         onDelete: 'RESTRICT'
-      })
+      });
+
       // userID FK
       this.belongsTo(models.users, {
         foreignKey: 'userID',
         as: 'student',
         onDelete: 'RESTRICT'
-      })
+      });
 
       this.belongsTo(models.users, {
         foreignKey: 'userID',
         as: 'staff',
         onDelete: 'RESTRICT'
-      })
+      });
+
+      this.belongsTo(models.users, {
+        foreignKey: 'userID',
+        as: 'transaction_borrower',
+        onDelete: 'RESTRICT'
+      });
 
       // From material borrow records table
       this.hasMany(models.materials_borrow_records, {
