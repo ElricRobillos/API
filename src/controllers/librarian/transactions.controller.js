@@ -6,10 +6,8 @@ const transactions = db.transactions;
 exports.add_transaction = async (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
-    }
-    else{
+    } else {
         req.body.addedBy = req.user.userID
-
         req.body.updatedBy = req.user.userID
         
         transactions.create(req.body,{
@@ -27,10 +25,9 @@ exports.add_transaction = async (req, res) => {
 
 // Retrieve all transactions
 exports.view_all_transactions = (req, res) => {
-    if (req.user == null || req.user.userType != 'Librarian'){
+    if(req.user == null || req.user.userType != 'Librarian') {
         res.sendStatus(403);
-    }
-    else{
+    } else {
         transactions.findAll({ 
             attributes:{
                 exclude: [
@@ -62,10 +59,9 @@ exports.view_all_transactions = (req, res) => {
 
 // Find specific transaction
 exports.find_transaction = (req, res) => {
-    if (req.user == null || req.user.userType != 'Librarian'){
+    if(req.user == null || req.user.userType != 'Librarian') {
         res.sendStatus(403);
-    }
-    else{
+    } else {
         const id = req.params.transactionID; 
 
         transactions.findByPk(id,{
@@ -101,8 +97,7 @@ exports.find_transaction = (req, res) => {
 exports.update_transaction = async (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
-    }
-    else{
+    } else {
         const id = req.params.transactionID;
 
         transactions.update(req.body, {
@@ -111,25 +106,24 @@ exports.update_transaction = async (req, res) => {
             }
         })
         .then((result) => {
-        console.log(result);
-        if (result) {
-            // success update
-            transactions.findByPk(id)
-            .then((data) => {
-                res.send({
-                    error: false,
-                    data: data,
-                    message: [process.env.SUCCESS_UPDATE],
+            if (result) {
+                // success update
+                transactions.findByPk(id)
+                .then((data) => {
+                    res.send({
+                        error: false,
+                        data: data,
+                        message: [process.env.SUCCESS_UPDATE],
+                    });
                 });
-            });
-        } else {
-            // error in updating
-            res.status(500).send({
-            error: true,
-            data: [],
-            message: ["Error in updating a record"],
-            });
-        }
+            } else {
+                // error in updating
+                res.status(500).send({
+                    error: true,
+                    data: [],
+                    message: ["Error in updating a record"],
+                });
+            }
         })
         .catch((err) => errResponse(res, err));
     }

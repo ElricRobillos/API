@@ -1,4 +1,4 @@
-const {errResponse, dataResponse} = require("../../helpers/controller.helper")
+const { errResponse, dataResponse, emptyDataResponse } = require("../../helpers/controller.helper")
 const db = require("../../models");
 const users= db.users;
 const bcrypt = require("bcrypt");
@@ -8,48 +8,39 @@ const bcrypt = require("bcrypt");
 exports.add_user = async (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
-    }
-    else{
+    } else {
         req.body.added_by = req.user.userID
-
         req.body.updated_by = req.user.userID
-
-        req.body.password = await bcrypt.hash(
-            req.body.password, 
-            parseInt(process.env.SALT_ROUND)
-        );
+        req.body.password = await bcrypt.hash(req.body.password, parseInt(process.env.SALT_ROUND));
         
-        users.create(req.body)
-        .then((data) => dataResponse(res, data, 'A user is added successfully!', 'Failed to add user'))
-        .catch((err) => errResponse(res, err));
+        users
+            .create(req.body)
+            .then((data) => dataResponse(res, data, 'A user is added successfully!', 'Failed to add user'))
+            .catch((err) => errResponse(res, err));
     }
-
 };
 
-
-//Retrieve all users
+// Retrieve all users
 exports.view_all_users = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
-    }
-    else{
-        users.findAll()
-        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
-        .catch((err) => errResponse(res, err));
+    } else {
+        users
+            .findAll()
+            .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+            .catch((err) => errResponse(res, err));
     }
 };
 
-// Find librarian
+// Find user
 exports.find_user = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
-    }
-    else{
-        const id = req.params.userID;
-
-        users.findByPk(id)
-        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
-        .catch((err) => errResponse(res, err));
+    } else {
+        users
+            .findByPk(req.params.userID)
+            .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+            .catch((err) => errResponse(res, err));
     }
 };
 
@@ -93,12 +84,9 @@ exports.find_user = (req, res) => {
 exports.change_user_status = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
-    }
-    else{
+    } else {
         const id = req.params.userID;
-        const body = { 
-            status: "Inactive" 
-        };
+        const body = { status: "Inactive" };
 
         users.update(body, {
             where:{ 
@@ -128,3 +116,154 @@ exports.change_user_status = (req, res) => {
     }
 };
 
+// Retrieve all students
+exports.view_all_students = (req, res) => {
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    } else {
+        users
+            .findAll({ 
+                atrributes: {
+                    exclude: [
+                        'password'
+                    ]
+                },
+                where: { 
+                    userType: 'Student'
+                }
+            })
+            .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+            .catch((err) => errResponse(res, err));
+    }
+};
+
+// Find student
+exports.find_student = (req, res) => {
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    } else {
+        users
+            .findOne({
+                atrributes: {
+                    exclude: ['password']
+                },
+                where: { 
+                    idNumber: req.params.idNumber,
+                    userType: 'Student'
+                }
+            })
+            .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+            .catch((err) => errResponse(res, err));
+    }
+};
+
+
+// Retrieve all staffs
+exports.view_all_staffs = (req, res) => {
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    } else {
+        users
+            .findAll({ 
+                attributes: {
+                    exclude: [
+                        'course',
+                        'year',
+                        'section',
+                        'password'
+                    ]
+                },
+                where: { 
+                    userType: 'Staff'
+                }
+            })
+            .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+            .catch((err) => errResponse(res, err));
+    }
+};
+
+// Find staffs
+exports.find_staff = (req, res) => {
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    } else {
+        users
+            .findOne({ 
+                attributes: {
+                    exclude: [
+                        'course',
+                        'year',
+                        'section',
+                        'password'
+                    ]
+                },
+                where: { 
+                    idNumber: req.params.idNumber,
+                    userType: 'Staff'
+                }
+            })
+            .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+            .catch((err) => errResponse(res, err));
+    }
+};
+
+// Users Count
+exports.users_count = (req, res) => {
+    users
+        .count({
+            col: 'userType',
+            group: ['userType']
+        })
+        .then((result) => {
+            count = {
+                total: 0,
+                students: 0,
+                staffs: 0,
+                librarian: 0
+            }
+
+            result.forEach(r => {
+                
+                // Get total count
+                count.total += r.count
+
+                // Get all active count
+                if(r.userType === 'Student')   count.students  += r.count
+                if(r.userType === 'Staff')     count.staffs    += r.count
+                if(r.userType === 'Librarian') count.librarian += r.count
+
+            });
+
+            // Respond roomd count
+            res.send({ count: count });
+        })
+        .catch((err) => errResponse(res, err));
+}
+
+// Find borrower
+exports.find_borrower = (req, res) => {
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    } else {
+        users
+            .findAll({ where: { idNumber: req.body.idNumber }})
+            .then((data) => {
+                if(data.length) {
+                    users
+                        .findOne({
+                            attributes: {
+                                exclude: [
+                                    'password',
+                                ]
+                            },
+                            where: { idNumber: req.body.idNumber }
+                        })
+                        .then(data => dataResponse(res, data, 'A borrower was found','No borrower was found'))
+                        .catch(err => errResponse(res, err));
+                } else {
+                    emptyDataResponse(res, 'No borrower was found')
+                }
+            })
+            .catch((err) => errResponse(res, err));
+    }
+};

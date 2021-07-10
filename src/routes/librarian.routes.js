@@ -28,10 +28,26 @@ const uploadImage = (req, res, next) => {
 
 // User Route 
 const usersController = require("../controllers/librarian/users.controller");
-router.get   ("/users"         , usersController.view_all_users);
-router.post  ("/users"         , usersController.add_user);
-router.get   ("/users/:userID" , usersController.find_user);
-router.delete("/users/:userID" , usersController.change_user_status);
+
+// Users
+router.get   ("/users"            , usersController.view_all_users);
+router.post  ("/users"            , usersController.add_user);
+router.get   ("/users/count"      , usersController.users_count);
+router.get   ("/users/:userID"    , usersController.find_user);
+router.delete("/users/:userID"    , usersController.change_user_status);
+
+// Students
+router.get   ("/students"           , usersController.view_all_students);
+router.get   ("/students/:idNumber" , usersController.find_student);
+
+// Staffs
+router.get   ("/staffs"           , usersController.view_all_staffs);
+router.get   ("/staffs/:idNumber" , usersController.find_staff);
+
+
+// Find Borrower
+router.post  ("/find-borrower"     , usersController.find_borrower);
+
 
 // Authors
 const authorsController = require("../controllers/librarian/authors.controller");
@@ -100,8 +116,11 @@ router.delete("/material_types/:typeID" , material_typesController.delete_materi
 // Material Borrow Records Route
 const materials_borrow_recordsController = require("../controllers/librarian/materials_borrow_records.controller");
 router.get("/material_borrow_records"           , materials_borrow_recordsController.view_all_materials_borrow_records);
+router.get("/material_borrow_records/borrowed"  , materials_borrow_recordsController.view_all_borrowed_materials);
+router.get("/material_borrow_records/returned"  , materials_borrow_recordsController.view_all_returned_materials);
 router.get("/material_borrow_records/:borrowID" , materials_borrow_recordsController.find_materials_borrow_record);
 router.put("/material_borrow_records/:borrowID" , materials_borrow_recordsController.update_materials_borrow_record);
+
 
 // Materials Route
 const materialsController = require("../controllers/librarian/materials.controller");
