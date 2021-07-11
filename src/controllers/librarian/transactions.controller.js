@@ -3,23 +3,22 @@ const db = require("../../models");
 const transactions = db.transactions;
 
 // Add new transaction
-exports.add_transaction = async (req, res) => {
+exports.add_transaction = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
     } else {
-        req.body.addedBy = req.user.userID
-        req.body.updatedBy = req.user.userID
+        req.body.addedBy = req.user.userID;
+        req.body.updatedBy = req.user.userID;
         
-        transactions.create(req.body,{
-            include: [
-                {
+        transactions
+            .create(req.body,{
+                include: [{
                     model: db.materials_borrow_records,
                     as: "material_borrow_records"
-                }
-            ]
-        })
-        .then((data) => dataResponse(res, data, 'A transaction is added successfully!', 'Failed to add transaction'))
-        .catch((err) => errResponse(res, err));
+                }]
+            })
+            .then((data) => dataResponse(res, data, 'A transaction is added successfully!', 'Failed to add transaction'))
+            .catch((err) => errResponse(res, err));
     }
 };
 
@@ -79,7 +78,7 @@ exports.find_transaction = (req, res) => {
                             'copyID'
                         ]
                     },
-                    include:[
+                    include: [
                         {
                             model: db.copies,
                             as: 'copy'

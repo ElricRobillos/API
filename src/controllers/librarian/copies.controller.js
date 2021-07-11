@@ -50,11 +50,18 @@ exports.view_all_material_copies = (req, res) => {
 exports.find_copy = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
-    }
-    else{
-        const id = req.params.copyID; 
+    } else {
 
-        copies.findByPk(id)
+        copies.findByPk(req.params.copyID, {
+            include: [{
+                model: db.materials,
+                as: 'material',
+                include: [{
+                    model: db.material_types,
+                    as: 'material_type'
+                }]
+            }]
+        })
         .then((data) => {
             res.send({
                 error: false,

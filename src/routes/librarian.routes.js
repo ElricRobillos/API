@@ -44,8 +44,8 @@ router.get   ("/students/:idNumber" , usersController.find_student);
 router.get   ("/staffs"           , usersController.view_all_staffs);
 router.get   ("/staffs/:idNumber" , usersController.find_staff);
 
-
-// Find Borrower
+// Borrowers
+router.get   ("/borrowers"         , usersController.view_all_borrowers);
 router.post  ("/find-borrower"     , usersController.find_borrower);
 
 
@@ -171,9 +171,9 @@ router.get   ("/room-shelves/:roomID" , shelvesController.get_all_shelves_of_roo
 
 // Transactions Route
 const transactionsController = require("../controllers/librarian/transactions.controller");
+router.get ("/transactions"                , transactionsController.view_all_transactions);
 router.post("/transactions"                , transactionsController.add_transaction);
 router.put ("/transactions/:transactionID" , transactionsController.update_transaction);
-router.get ("/transactions"                , transactionsController.view_all_transactions);
 router.get ("/transactions/:transactionID" , transactionsController.find_transaction);
 
 // Weedings Route

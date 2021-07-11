@@ -2,7 +2,7 @@ const { errResponse, dataResponse, emptyDataResponse } = require("../../helpers/
 const db = require("../../models");
 const users= db.users;
 const bcrypt = require("bcrypt");
-//const datatable = require(`sequelize-datatables`);
+const { Op } = require('sequelize');
 
 // Add borrower
 exports.add_user = async (req, res) => {
@@ -240,13 +240,37 @@ exports.users_count = (req, res) => {
         .catch((err) => errResponse(res, err));
 }
 
+
+exports.view_all_borrowers = (req, res) => {
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    } else {
+        users
+            .findAll({ 
+                where: { 
+                    status: 'Active',
+                    [Op.or]: [
+                        { userType: 'Student' },
+                        { userType: 'Staff' },
+                    ]
+                }})
+            .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+            .catch(err => errResponse(res, err));
+    }
+}
+
 // Find borrower
 exports.find_borrower = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
     } else {
         users
-            .findAll({ where: { idNumber: req.body.idNumber }})
+            .findAll({ 
+                where: { 
+                    idNumber: req.body.idNumber, 
+                    status: 'Active'
+                }
+            })
             .then((data) => {
                 if(data.length) {
                     users
