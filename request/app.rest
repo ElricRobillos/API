@@ -148,3 +148,21 @@ Content-Type: application/json
 
 GET http://localhost:3600/api/v1/librarian/users
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIyZDlmNmU4MS1iMGI3LTQzNzYtODgxMC1iZmNmNjMyNjU3NDUiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNTQ4ODgxOCwiZXhwIjoxNjI1NTMyMDE4fQ.5dbd_zr77r6CxggjoxsoRqwX9_T_WbWjBCMPaJal2U8
+
+
+### change the example column and value depends on the what you want to create
+
+POST http://localhost:3600/api/v1/librarian/transactions
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiIyZDlmNmU4MS1iMGI3LTQzNzYtODgxMC1iZmNmNjMyNjU3NDUiLCJ1c2VyVHlwZSI6IkxpYnJhcmlhbiIsImVtYWlsIjoibGlicmFyaWFuQGdtYWlsLmNvbSIsImlhdCI6MTYyNTk5MjU0MSwiZXhwIjoxNjI2MDM1NzQxfQ.oXXRormOudy31faA-S8DSHz4A5ASdEgA-0jlRPFc9r0
+Content-Type: application/json
+
+{
+    "borrowDate": "2021-07-11",
+    "userID": "b6002375-7476-4b52-a692-c606e0887bf8",
+    "material_borrow_records":[
+        {
+            "dueDate": "2021-08-11",
+            "copyID": "0ad15c12-1119-492b-ba85-96fcbf9cd133",
+        }
+    ]
+}
