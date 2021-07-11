@@ -17,8 +17,20 @@ exports.add_transaction = (req, res) => {
                     as: "material_borrow_records"
                 }]
             })
-            .then((data) => dataResponse(res, data, 'A transaction is added successfully!', 'Failed to add transaction'))
-            .catch((err) => errResponse(res, err));
+            .then(result => {
+                if(result) {
+                    const borrowed_copies = req.body.material_borrow_records;
+
+                    console.log(borrowed_copies);
+                    
+                    borrowed_copies.forEach(b => 
+                        db.copies.update({ status: 'Unavailable' }, { where: { copyID: b.copyID } })
+                    );
+
+                    dataResponse(res, result, 'A transaction is added successfully!', 'Failed to add transaction');
+                }
+            })
+            .catch(err => errResponse(res, err));
     }
 };
 
