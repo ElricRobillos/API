@@ -34,35 +34,64 @@ exports.add_transaction = (req, res) => {
     }
 };
 
+const dbTransactionsOp = { 
+    attributes:{
+        exclude: [
+            'borrowID'
+        ]
+    },
+    include:[
+        {
+            model: db.materials_borrow_records,
+            as: 'material_borrow_records',
+            attributes:{
+                exclude: [
+                    'copyID'
+                ]
+            },
+            include:[
+                {
+                    model: db.copies,
+                    as: 'copy'
+                }
+            ]
+        }, {
+            model: db.users,
+            as: 'transaction_borrower',
+            attributes: {
+                exclude: [
+                    'password',
+                    'addedAt',
+                    'addedBy',
+                    'updatedAt',
+                    'updatedBy',
+                ]
+            }
+        }, {
+            model: db.users,
+            as: 'added_by_librarian',
+            attributes: {
+                exclude: [
+                    'password',
+                    'addedAt',
+                    'addedBy',
+                    'updatedAt',
+                    'updatedBy',
+                    'course',
+                    'year',
+                    'section'
+                ]
+            }
+        }
+    ] 
+}
+
 // Retrieve all transactions
 exports.view_all_transactions = (req, res) => {
     if(req.user == null || req.user.userType != 'Librarian') {
         res.sendStatus(403);
     } else {
-        transactions.findAll({ 
-            attributes:{
-                exclude: [
-                    'borrowID'
-                ]
-            },
-            include:[
-                {
-                    model: db.materials_borrow_records,
-                    as: 'material_borrow_records',
-                    attributes:{
-                        exclude: [
-                            'copyID'
-                        ]
-                    },
-                    include:[
-                        {
-                            model: db.copies,
-                            as: 'copy'
-                        }
-                    ]
-                }
-            ] 
-        })
+        transactions.findAll(dbTransactionsOp)
         .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
         .catch((err) => errResponse(res, err));
     }
@@ -73,32 +102,7 @@ exports.find_transaction = (req, res) => {
     if(req.user == null || req.user.userType != 'Librarian') {
         res.sendStatus(403);
     } else {
-        const id = req.params.transactionID; 
-
-        transactions.findByPk(id,{
-            attributes:{
-                exclude: [
-                    'borrowID'
-                ]
-            },
-            include:[
-                {
-                    model: db.materials_borrow_records,
-                    as: 'material_borrow_records',
-                    attributes:{
-                        exclude: [
-                            'copyID'
-                        ]
-                    },
-                    include: [
-                        {
-                            model: db.copies,
-                            as: 'copy'
-                        }
-                    ]
-                }
-            ]
-        }) 
+        transactions.findByPk(req.params.transactionID, dbTransactionsOp) 
         .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
         .catch((err) => errResponse(res, err));
     }
@@ -139,3 +143,11 @@ exports.update_transaction = async (req, res) => {
         .catch((err) => errResponse(res, err));
     }
 };
+
+// Transactions Count
+exports.transactions_count = (req, res) => {
+    transactions
+        .count()
+        .then(result => res.send({ count: result }))
+        .catch(err => errResponse(res, err));
+}

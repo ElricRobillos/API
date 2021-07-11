@@ -116,10 +116,12 @@ router.delete("/material_types/:typeID" , material_typesController.delete_materi
 // Material Borrow Records Route
 const materials_borrow_recordsController = require("../controllers/librarian/materials_borrow_records.controller");
 router.get("/material_borrow_records"           , materials_borrow_recordsController.view_all_materials_borrow_records);
+router.get("/material_borrow_records/count"     , materials_borrow_recordsController.material_borrow_records_count);
 router.get("/material_borrow_records/borrowed"  , materials_borrow_recordsController.view_all_borrowed_materials);
 router.get("/material_borrow_records/returned"  , materials_borrow_recordsController.view_all_returned_materials);
 router.get("/material_borrow_records/:borrowID" , materials_borrow_recordsController.find_materials_borrow_record);
 router.put("/material_borrow_records/:borrowID" , materials_borrow_recordsController.update_materials_borrow_record);
+router.put("/change_borrow_status/:borrowID"    , materials_borrow_recordsController.change_borrow_status);
 
 
 // Materials Route
@@ -173,6 +175,7 @@ router.get   ("/room-shelves/:roomID" , shelvesController.get_all_shelves_of_roo
 const transactionsController = require("../controllers/librarian/transactions.controller");
 router.get ("/transactions"                , transactionsController.view_all_transactions);
 router.post("/transactions"                , transactionsController.add_transaction);
+router.get ("/transactions/count"          , transactionsController.transactions_count);
 router.put ("/transactions/:transactionID" , transactionsController.update_transaction);
 router.get ("/transactions/:transactionID" , transactionsController.find_transaction);
 

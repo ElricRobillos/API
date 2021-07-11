@@ -53,6 +53,7 @@ module.exports = (sequelize, DataTypes) => {
       })
     }
   };
+  
   transactions.init({
     transactionID : {
       type: DataTypes.UUID,
