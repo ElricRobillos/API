@@ -76,7 +76,7 @@ router.get   ("/buildings-with-rooms-and-shelves" , buildingsController.get_all_
 // Copies Route
 const copiesController = require("../controllers/librarian/copies.controller");
 router.get   ("/copies"                       , copiesController.view_all_copies);
-router.post  ("/copies"                       , copiesController.add_copy);
+router.post  ("/materials/:materialID/copies"     , copiesController.add_copy);
 router.get   ("/copies/:copyID"               , copiesController.find_copy);
 router.put   ("/copies/:copyID"               , copiesController.update_copy);
 router.delete("/copies/:copyID"               , copiesController.delete_copy);

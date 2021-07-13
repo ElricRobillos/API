@@ -1,6 +1,7 @@
 const {errResponse, dataResponse} = require("../../helpers/controller.helper")  
 const db = require("../../models");
 const copies = db.copies;
+const { Op } = require('sequelize');
 
 // Add new copy
 exports.add_copy = async (req, res) => {
@@ -12,9 +13,27 @@ exports.add_copy = async (req, res) => {
 
         req.body.updatedBy = req.user.userID
         
-        copies.create(req.body)
-        .then((data) => dataResponse(res, data, 'A Copy is added successfully!', 'Failed to add a copy'))
-        .catch((err)  => errResponse(res, err));
+        const materialID = req.params.materialID;
+        const copyNumber = req.body.copyNumber;
+
+        copies.findOne({
+            where: {
+                [Op.or]: {
+                    materialID: materialID,
+                    copyNumber: copyNumber
+                }
+            }
+        })
+        .then(result => {
+            if(result.materialID === materialID && result.copyNumber === copyNumber) {
+                console.log('Copy Number already exists');
+            } else {
+                copies.create(req.body)
+                .then((data) => dataResponse(res, data, 'A Copy is added successfully!', 'Failed to add a copy'))
+                .catch((err)  => errResponse(res, err));
+            }
+        })
+        .catch((err) => errResponse(res, err));
     }
 };
 
