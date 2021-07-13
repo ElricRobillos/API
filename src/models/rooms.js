@@ -55,8 +55,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notNull: { msg : "Room Name is required"},
         notEmpty: { msg : 'Room Name should not be empty'},
-      },
-      unique: {msg: "The Room Name is already existed."},
+      }
     },
 
     status: {

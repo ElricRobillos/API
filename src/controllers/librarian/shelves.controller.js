@@ -12,9 +12,23 @@ exports.add_shelf = (req, res) => {
 
         req.body.updatedBy = req.user.userID
         
-        shelves.create(req.body)
-        .then((data) => dataResponse(res, data, 'A shelf is added successfully!', 'Failed to add shelf'))
-        .catch((err)  => errResponse(res, err));
+        shelves.findOne({
+            where: {
+                shelfName: req.body.shelfName,
+                roomID: req.body.roomID
+            }
+        })
+        .then(result => {
+            if (result){
+                errResponse(res,'Shelf Already Existed')
+            }
+            else{
+                shelves.create(req.body)
+                .then((data) => dataResponse(res, data, 'A shelf is added successfully!', 'Failed to add shelf'))
+                .catch((err)  => errResponse(res, err));
+            }
+        })
+        .catch((err) => errResponse(res, err));
     }
 };
 
@@ -85,7 +99,40 @@ exports.update_shelf = async (req, res) => {
         shelves.update(req.body, {
             where:{ 
                 shelfID: id 
-            }
+            },
+            include: [
+                {
+                    model: db.rooms,
+                    as: 'room',
+                    attributes:{
+                        exclude: [
+                            'status',
+                            'addedBy',
+                            'updatedBy',
+                            'addedAt',
+                            'updatedAt',
+                            'roomID'
+                        ]
+                    },
+                    include: [
+                        {
+                            model: db.buildings,
+                            as: 'building',
+                            attributes:{
+                                exclude: [
+                                    'status',
+                                    'addedBy',
+                                    'updatedBy',
+                                    'addedAt',
+                                    'updatedAt',
+                                    'roomID'
+                                ]
+                            },
+                            
+                        }
+                    ]
+                }
+            ]
         })
         .then((result) => {
         console.log(result);

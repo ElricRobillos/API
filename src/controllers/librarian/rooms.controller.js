@@ -13,8 +13,22 @@ exports.add_room = async (req, res) => {
         req.body.addedBy = req.user.userID
         req.body.updatedBy = req.user.userID
         
-        rooms.create(req.body)
-        .then((data) => dataResponse(res, data, 'A room is added successfully!', 'Failed to add room'))
+        rooms.findOne({
+            where: {
+                roomName: req.body.roomName,
+                buildingID: req.body.buildingID
+            }
+        })
+        .then(result => {
+            if (result){
+                errResponse(res,'Room Already Existed')
+            }
+            else{
+                rooms.create(req.body)
+                .then((data) => dataResponse(res, data, 'A room is added successfully!', 'Failed to add room'))
+                .catch((err) => errResponse(res, err));
+            }
+        })
         .catch((err) => errResponse(res, err));
     }
 };

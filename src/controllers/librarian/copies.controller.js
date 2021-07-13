@@ -13,21 +13,17 @@ exports.add_copy = async (req, res) => {
 
         req.body.updatedBy = req.user.userID
         
-        const materialID = req.params.materialID;
-        const copyNumber = req.body.copyNumber;
-
         copies.findOne({
             where: {
-                [Op.or]: {
-                    materialID: materialID,
-                    copyNumber: copyNumber
-                }
+                copyNumber: req.body.copyNumber,
+                materialID: req.params.materialID
             }
         })
         .then(result => {
-            if(result.materialID === materialID && result.copyNumber === copyNumber) {
-                console.log('Copy Number already exists');
-            } else {
+            if (result){
+                errResponse(res,'Copy Number Already Existed')
+            }
+            else{
                 copies.create(req.body)
                 .then((data) => dataResponse(res, data, 'A Copy is added successfully!', 'Failed to add a copy'))
                 .catch((err)  => errResponse(res, err));

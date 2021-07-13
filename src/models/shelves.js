@@ -49,9 +49,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notNull: { msg : 'Shelf name should not be null'},
           notEmpty: { msg : 'Shelf name should not be empty'},
-        },
-        unique: {msg: "The shelf name is already existed."},
-        
+        }
       },
 
       status: {
