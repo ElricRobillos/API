@@ -1,6 +1,6 @@
 var router = require("express").Router();
 
-//User Route
+// User Route
 const usersController = require("../controllers/borrowers/users.controller");
 router.get("/users", usersController.view_user_account);
 router.put("/users/:userID", usersController.update_user);
@@ -14,7 +14,7 @@ router.get("/favorites", favoritesController.view_all_favorites);
 router.get("/favorites/:favoriteID", favoritesController.find_favorite);
 router.delete("favorites/:favoriteID", favoritesController.change_favorite_status);
 
-//Authors
+// Authors
 const authorsController = require("../controllers/borrowers/authors.controller");
 router.get("/authors", authorsController.view_all_authors);
 router.get("/authors/:authorID", authorsController.find_author);

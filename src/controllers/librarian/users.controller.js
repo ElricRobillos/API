@@ -4,7 +4,7 @@ const users= db.users;
 const bcrypt = require("bcrypt");
 const { Op } = require('sequelize');
 
-// Add borrower
+// Add User
 exports.add_user = async (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
@@ -234,7 +234,7 @@ exports.users_count = (req, res) => {
 
             });
 
-            // Respond roomd count
+            // Respond rooms count
             res.send({ count: count });
         })
         .catch((err) => errResponse(res, err));

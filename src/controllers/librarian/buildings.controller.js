@@ -61,7 +61,7 @@ exports.find_building = (req, res) => {
     }
 };
 
-// Update an building record
+// Update building record
 exports.update_building = async (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);

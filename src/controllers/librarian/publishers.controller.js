@@ -151,7 +151,7 @@ exports.publishers_count = (req, res) => {
 
             });
 
-            // Respond roomd count
+            // Respond rooms count
             res.send({ count: count });
         })
         .catch((err) => errResponse(res, err));
