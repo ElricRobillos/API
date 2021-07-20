@@ -51,7 +51,7 @@ exports.add_material = async (req, res) => {
 // Material options
 const materialOp = {
     attributes:{
-        exclude:[
+        exclude: [
             'shelfID',
             'languageID',
             'typeID',
@@ -60,13 +60,21 @@ const materialOp = {
         ]
     },
     include:[
+
+        // Authors
         {
             model: db.authors,
             as: 'authors',
-        }, {
+        }, 
+        
+        // Genres
+        {
             model: db.genres,
             as: 'genres',
-        }, {
+        }, 
+        
+        // Shelves
+        {
             model: db.shelves,
             as: 'shelf',
             attributes:{
@@ -111,7 +119,10 @@ const materialOp = {
                     ]
                 }
             ],
-        }, {
+        }, 
+        
+        // Languages
+        {
             model: db.languages,
             as: 'language',
             attributes:{
@@ -122,7 +133,10 @@ const materialOp = {
                     'updatedAt'
                 ]
             }
-        }, {
+        }, 
+        
+        // Material Types
+        {
             model: db.material_types,
             as: 'material_type',
             attributes:{
@@ -133,7 +147,10 @@ const materialOp = {
                     'updatedAt'
                 ]
             }
-        }, {
+        }, 
+        
+        // Publishers
+        {
             model: db.publishers,
             as: 'publisher',
             attributes:{
@@ -144,7 +161,10 @@ const materialOp = {
                     'updatedAt'
                 ]
             }
-        }, {
+        }, 
+        
+        // Publication Countries
+        {
             model: db.publication_countries,
             as: 'publication_country',
             attributes:{
@@ -155,7 +175,10 @@ const materialOp = {
                     'updatedAt'
                 ]
             }
-        }, {
+        }, 
+        
+        // Copies
+        {
             model: db.copies,
             as: 'copies'
         }
@@ -179,8 +202,7 @@ exports.view_all_materials = (req, res) => {
 exports.find_material = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
-    }
-    else{
+    } else {
         materials
             .findByPk(req.params.materialID, materialOp)
             .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
