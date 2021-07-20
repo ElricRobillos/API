@@ -1,7 +1,6 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class materials_borrow_records extends Model {
     /**
@@ -44,13 +43,13 @@ module.exports = (sequelize, DataTypes) => {
         as: 'student',
         onDelete: 'RESTRICT'
       })
-      //copyID FK 
+      
       this.belongsTo(models.copies, {
         foreignKey: 'copyID',
         as: 'copy',
         onDelete: 'RESTRICT'
       })
-      //transactionID FK 
+
       this.belongsTo(models.transactions, {
         foreignKey: 'transactionID',
         as: 'transaction',
@@ -59,25 +58,31 @@ module.exports = (sequelize, DataTypes) => {
 
     }
   };
+
   materials_borrow_records.init({
     borrowID : {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4
     }, 
+
     dueDate : {
       type : DataTypes.DATE,
       allowNull : false
     },
+
     returnDate: {
       type : DataTypes.DATE
     },
+
     returnProcessBy : {
       type: DataTypes.STRING
     },
+
     proofOfReturn : {
       type : DataTypes.STRING
     },
+
     status :{
       type: DataTypes.STRING,
       validate : {
@@ -85,19 +90,23 @@ module.exports = (sequelize, DataTypes) => {
       },
       defaultValue: "Unreturned"
     },
+
     //FK's
     copyID:{
       type: DataTypes.UUID,
       allowNull: false,
     },
+
     transactionID:{
       type: DataTypes.UUID,
       allowNull: false,
     },
+
     addedBy: { 
       type: DataTypes.UUID,
       allowNull: true,
     },
+
     updatedBy: {
       type: DataTypes.UUID,
       allowNull: true,

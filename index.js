@@ -95,7 +95,7 @@ app.use(`${process.env.API_VERSION}/home`, homeRoute);
 
 // Authorized Routes
 app.use(`${process.env.API_VERSION}/librarian`, authenticateToken, librarianRoute);
-app.use(`${process.env.API_VERSION}/borrowers`, authenticateToken, borrowersRoute);
+app.use(`${process.env.API_VERSION}/borrower`, authenticateToken, borrowersRoute);
 
 
 

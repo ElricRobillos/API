@@ -14,16 +14,16 @@ module.exports = (sequelize, DataTypes) => {
       // genreID FK
       this.belongsTo(models.genres, {
         foreignKey: 'genreID',
-        as: 'genres',
+        as: 'genre_details',
         onDelete: 'RESTRICT'
-      })
+      });
 
       // materialID FK
       this.belongsTo(models.materials, {
         foreignKey: 'materialID',
-        as: 'materials',
+        as: 'material_details',
         onDelete: 'RESTRICT'
-      })
+      });
     }
   };
 
