@@ -32,48 +32,50 @@ module.exports = (sequelize, DataTypes) => {
       })
     }
   }
-
-  publication_countries.init({
-    pubCountryID: {
-      type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: DataTypes.UUIDV4,
-    },
-
-    country: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: { msg: "Country should not be null" },
-        notEmpty: { msg: "Country should not be empty" },
+  publication_countries.init(
+    {
+      pubCountryID: {
+        type: DataTypes.UUID,
+        primaryKey: true,
+        defaultValue: DataTypes.UUIDV4,
       },
-      unique: { msg: "The Country is already existed." },
-    },
-    status: {
-      type: DataTypes.STRING,
-      defaultValue: "Active",
-      validate: {
-        isIn: {
-          args: [["Active", "Inactive"]],
-          msg: "Status should be Active or Inactive only.",
+
+      country: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: { msg: "Country should not be null" },
+          notEmpty: { msg: "Country should not be empty" },
+        },
+        unique: { msg: "The Country is already existed." },
+      },
+      status: {
+        type: DataTypes.STRING,
+        defaultValue: "Active",
+        validate: {
+          isIn: {
+            args: [["Active", "Inactive"]],
+            msg: "Status should be Active or Inactive only.",
+          },
         },
       },
-    },
-    addedBy: { 
-      type: DataTypes.UUID,
-      allowNull: true,
-    },
-    updatedBy: {
-      type: DataTypes.UUID,
-      allowNull: true,
-    },
+      addedBy: { 
+        type: DataTypes.UUID,
+        allowNull: true,
+      },
+      updatedBy: {
+        type: DataTypes.UUID,
+        allowNull: true,
+      },
 
-  }, {
-    sequelize,
-    timestamps: true,
-    createdAt: "addedAt",
-    modelName: "publication_countries",
-  });
+    },
+    {
+      sequelize,
+      timestamps: true,
+      createdAt: "addedAt",
+      modelName: "publication_countries",
+    }
+  );
 
   return publication_countries;
 };

@@ -54,12 +54,17 @@ module.exports = (sequelize, DataTypes) => {
       })
 
       // Added Favorites
-      this.belongsToMany(models.materials, {
-        through: 'favorites',
-        as: 'favorite_materials',
-        foreignKey: 'borrowerID',
-        otherKey: 'materialID'
-      });
+      this.hasMany(models.favorites, {
+        foreignKey: 'addedBy',
+        as: 'added_students_favorites',
+        onDelete: 'RESTRICT'
+      })
+
+      this.hasMany(models.favorites, {
+        foreignKey: 'addedBy',
+        as: 'added_staffs_favorites',
+        onDelete: 'RESTRICT'
+      })
 
       // Added Genres
       this.hasMany(models.genres, {
@@ -178,6 +183,13 @@ module.exports = (sequelize, DataTypes) => {
         as: 'updated_copies',
         onDelete: 'RESTRICT'
       })
+
+      // Updated Favorites
+      this.hasMany(models.favorites, {
+        foreignKey: 'updatedBy',
+        as: 'updated_favorites',
+        onDelete: 'RESTRICT'
+      })
       
       // Updated Genres
       this.hasMany(models.genres, {
@@ -281,11 +293,11 @@ module.exports = (sequelize, DataTypes) => {
         as: 'borrower_transactions',
         onDelete: 'RESTRICT'
       });
+      
     }
   };
-
-  users.init({
-
+  users.init(
+    {
     userID: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -400,12 +412,10 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
     },
-
     addedBy: { 
-      type: DataTypes.UUID,
-      allowNull: true,
-    },
-    
+        type: DataTypes.UUID,
+        allowNull: true,
+      },
     updatedBy: {
       type: DataTypes.UUID,
       allowNull: true,

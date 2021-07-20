@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      // define association here
 
       // Added
       this.belongsTo(models.users, {
@@ -31,41 +32,36 @@ module.exports = (sequelize, DataTypes) => {
         as: 'shelf',
         onDelete: 'RESTRICT'
       })
-      
       // languageID FK
       this.belongsTo(models.languages, {
         foreignKey: 'languageID',
         as: 'language',
         onDelete: 'RESTRICT'
       })
-
       // typeID FK
       this.belongsTo(models.material_types, {
         foreignKey: 'typeID',
         as: 'material_type',
         onDelete: 'RESTRICT'
       })
-      
       // publisherID FK
       this.belongsTo(models.publishers, {
         foreignKey: 'publisherID',
         as: 'publisher',
         onDelete: 'RESTRICT'
       })
-
       // pubCountryID FK
       this.belongsTo(models.publication_countries, {
         foreignKey: 'pubCountryID',
         as: 'publication_country',
         onDelete: 'RESTRICT'
-      });
-
-      // From copies table
+      })
+       // From copies table
       this.hasMany(models.copies, {
         foreignKey: 'materialID',
         as: 'copies',
         onDelete: 'RESTRICT'
-      });
+      })
 
       // From authors table
       this.belongsToMany(models.authors, {
@@ -83,12 +79,11 @@ module.exports = (sequelize, DataTypes) => {
         otherKey: 'genreID',
       });
 
-      // From favorites table
-      this.belongsToMany(models.users, {
-        through: 'favorites',
-        as: 'favorite_by_borrowers',
+      //From favorites table
+      this.hasMany(models.favorites, {
         foreignKey: 'materialID',
-        otherKey: 'borrowerID',
+        as: 'favorites',
+        onDelete: 'RESTRICT'
       })
     }
   };

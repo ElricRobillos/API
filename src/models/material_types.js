@@ -4,8 +4,13 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class material_types extends Model {
-
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
     static associate(models) {
+      // define association here
 
       // Added
       this.belongsTo(models.users, {
@@ -20,7 +25,6 @@ module.exports = (sequelize, DataTypes) => {
         as: 'updated_by_librarian',
         onDelete: 'RESTRICT'
       })
-
       // From materials table
       this.hasMany(models.materials, {
         foreignKey: 'typeID',
@@ -29,15 +33,12 @@ module.exports = (sequelize, DataTypes) => {
       })
     }
   };
-
   material_types.init({
-
     typeID : {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },
-
     typeName: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -47,7 +48,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       unique: {msg: "Types of material already existed"},
     },
-
     status: {
       type: DataTypes.STRING,
       defaultValue: "Active",
@@ -58,23 +58,21 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
     },
-
     addedBy: { 
       type: DataTypes.UUID,
       allowNull: true,
     },
-
     updatedBy: {
       type: DataTypes.UUID,
       allowNull: true,
     },
-  
-  }, {
+
+  }, 
+  {
     sequelize,
     timestamps: true,
     createdAt: 'addedAt',
     modelName: 'material_types',
   });
-  
   return material_types;
 };
