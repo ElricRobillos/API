@@ -13,8 +13,9 @@ router.post("/users", usersController.create_users);
 
 // Get all materials
 const materialController = require('../controllers/app/materials.controller');
-router.get("/materials", materialController.view_all_available_materials);
-router.get("/materials/:materialID", materialController.get_one_available_material);
+router.get("/materials/pages/:page" , materialController.view_all_available_materials);
+router.get("/materials/count"       , materialController.available_materials_count);
+router.get("/materials/:materialID" , materialController.get_one_available_material);
 
 
 module.exports = router;

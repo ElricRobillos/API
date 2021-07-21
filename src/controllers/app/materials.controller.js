@@ -6,6 +6,10 @@ const { Op } = require('sequelize');
 
 // View All Available Materials
 exports.view_all_available_materials = (req, res) => {
+    const page = req.params.page;
+    const limit = parseInt(process.env.FETCH_LIMIT);
+    const offset = page > 1 ? (page - 1) * limit : 0; 
+    
     materials
         .findAll({
             include: [
@@ -19,7 +23,9 @@ exports.view_all_available_materials = (req, res) => {
                     model: db.authors,
                     as: 'authors'
                 }
-            ]
+            ],
+            limit: limit,
+            offset: offset
         })
         .then(data => dataResponse(res, data, 'Materials are retrieved successfully', 'No material has been retrieved'))
         .catch(err => errResponse(res, err));
@@ -161,4 +167,22 @@ exports.get_one_available_material = (req, res) => {
         })
         .then(data => dataResponse(res, data, 'Materials are retrieved successfully', 'No material has been retrieved'))
         .catch(err => errResponse(res, err));
+}
+
+
+// Count all available materials
+exports.available_materials_count = (req, res) => {
+    materials
+        .findAll({ 
+            where: { status: "Active" },
+            include: [{
+                model: db.copies,
+                as: 'copies',
+                where: {
+                    [Op.not]: { copyID: null }
+                }
+            }]
+        })
+        .then(data => dataResponse(res, data.length, 'Materials count retrieved successfully', 'No materials has been counted'))
+        .catch(err => errResponse(res, err))
 }

@@ -9,11 +9,23 @@ exports.add_favorite = (req, res) => {
     if(res.user == null && !authorizedUser) {
         res.sendStatus(403);
     } else {
-        req.body.borrowerID = req.user.userID;
         favorites
-            .create(req.body)
-            .then(data => dataResponse(res, data, 'A favorite is added successfully!', 'Failed to add favorite'))
-            .catch(err  => errResponse(res, err));
+            .findOne({
+                where: {
+                    materialID: req.body.materialID,
+                    borrowerID: req.user.userID
+                }
+            })
+            .then(result => {
+                if(!result) {
+                    req.body.borrowerID = req.user.userID;
+                    favorites
+                        .create(req.body)
+                        .then(data => dataResponse(res, data, 'A favorite is added successfully!', 'Failed to add favorite'))
+                        .catch(err  => errResponse(res, err));
+                }
+            })
+            .catch(err => errResponse(res, err));
     }
 };
 
@@ -24,6 +36,10 @@ exports.view_all_favorites  = (req, res) => {
     if(res.user == null && !authorizedUser) {
         res.sendStatus(403);
     } else {
+        const page = req.params.page;
+        const limit = parseInt(process.env.FETCH_LIMIT);
+        const offset = page > 1 ? (page - 1) * limit : 0; 
+
         favorites
             .findAll({ 
                 where: { borrowerID: req.user.userID },
@@ -34,7 +50,9 @@ exports.view_all_favorites  = (req, res) => {
                         model: db.authors,
                         as: 'authors'
                     }]
-                }]
+                }],
+                limit: limit,
+                offset: offset
             })
             .then(data => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
             .catch(err => errResponse(res, err));
@@ -56,11 +74,7 @@ exports.remove_as_favorite = (req, res) => {
 // Favorites counts
 exports.favorites_count = (req, res) => {
     favorites
-        .count({
-            where: {
-                borrowerID: req.user.userID
-            }
-        })
+        .count({ where: { borrowerID: req.user.userID }})
         .then(data => dataResponse(res, data, 'Favorites count is successfully retrieved', 'No favorites count'))
         .catch(err => errResponse(res, err))
 }
