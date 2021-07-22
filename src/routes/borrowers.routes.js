@@ -5,6 +5,11 @@ var router = require("express").Router();
 // router.get("/users", usersController.view_user_account);
 // router.put("/users/:userID", usersController.update_user);
 
+// Account Route 
+const accountController = require("../controllers/borrowers/account.controller");
+
+// Borrower Account
+router.get   ("/info"            , accountController.get_borrower_info);
 
 // Favorites Route
 const favoritesController = require("../controllers/borrowers/favorites.controller");

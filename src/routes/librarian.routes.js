@@ -26,6 +26,13 @@ const uploadImage = (req, res, next) => {
     });
 }
 
+// Account Route 
+const accountController = require("../controllers/librarian/account.controller");
+
+// Librarian Account
+router.get   ("/info"            , accountController.get_librarian_info);
+
+
 // User Route 
 const usersController = require("../controllers/librarian/users.controller");
 
