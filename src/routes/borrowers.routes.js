@@ -58,6 +58,9 @@ router.get("/materials/:materialID" , materialsController.get_one_available_mate
 
 // Transactions
 const transactionsController = require('../controllers/borrowers/transactions.controller');
-router.get("/transactions", transactionsController.find_all_transactions);
+router.get("/transactions"                                , transactionsController.find_all_transactions);
+router.get("/transactions/count"                          , transactionsController.transactions_count);
+router.get("/transactions/:transactionID"                 , transactionsController.find_one_transaction);
+router.get("/transactions/:transactionID/borrowed_copies" , transactionsController.get_all_copies_borrowed_per_transaction);
 
 module.exports = router;

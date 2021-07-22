@@ -20,19 +20,6 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'RESTRICT'
       });
 
-      // userID FK
-      this.belongsTo(models.users, {
-        foreignKey: 'userID',
-        as: 'student',
-        onDelete: 'RESTRICT'
-      });
-
-      this.belongsTo(models.users, {
-        foreignKey: 'userID',
-        as: 'staff',
-        onDelete: 'RESTRICT'
-      });
-
       this.belongsTo(models.users, {
         foreignKey: 'userID',
         as: 'transaction_borrower',
