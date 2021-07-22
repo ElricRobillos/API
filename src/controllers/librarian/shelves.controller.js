@@ -65,7 +65,16 @@ exports.find_shelf = (req, res) => {
         const id = req.params.shelfID; 
 
         shelves.findByPk(id,{
+            attributes:{
+                exclude: [
+                    'roomID'
+                ]
+            },
             include: [
+                {
+                    model: db.rooms,
+                    as: 'room'
+                },
                 {
                     model: db.users,
                     as: "added_by_librarian",
