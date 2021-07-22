@@ -1,7 +1,8 @@
 const {errResponse, dataResponse} = require("../../helpers/controller.helper")
 const db = require("../../models");
 const materials = db.materials;
-const {Op, Sequelize} = require('sequelize');
+const {Op} = require('sequelize');
+
 
 // Retrieve all materials
 exports.view_all_available_materials = (req, res) => {
@@ -17,16 +18,25 @@ exports.view_all_available_materials = (req, res) => {
             .findAll({
                 where: { status: "Active" },
                 include: [
+
+                    // Copies
                     {
                         model: db.copies,
                         as: 'copies',
                         where: {
+                            status: 'Available',
                             [Op.not]: { copyID: null }
                         }
-                    }, {
+                    }, 
+                    
+                    // Authors
+                    {
                         model: db.authors,
                         as: 'authors'
-                    }, {
+                    }, 
+                    
+                    // Favorites
+                    {
                         model: db.users,
                         as: 'favorite_by_borrowers',
                         attributes: ['userID']
@@ -182,5 +192,43 @@ exports.get_one_available_material = (req, res) => {
             ]
         })
         .then(data => dataResponse(res, data, 'Materials are retrieved successfully', 'No material has been retrieved'))
+        .catch(err => errResponse(res, err));
+}
+
+
+// Latest available materials
+exports.latest_available_materials = (req, res) => {
+    materials
+        .findAll({
+            where: { status: "Active" },
+            include: [
+
+                // Copies
+                {
+                    model: db.copies,
+                    as: 'copies',
+                    where: {
+                        status: 'Available',
+                        [Op.not]: { copyID: null }
+                    }
+                }, 
+                
+                // Authors
+                {
+                    model: db.authors,
+                    as: 'authors'
+                }, 
+                
+                // Favorites
+                {
+                    model: db.users,
+                    as: 'favorite_by_borrowers',
+                    attributes: ['userID']
+                }
+            ],
+            order: [['addedAt', 'DESC']],
+            limit: 4
+        })
+        .then(data => dataResponse(res, data, 'Latest Materials retrieved successfully', 'No material has been retrieved'))
         .catch(err => errResponse(res, err));
 }

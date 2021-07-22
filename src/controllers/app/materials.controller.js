@@ -12,11 +12,13 @@ exports.view_all_available_materials = (req, res) => {
     
     materials
         .findAll({
+            where: { status: 'Active' },
             include: [
                 {
                     model: db.copies,
                     as: 'copies',
                     where: {
+                        status: 'Available',
                         [Op.not]: { copyID: null }
                     }
                 }, {
@@ -179,10 +181,37 @@ exports.available_materials_count = (req, res) => {
                 model: db.copies,
                 as: 'copies',
                 where: {
+                    status: 'Available',
                     [Op.not]: { copyID: null }
                 }
             }]
         })
         .then(data => dataResponse(res, data.length, 'Materials count retrieved successfully', 'No materials has been counted'))
         .catch(err => errResponse(res, err))
+}
+
+
+// Latest available materials
+exports.latest_available_materials = (req, res) => {
+    materials
+        .findAll({
+            where: { status: 'Active' },
+            include: [
+                {
+                    model: db.copies,
+                    as: 'copies',
+                    where: {
+                        status: 'Available',
+                        [Op.not]: { copyID: null }
+                    }
+                }, {
+                    model: db.authors,
+                    as: 'authors'
+                }
+            ],
+            order: [['addedAt', 'DESC']],
+            limit: 4
+        })
+        .then(data => dataResponse(res, data, 'Latest Materials retrieved successfully', 'No material has been retrieved'))
+        .catch(err => errResponse(res, err));
 }

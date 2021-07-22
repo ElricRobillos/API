@@ -40,6 +40,7 @@ router.get   ("/favorites/count"       , favoritesController.favorites_count);
 
 // Materials Route
 const materialsController = require("../controllers/borrowers/materials.controller");
+router.get("/materials/latest"      , materialsController.latest_available_materials);
 router.get("/materials/pages/:page" , materialsController.view_all_available_materials);
 router.get("/materials/:materialID" , materialsController.get_one_available_material);
 

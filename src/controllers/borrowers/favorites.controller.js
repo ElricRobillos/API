@@ -9,6 +9,8 @@ exports.add_favorite = (req, res) => {
     if(res.user == null && !authorizedUser) {
         res.sendStatus(403);
     } else {
+        // Check first if material is already added as favorite pper user
+        // To prevent multiple records
         favorites
             .findOne({
                 where: {
@@ -17,6 +19,8 @@ exports.add_favorite = (req, res) => {
                 }
             })
             .then(result => {
+                
+                // If no record, then record can be created
                 if(!result) {
                     req.body.borrowerID = req.user.userID;
                     favorites
@@ -70,6 +74,7 @@ exports.remove_as_favorite = (req, res) => {
         .then(data => dataResponse(res, data, 'A favorite material has been removed'))
         .catch(err => errResponse(res, err));
 }
+
 
 // Favorites counts
 exports.favorites_count = (req, res) => {
