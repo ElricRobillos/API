@@ -38,7 +38,44 @@ exports.find_publisher = (req, res) => {
     else{
         const id = req.params.publisherID; 
 
-        publishers.findByPk(id)
+        publishers.findByPk(id,{
+            include: [
+                {
+                    model: db.users,
+                    as: "added_by_librarian",
+                    attributes:{
+                        exclude: [
+                            'password',
+                            'profilePic',
+                            'section',
+                            'course',
+                            'year',
+                            'addedBy',
+                            'updatedBy',
+                            'addedAt',
+                            'updatedAt'
+                        ]
+                    }
+                },
+                {
+                    model: db.users,
+                    as: "updated_by_librarian",
+                    attributes:{
+                        exclude: [
+                            'password',
+                            'profilePic',
+                            'section',
+                            'course',
+                            'year',
+                            'addedBy',
+                            'updatedBy',
+                            'addedAt',
+                            'updatedAt'
+                        ]
+                    }
+                }
+            ]
+        })
         .then((data) => {
             res.send({
                 error: false,

@@ -51,7 +51,44 @@ exports.find_material_type = (req, res) => {
     else{
         const id = req.params.typeID; 
 
-        material_types.findByPk(id)
+        material_types.findByPk(id,{
+            include: [
+                {
+                    model: db.users,
+                    as: "added_by_librarian",
+                    attributes:{
+                        exclude: [
+                            'password',
+                            'profilePic',
+                            'section',
+                            'course',
+                            'year',
+                            'addedBy',
+                            'updatedBy',
+                            'addedAt',
+                            'updatedAt'
+                        ]
+                    }
+                },
+                {
+                    model: db.users,
+                    as: "updated_by_librarian",
+                    attributes:{
+                        exclude: [
+                            'password',
+                            'profilePic',
+                            'section',
+                            'course',
+                            'year',
+                            'addedBy',
+                            'updatedBy',
+                            'addedAt',
+                            'updatedAt'
+                        ]
+                    }
+                }
+            ]
+        })
         .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
         .catch((err) => errResponse(res, err));
     }

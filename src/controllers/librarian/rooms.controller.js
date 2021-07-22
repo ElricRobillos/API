@@ -66,15 +66,40 @@ exports.find_room = (req, res) => {
         const id = req.params.roomID; 
 
         rooms.findByPk(id,{
-            attributes:{
-                exclude: [
-                    'buildingID'
-                ]
-            },
-            include:[
+            include: [
                 {
-                    model: db.buildings,
-                    as: 'building'
+                    model: db.users,
+                    as: "added_by_librarian",
+                    attributes:{
+                        exclude: [
+                            'password',
+                            'profilePic',
+                            'section',
+                            'course',
+                            'year',
+                            'addedBy',
+                            'updatedBy',
+                            'addedAt',
+                            'updatedAt'
+                        ]
+                    }
+                },
+                {
+                    model: db.users,
+                    as: "updated_by_librarian",
+                    attributes:{
+                        exclude: [
+                            'password',
+                            'profilePic',
+                            'section',
+                            'course',
+                            'year',
+                            'addedBy',
+                            'updatedBy',
+                            'addedAt',
+                            'updatedAt'
+                        ]
+                    }
                 }
             ]
         })

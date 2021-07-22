@@ -52,8 +52,44 @@ exports.find_publication_country = (req, res) => {
   else{
     const id = req.params.pubCountryID;
 
-    publication_countries
-      .findByPk(id)
+    publication_countries.findByPk(id,{
+        include: [
+            {
+                model: db.users,
+                as: "added_by_librarian",
+                attributes:{
+                    exclude: [
+                        'password',
+                        'profilePic',
+                        'section',
+                        'course',
+                        'year',
+                        'addedBy',
+                        'updatedBy',
+                        'addedAt',
+                        'updatedAt'
+                    ]
+                }
+            },
+            {
+                model: db.users,
+                as: "updated_by_librarian",
+                attributes:{
+                    exclude: [
+                        'password',
+                        'profilePic',
+                        'section',
+                        'course',
+                        'year',
+                        'addedBy',
+                        'updatedBy',
+                        'addedAt',
+                        'updatedAt'
+                    ]
+                }
+            }
+        ]
+    })
       .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
       .catch((err)  => errResponse(res, err));
   }
