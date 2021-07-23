@@ -47,7 +47,13 @@ exports.view_all_shelves = (req, res) => {
             include:[
                 {
                     model: db.rooms,
-                    as: 'room'
+                    as: 'room',
+                    include: [
+                        {
+                            model: db.buildings,
+                            as: 'building'
+                        }
+                    ]
                 }
             ] 
         })
@@ -73,7 +79,13 @@ exports.find_shelf = (req, res) => {
             include: [
                 {
                     model: db.rooms,
-                    as: 'room'
+                    as: 'room',
+                    include: [
+                        {
+                            model: db.buildings,
+                            as: 'building'
+                        }
+                    ]
                 },
                 {
                     model: db.users,

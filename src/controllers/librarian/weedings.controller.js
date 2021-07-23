@@ -133,3 +133,44 @@ exports.delete_weeding = (req, res) => {
         .catch((err) => errResponse(res, err));
     }
 };
+
+// Add Weeding Record
+exports.add_weeding_record = (req, res) => {
+    
+    req.body.addedBy = req.user.userID;
+    req.body.updatedBy = req.user.userID;
+    
+    weedings
+        .create(req.body)
+        .then(result => {
+            if(result) {
+                db.materials_borrow_records
+                    .findByPk(req.params.borrowID, {
+                        include: [{
+                            model: db.copies,
+                            as: 'copy'
+                        }]
+                    })
+                    .then(result2 => {
+                        if(result2) {
+                            db.materials_borrow_records
+                                .update({
+                                    
+                                })
+                            db.copies
+                                .update({ 
+                                    weedID: result.weedID, 
+                                    status: 'Weeded' 
+                                },{ 
+                                    where: { 
+                                        copyID: result2.copy.copyID 
+                                    }
+                                })
+                                .then(data => dataResponse(res, data, 'A copy has been returned and weeded'))
+                        }
+                    })
+                    .catch(err => errResponse(res, err))
+            }
+        })
+        .catch(err => errResponse(res, err))
+}
