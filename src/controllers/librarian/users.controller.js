@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const { Op } = require('sequelize');
 
 // Add User
-exports.add_user = async (req, res) => {
+exports.add_student = async (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
     } else {
@@ -13,9 +13,37 @@ exports.add_user = async (req, res) => {
         req.body.updated_by = req.user.userID
         req.body.password = await bcrypt.hash(req.body.password, parseInt(process.env.SALT_ROUND));
         
+        const idNumber = req.body.idNumber;
+        const email = req.body.email;
+
+        console.log(idNumber)
+
+        // Find if both Student/Staff Number and Email existed.
         users
-            .create(req.body)
-            .then((data) => dataResponse(res, data, 'A user is added successfully!', 'Failed to add user'))
+            .findOne({
+                where: {
+                    [Op.or]: {
+                        idNumber: idNumber,
+                        email: email
+                    }
+                }
+            })
+            .then(result => {
+                if(result) {
+                    if(result.idNumber === idNumber && result.email === email) {
+                        errResponse(res, 'User already exists');
+                    } else if(result.idNumber === idNumber) {
+                        errResponse(res, 'ID Number is already used');
+                    } else if(result.email === email) {
+                        errResponse(res, 'Email is already used');
+                    }
+                } else {
+                    users
+                        .create(req.body)
+                        .then((data) => dataResponse(res, data, 'Account has been successfully registered', 'Failed to add an account'))
+                        .catch((err) => errResponse(res, err));
+                }
+            })
             .catch((err) => errResponse(res, err));
     }
 };

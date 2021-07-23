@@ -13,7 +13,7 @@ exports.create_users = async (req, res, next) => {
 
     console.log(idNumber)
 
-    // Find if both Student Number and Email existed.
+    // Find if both Student/Staff Number and Email existed.
     users
         .findOne({
             where: {
@@ -28,7 +28,7 @@ exports.create_users = async (req, res, next) => {
                 if(result.idNumber === idNumber && result.email === email) {
                     errResponse(res, 'User already exists');
                 } else if(result.idNumber === idNumber) {
-                    errResponse(res, 'Student Number is already used');
+                    errResponse(res, 'ID Number is already used');
                 } else if(result.email === email) {
                     errResponse(res, 'Email is already used');
                 }

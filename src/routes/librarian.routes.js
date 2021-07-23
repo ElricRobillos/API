@@ -38,13 +38,13 @@ const usersController = require("../controllers/librarian/users.controller");
 
 // Users
 router.get   ("/users"            , usersController.view_all_users);
-router.post  ("/users"            , usersController.add_user);
 router.get   ("/users/count"      , usersController.users_count);
 router.get   ("/users/:userID"    , usersController.find_user);
 router.delete("/users/:userID"    , usersController.change_user_status);
 
 // Students
 router.get   ("/students"           , usersController.view_all_students);
+router.post  ("/students"            , usersController.add_student);
 router.get   ("/students/:idNumber" , usersController.find_student);
 
 // Staffs
