@@ -9,6 +9,7 @@ const jwt     = require('jsonwebtoken');
 const cors    = require('cors');
 const path    = require('path')
 const db      = require('./src/models');
+const nodemailer = require('nodemailer');
 
 /**
  * ====================================================================
@@ -150,3 +151,40 @@ db.sequelize
       .catch((err) => console.error(`\x1b[31m%s\x1b[0m`, DB_CONN_FAILED_MSG(err)));
   })
   .catch((err) => console.error(`\x1b[31m%s\x1b[0m`, DB_CONN_FAILED_MSG(err)));
+
+
+
+
+
+  /**
+ * ====================================================================
+ * * SAMPLE EMAIL SENT
+ * ====================================================================
+ */
+
+// let transporter = nodemailer.createTransport({
+//   host: 'smtp.gmail.com',
+//   port: 587,
+//   secure: false,
+//   auth: {
+//     user: 'librarian1011@gmail.com',
+//     pass: 'hucu egik pdba waoa'
+//   },
+//   tls:{
+//     rejectUnauthorized:false
+//   }
+// });
+
+// let mailOptions = {
+//   from: 'librarian1011@gmail.com',
+//   to: 'librarian1011@gmail.com',
+//   text: 'LibMS test',
+// }
+
+// transporter.sendMail(mailOptions, (error, info) => {
+//   if(error){
+//     return console.log(error)
+//   }
+//   console.log('Message sent')
+
+// })
