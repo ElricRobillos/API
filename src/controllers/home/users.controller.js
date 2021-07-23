@@ -11,6 +11,8 @@ exports.create_users = async (req, res, next) => {
     const idNumber = req.body.idNumber;
     const email = req.body.email;
 
+    console.log(idNumber)
+
     // Find if both Student Number and Email existed.
     users
         .findOne({
@@ -22,14 +24,16 @@ exports.create_users = async (req, res, next) => {
             }
         })
         .then(result => {
-            if(result.idNumber === idNumber && result.email === email) {
-                console.log('User already exists');
-            } else if(result.idNumber === idNumber) {
-                console.log('Student Number is already used');
-            } else if(result.email === email) {
-                console.log('Email is already used');
+            if(result) {
+                if(result.idNumber === idNumber && result.email === email) {
+                    errResponse(res, 'User already exists');
+                } else if(result.idNumber === idNumber) {
+                    errResponse(res, 'Student Number is already used');
+                } else if(result.email === email) {
+                    errResponse(res, 'Email is already used');
+                }
             } else {
-                db.users
+                users
                     .create(req.body)
                     .then((data) => dataResponse(res, data, 'Your account has been successfully registered', 'Failed to register an account'))
                     .catch((err) => errResponse(res, err));

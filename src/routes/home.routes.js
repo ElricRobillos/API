@@ -19,4 +19,9 @@ router.get("/materials/count"       , materialController.available_materials_cou
 router.get("/materials/:materialID" , materialController.get_one_available_material);
 
 
+// Search
+const searchController = require('../controllers/app/search.controller');
+router.post('/search', searchController.search_materials);
+
+
 module.exports = router;

@@ -9,7 +9,7 @@ var router = require("express").Router();
 const accountController = require("../controllers/borrowers/account.controller");
 
 // Borrower Account
-router.get   ("/info"            , accountController.get_borrower_info);
+router.get   ("/info" , accountController.get_borrower_info);
 
 // Favorites Route
 const favoritesController = require("../controllers/borrowers/favorites.controller");
