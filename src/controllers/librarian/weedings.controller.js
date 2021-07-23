@@ -17,7 +17,14 @@ exports.view_all_weedings = (req, res) => {
             include:[
                 {
                     model: db.copies,
-                    as: 'copy'
+                    as: 'copy',
+                    include: [
+                        {
+                            model: db.materials,
+                            as: 'material'
+                        }
+                    ]
+
                 }
             ]
         })
@@ -155,7 +162,11 @@ exports.add_weeding_record = (req, res) => {
                         if(result2) {
                             db.materials_borrow_records
                                 .update({
-                                    
+                                    status: 'Returned'
+                                },{
+                                    where: {
+                                        borrowID: req.params.borrowID
+                                    }
                                 })
                             db.copies
                                 .update({ 
@@ -172,5 +183,13 @@ exports.add_weeding_record = (req, res) => {
                     .catch(err => errResponse(res, err))
             }
         })
+        .catch(err => errResponse(res, err))
+}
+
+// Genres Count
+exports.weedings_count = (req, res) => {
+    weedings
+        .count()
+        .then(data => dataResponse(res, data, 'A copy has been returned and weeded'))
         .catch(err => errResponse(res, err))
 }

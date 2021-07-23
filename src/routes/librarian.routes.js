@@ -189,9 +189,11 @@ router.get ("/transactions/:transactionID" , transactionsController.find_transac
 // Weedings Route
 const weedingsController = require("../controllers/librarian/weedings.controller");
 router.get   ("/weedings"            , weedingsController.view_all_weedings);
+router.get   ("/weedings/count"      , weedingsController.weedings_count);
 router.get   ("/weedings/:weedID"    , weedingsController.find_weeding);
 router.put   ("/weedings/:weedID"    , weedingsController.update_weeding);
 router.delete("/weedings/:weedingID" , weedingsController.delete_weeding);
+router.post  ("/weedings/:borrowID"  , weedingsController.add_weeding_record) 
 
 
 module.exports = router;
