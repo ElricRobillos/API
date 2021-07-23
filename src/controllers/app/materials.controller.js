@@ -23,7 +23,12 @@ exports.view_all_available_materials = (req, res) => {
                     }
                 }, {
                     model: db.authors,
-                    as: 'authors'
+                    as: 'authors',
+                    attributes: [
+                        'authorFirstName',
+                        'authorMiddleName',
+                        'authorLastName',
+                    ]
                 }
             ],
             limit: limit,

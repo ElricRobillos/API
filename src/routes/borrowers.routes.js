@@ -62,6 +62,11 @@ router.get("/materials/:materialID" , materialsController.get_one_available_mate
 // router.get("/publishers/:publisherID", publishersController.find_publisher);
 
 
+// Search
+const searchController = require('../controllers/borrowers/search.controller');
+router.post('/search/:page', searchController.search_materials);
+
+
 // Transactions
 const transactionsController = require('../controllers/borrowers/transactions.controller');
 router.get("/transactions"                                , transactionsController.find_all_transactions);

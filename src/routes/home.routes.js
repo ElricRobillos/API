@@ -21,7 +21,7 @@ router.get("/materials/:materialID" , materialController.get_one_available_mater
 
 // Search
 const searchController = require('../controllers/app/search.controller');
-router.post('/search', searchController.search_materials);
+router.post('/search/:page', searchController.search_materials);
 
 
 module.exports = router;

@@ -35,7 +35,11 @@ exports.search_materials = (req, res) => {
                     }, {
                         model: db.authors,
                         as: 'authors'
-                    }
+                    }, {
+                        model: db.users,
+                        as: 'favorite_by_borrowers',
+                        attributes: ['userID']
+                    }, 
                 ],
                 limit: limit,
                 offset: offset
@@ -69,6 +73,10 @@ exports.search_materials = (req, res) => {
                         where: {
                             genre: { [Op.like]: `%${ query }%` }
                         }
+                    }, {
+                        model: db.users,
+                        as: 'favorite_by_borrowers',
+                        attributes: ['userID']
                     }
                 ],
                 limit: limit,
@@ -103,6 +111,10 @@ exports.search_materials = (req, res) => {
                         where: {
                             publisherName: { [Op.like]: `%${ query }%` }
                         }
+                    }, {
+                        model: db.users,
+                        as: 'favorite_by_borrowers',
+                        attributes: ['userID']
                     }
                 ],
                 limit: limit,
@@ -137,6 +149,10 @@ exports.search_materials = (req, res) => {
                         where: {
                             country: { [Op.like]: `%${ query }%` }
                         }
+                    }, {
+                        model: db.users,
+                        as: 'favorite_by_borrowers',
+                        attributes: ['userID']
                     }
                 ],
                 limit: limit,
@@ -172,6 +188,10 @@ exports.search_materials = (req, res) => {
                                 { authorLastName:   { [Op.like]: `%${ query }%` }},
                             ]
                         }
+                    }, {
+                        model: db.users,
+                        as: 'favorite_by_borrowers',
+                        attributes: ['userID']
                     }
                 ],
                 limit: limit,
