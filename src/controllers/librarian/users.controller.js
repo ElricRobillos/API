@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const { Op } = require('sequelize');
 
 // Add User
-exports.add_student = async (req, res) => {
+exports.add_user = async (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
     } else {
@@ -72,77 +72,42 @@ exports.find_user = (req, res) => {
     }
 };
 
-// // Update a User by the id in the request
-// exports.update = async (req, res) => {
-//     const id = req.params.userID
+// Update a User by the id in the request
+exports.update_user = async (req, res) => {
+    const id = req.params.userID
 
-//     if (req.body.password) {
-//         req.body.password = await bcrypt.hash(
-//         req.body.password,
-//         parseInt(process.env.SALT_ROUNDS)
-//         );
-//     }
+    if (req.body.password) {
+        req.body.password = await bcrypt.hash(
+        req.body.password,
+        parseInt(process.env.SALT_ROUNDS)
+        );
+    }
 
-//     users.update(req.body, {
-//         where: { userID: id },
-//     })
-//         .then((result) => {
-//         if (result) {
-//             // success
-//             users.findByPk(id).then((data) => {
-//             res.send({
-//                 error: false,
-//                 data: data,
-//                 message: [process.env.SUCCESS_UPDATE],
-//             });
-//             });
-//         } else {
-//             // error in updating
-//             res.status(500).send({
-//             error: true,
-//             data: [],
-//             message: [process.env.SUCCESS_UPDATE],
-//             });
-//         }
-//         })
-//         .catch((err) => errResponse(res, err));
-// };
-
-// Change status of user
-exports.change_user_status = (req, res) => {
-    if (req.user == null || req.user.userType != 'Librarian'){
-        res.sendStatus(403);
-    } else {
-        const id = req.params.userID;
-        const body = { status: "Inactive" };
-
-        users.update(body, {
-            where:{ 
-                userID: id 
-            }
-        })
+    users.update(req.body, {
+        where: { userID: id },
+    })
         .then((result) => {
         if (result) {
-            // success update
+            // success
             users.findByPk(id).then((data) => {
-            res.send({
-                error: false,
-                data: data,
-                message: [process.env.STATUS_UPDATE],
-            });
+                res.send({
+                    error: false,
+                    data: data,
+                    message: [process.env.SUCCESS_UPDATE],
+                });
             });
         } else {
-            // error in deleting
+            // error in updating
             res.status(500).send({
             error: true,
             data: [],
-            message: ["Error in deleting a record"],
+            message: [process.env.SUCCESS_UPDATE],
             });
         }
         })
         .catch((err) => errResponse(res, err));
-    }
 };
+
 
 // Retrieve all students
 exports.view_all_students = (req, res) => {
@@ -165,19 +130,17 @@ exports.view_all_students = (req, res) => {
     }
 };
 
-// Find student
+// Find Student
 exports.find_student = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
     } else {
+        const id = req.params.userID;
+
         users
-            .findOne({
+            .findByPk(id,{
                 atrributes: {
                     exclude: ['password']
-                },
-                where: { 
-                    idNumber: req.params.idNumber,
-                    userType: 'Student'
                 }
             })
             .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
@@ -210,13 +173,15 @@ exports.view_all_staffs = (req, res) => {
     }
 };
 
-// Find staffs
+// Find Staff
 exports.find_staff = (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
     } else {
+        const id = req.params.userID;
+
         users
-            .findOne({ 
+            .findByPk(id,{
                 attributes: {
                     exclude: [
                         'course',
@@ -224,11 +189,7 @@ exports.find_staff = (req, res) => {
                         'section',
                         'password'
                     ]
-                },
-                where: { 
-                    idNumber: req.params.idNumber,
-                    userType: 'Staff'
-                }
+                }                
             })
             .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
             .catch((err) => errResponse(res, err));
