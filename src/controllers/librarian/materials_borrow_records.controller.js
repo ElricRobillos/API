@@ -98,12 +98,50 @@ exports.find_materials_borrow_record = (req, res) => {
             include:[
                 {
                     model: db.copies,
-                    as: 'copy'
+                    as: 'copy',
+                    include: [
+                        {
+                            model: db.materials,
+                            as: 'material'
+                        }
+                    ]
                 },
                 {
                     model: db.transactions,
-                    as: 'transaction'
-                }
+                    as: 'transaction',
+                    include: [
+                        {
+                            model: db.users,
+                            as: 'transaction_borrower',
+                            attributes: {
+                                exclude: [
+                                    'password',
+                                    'addedAt',
+                                    'addedBy',
+                                    'updatedAt',
+                                    'updatedBy',
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    model: db.users,
+                    as: "added_by_librarian",
+                    attributes:{
+                        exclude: [
+                            'password',
+                            'profilePic',
+                            'section',
+                            'course',
+                            'year',
+                            'addedBy',
+                            'updatedBy',
+                            'addedAt',
+                            'updatedAt'
+                        ]
+                    }
+                },
             ]
         })
         .then((data) => {
