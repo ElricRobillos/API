@@ -83,7 +83,8 @@ router.get   ("/buildings-with-rooms-and-shelves" , buildingsController.get_all_
 // Copies Route
 const copiesController = require("../controllers/librarian/copies.controller");
 router.get   ("/copies"                       , copiesController.view_all_copies);
-router.post  ("/materials/:materialID/copies"     , copiesController.add_copy);
+router.post  ("/materials/:materialID/copies" , copiesController.add_copy);
+router.get   ("/copies/available/count"       , copiesController.available_copies_count);
 router.get   ("/copies/:copyID"               , copiesController.find_copy);
 router.put   ("/copies/:copyID"               , copiesController.update_copy);
 router.delete("/copies/:copyID"               , copiesController.delete_copy);
@@ -183,6 +184,7 @@ const transactionsController = require("../controllers/librarian/transactions.co
 router.get ("/transactions"                , transactionsController.view_all_transactions);
 router.post("/transactions"                , transactionsController.add_transaction);
 router.get ("/transactions/count"          , transactionsController.transactions_count);
+router.get ("/transactions/latest"         , transactionsController.latest_transactions);
 router.put ("/transactions/:transactionID" , transactionsController.update_transaction);
 router.get ("/transactions/:transactionID" , transactionsController.find_transaction);
 

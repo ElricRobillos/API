@@ -91,9 +91,10 @@ exports.view_all_transactions = (req, res) => {
     if(req.user == null || req.user.userType != 'Librarian') {
         res.sendStatus(403);
     } else {
-        transactions.findAll(dbTransactionsOp)
-        .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
-        .catch((err) => errResponse(res, err));
+        transactions
+            .findAll(dbTransactionsOp)
+            .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+            .catch((err) => errResponse(res, err));
     }
 };
 
@@ -150,4 +151,64 @@ exports.transactions_count = (req, res) => {
         .count()
         .then(result => res.send({ count: result }))
         .catch(err => errResponse(res, err));
+}
+
+// Latest Transactions
+exports.latest_transactions = (req, res) => {
+    if(req.user == null || req.user.userType != 'Librarian') {
+        res.sendStatus(403);
+    } else {
+        transactions
+            .findAll({ 
+                attributes:{},
+                include:[
+                    {
+                        model: db.materials_borrow_records,
+                        as: 'material_borrow_records',
+                        attributes:{
+                            exclude: [
+                                'copyID'
+                            ]
+                        },
+                        include:[
+                            {
+                                model: db.copies,
+                                as: 'copy'
+                            }
+                        ]
+                    }, {
+                        model: db.users,
+                        as: 'transaction_borrower',
+                        attributes: {
+                            exclude: [
+                                'password',
+                                'addedAt',
+                                'addedBy',
+                                'updatedAt',
+                                'updatedBy',
+                            ]
+                        }
+                    }, {
+                        model: db.users,
+                        as: 'added_by_librarian',
+                        attributes: {
+                            exclude: [
+                                'password',
+                                'addedAt',
+                                'addedBy',
+                                'updatedAt',
+                                'updatedBy',
+                                'course',
+                                'year',
+                                'section'
+                            ]
+                        }
+                    }
+                ],
+                order: [['addedAt', 'desc']],
+                limit: 5
+            })
+            .then((data) => dataResponse(res, data, process.env.SUCCESS_RETRIEVED, process.env.NO_DATA_RETRIEVED))
+            .catch((err) => errResponse(res, err));
+    }
 }

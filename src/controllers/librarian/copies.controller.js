@@ -1,4 +1,4 @@
-const {errResponse, dataResponse} = require("../../helpers/controller.helper")  
+const {errResponse, dataResponse, checkAuthorization} = require("../../helpers/controller.helper")  
 const db = require("../../models");
 const copies = db.copies;
 const { Op } = require('sequelize');
@@ -7,8 +7,7 @@ const { Op } = require('sequelize');
 exports.add_copy = async (req, res) => {
     if (req.user == null || req.user.userType != 'Librarian'){
         res.sendStatus(403);
-    }
-    else{
+    } else {
         req.body.addedBy = req.user.userID
 
         req.body.updatedBy = req.user.userID
@@ -163,3 +162,20 @@ exports.delete_copy = (req, res) => {
         .catch((err) => errResponse(res, err));
     }
 };
+
+
+// Availble Copies Count
+exports.available_copies_count = (req, res) => {
+    if (req.user == null || req.user.userType != 'Librarian'){
+        res.sendStatus(403);
+    } else {
+        copies
+            .count({
+                where: {
+                    status: 'Available'
+                }
+            })
+            .then(data => dataResponse(res, data, 'Available copies count retrieved successfully'))
+            .catch(err => errResponse(res, err))
+    }
+}
